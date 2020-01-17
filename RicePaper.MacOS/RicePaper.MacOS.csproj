@@ -73,6 +73,35 @@
     <ImageAsset Include="Resources\Assets.xcassets\TrayIcon.imageset\iconfinder_Last.FM_Alt_58841.png" />
     <ImageAsset Include="Resources\Assets.xcassets\Logo.imageset\external-content.duckduckgo.png" />
     <ImageAsset Include="Resources\Assets.xcassets\Logo.imageset\Contents.json" />
+    <ImageAsset Include="Resources\Assets.xcassets\pos_ctr_bottom.imageset\pos_btn_drk_CB.pdf" />
+    <ImageAsset Include="Resources\Assets.xcassets\pos_ctr_bottom.imageset\Contents.json" />
+    <ImageAsset Include="Resources\Assets.xcassets\pos_ctr_bottom.imageset\pos_btn_lgt_CB.pdf" />
+    <ImageAsset Include="Resources\Assets.xcassets\pos_ctr_top.imageset\pos_btn_drk_CT.pdf" />
+    <ImageAsset Include="Resources\Assets.xcassets\pos_ctr_top.imageset\Contents.json" />
+    <ImageAsset Include="Resources\Assets.xcassets\pos_ctr_top.imageset\pos_btn_lgt_CT.pdf" />
+    <ImageAsset Include="Resources\Assets.xcassets\pos_right_mid.imageset\pos_btn_lgt_RM.pdf" />
+    <ImageAsset Include="Resources\Assets.xcassets\pos_right_mid.imageset\Contents.json" />
+    <ImageAsset Include="Resources\Assets.xcassets\pos_right_mid.imageset\pos_btn_drk_RM.pdf" />
+    <ImageAsset Include="Resources\Assets.xcassets\pos_right_bottom.imageset\pos_btn_drk_RB.pdf" />
+    <ImageAsset Include="Resources\Assets.xcassets\pos_right_bottom.imageset\pos_btn_lgt_RB.pdf" />
+    <ImageAsset Include="Resources\Assets.xcassets\pos_right_bottom.imageset\Contents.json" />
+    <ImageAsset Include="Resources\Assets.xcassets\pos_ctr_mid.imageset\pos_btn_lgt_CM.pdf" />
+    <ImageAsset Include="Resources\Assets.xcassets\pos_ctr_mid.imageset\pos_btn_drk_CM.pdf" />
+    <ImageAsset Include="Resources\Assets.xcassets\pos_ctr_mid.imageset\Contents.json" />
+    <ImageAsset Include="Resources\Assets.xcassets\pos_right_top.imageset\pos_btn_drk_RT.pdf" />
+    <ImageAsset Include="Resources\Assets.xcassets\pos_right_top.imageset\pos_btn_lgt_RT.pdf" />
+    <ImageAsset Include="Resources\Assets.xcassets\pos_right_top.imageset\Contents.json" />
+    <ImageAsset Include="Resources\Assets.xcassets\pos_left_bottom.imageset\pos_btn_lgt_LB.pdf" />
+    <ImageAsset Include="Resources\Assets.xcassets\pos_left_bottom.imageset\pos_btn_drk_LB.pdf" />
+    <ImageAsset Include="Resources\Assets.xcassets\pos_left_bottom.imageset\Contents.json" />
+    <ImageAsset Include="Resources\Assets.xcassets\pos_left_mid.imageset\pos_btn_drk_LM.pdf" />
+    <ImageAsset Include="Resources\Assets.xcassets\pos_left_mid.imageset\Contents.json" />
+    <ImageAsset Include="Resources\Assets.xcassets\pos_left_mid.imageset\pos_btn_lgt_LM.pdf" />
+    <ImageAsset Include="Resources\Assets.xcassets\pos_left_top.imageset\pos_btn_lgt_LT.pdf" />
+    <ImageAsset Include="Resources\Assets.xcassets\pos_left_top.imageset\pos_btn_drk_LT.pdf" />
+    <ImageAsset Include="Resources\Assets.xcassets\pos_left_top.imageset\Contents.json" />
+    <ImageAsset Include="Resources\Assets.xcassets\TrayIcon.imageset\tray_lgt.pdf" />
+    <ImageAsset Include="Resources\Assets.xcassets\TrayIcon.imageset\tray_drk.pdf" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />

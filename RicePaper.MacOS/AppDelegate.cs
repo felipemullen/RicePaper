@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using AppKit;
+using CoreGraphics;
 using Foundation;
 
 namespace RicePaper.MacOS
@@ -8,6 +9,10 @@ namespace RicePaper.MacOS
     [Register("AppDelegate")]
     public class AppDelegate : NSApplicationDelegate
     {
+        #region Static Constants
+        private const float ICON_SIZE = 18.0f;
+        #endregion
+
         #region Properties
         private readonly NSStatusItem statusItem;
         private readonly NSPopover popoverView;
@@ -20,10 +25,10 @@ namespace RicePaper.MacOS
         {
             popoverView = new NSPopover();
 
-            statusItem = NSStatusBar.SystemStatusBar.CreateStatusItem(NSStatusItemLength.Variable);
-            //statusItem.Title = "Ω";
+            statusItem = NSStatusBar.SystemStatusBar.CreateStatusItem(NSStatusItemLength.Square);
             statusItem.Button.Target = this;
             statusItem.Button.Image = NSImage.ImageNamed("TrayIcon");
+            statusItem.Button.Image.Size = new CGSize(ICON_SIZE, ICON_SIZE);
             statusItem.Button.Action = new ObjCRuntime.Selector("StatusBarClicked:");
         }
         #endregion

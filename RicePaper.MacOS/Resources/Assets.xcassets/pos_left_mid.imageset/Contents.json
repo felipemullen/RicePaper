@@ -2,11 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "tray_lgt.pdf"
+      "filename" : "pos_btn_lgt_LM.pdf"
     },
     {
       "idiom" : "universal",
-      "filename" : "tray_drk.pdf",
+      "filename" : "pos_btn_drk_LM.pdf",
       "appearances" : [
         {
           "appearance" : "luminosity",
