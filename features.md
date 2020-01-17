@@ -1,7 +1,8 @@
 featurelist
 
 - choose image folder (default image list otherwise)
-- set time interval (daily, every x [hr/min])
+- set image change interval (daily, every x [hr/min])
+- set word change interval (daily, every x [hr/min])
 - select dictionary source
 - select text block position (top/left/center/etc)
 - choose block contents(hiragana/kanji/definition/romaji)
