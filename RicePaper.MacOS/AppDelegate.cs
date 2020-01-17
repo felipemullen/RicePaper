@@ -1,4 +1,6 @@
-﻿using AppKit;
+﻿using System;
+using System.Drawing;
+using AppKit;
 using Foundation;
 
 namespace RicePaper.MacOS
@@ -8,49 +10,74 @@ namespace RicePaper.MacOS
     {
         #region Properties
         private readonly NSStatusItem statusItem;
+        private readonly NSPopover popoverView;
+        private NSStoryboard mainStoryboard;
+        private ViewController viewController;
         #endregion
 
         #region Constructor
         public AppDelegate()
         {
+            popoverView = new NSPopover();
+
             statusItem = NSStatusBar.SystemStatusBar.CreateStatusItem(NSStatusItemLength.Variable);
+            //statusItem.Title = "Ω";
+            statusItem.Button.Target = this;
+            statusItem.Button.Image = NSImage.ImageNamed("TrayIcon");
+            statusItem.Button.Action = new ObjCRuntime.Selector("StatusBarClicked:");
         }
         #endregion
 
         #region NS Lifecycle
         public override void DidFinishLaunching(NSNotification notification)
         {
-            statusItem.Title = "Ω";
-            statusItem.Button.Target = this;
-            //statusItem.Button.Image = NSImage.ImageNamed("");
-            statusItem.Button.Action = new ObjCRuntime.Selector("StatusBarClicked:");
+            mainStoryboard = NSStoryboard.FromName("Main", null);
+
+            viewController = mainStoryboard.InstantiateControllerWithIdentifier("ViewController") as ViewController;
+            popoverView.ContentViewController = viewController;
+            popoverView.Behavior = NSPopoverBehavior.Semitransient;
+
+            CreateGridView(viewController.View);
+
+            // TODO: remove after implementation
+            OpenMainWindow();
         }
 
         public override void WillTerminate(NSNotification notification)
         {
             // Insert code here to tear down your application
         }
+
+        [Export("applicationWillResignActive:")]
+        public override void WillResignActive(NSNotification notification)
+        {
+            CloseMainWindow(notification);
+        }
         #endregion
 
-        #region Actions
+        #region Button Actions
         [Action("StatusBarClicked:")]
         public void StatusBarClicked(NSObject sender)
         {
-            try
-            {
-                var storyboard = NSStoryboard.FromName("Main", null);
-                var controller = storyboard.InstantiateControllerWithIdentifier("ViewController") as ViewController;
+            OpenMainWindow();
+        }
+        #endregion
 
-                var popoverView = new NSPopover();
-                popoverView.ContentViewController = controller;
-                popoverView.Behavior = NSPopoverBehavior.Transient;
-                popoverView.Show(statusItem.Button.Bounds, statusItem.Button, NSRectEdge.MaxYEdge);
+        #region Private Helpers
+        private void OpenMainWindow()
+        {
+            popoverView.Show(statusItem.Button.Bounds, statusItem.Button, NSRectEdge.MaxYEdge);
+            NSRunningApplication.CurrentApplication.Activate(NSApplicationActivationOptions.ActivateIgnoringOtherWindows);
+        }
 
-            }
-            catch (System.Exception ex)
-            {
-                System.Console.WriteLine(ex);
-            }
+        private void CloseMainWindow(NSNotification notification)
+        {
+            popoverView.PerformClose(notification);
+        }
+
+        private void CreateGridView(NSView mainView)
+        {
+            var grid = new NSGridView();
         }
         #endregion
     }

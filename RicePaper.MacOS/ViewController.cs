@@ -28,7 +28,7 @@ namespace RicePaper.MacOS
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
-            FilePathLabel.StringValue = "TO BE DETERMINED";
+            //FilePathLabel.StringValue = "TO BE DETERMINED";
         }
         #endregion
 

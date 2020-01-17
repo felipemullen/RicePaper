@@ -1,0 +1,15 @@
+{
+  "images" : [
+    {
+      "idiom" : "mac",
+      "filename" : "iconfinder_Last.FM_Alt_58841.png"
+    }
+  ],
+  "info" : {
+    "version" : 1,
+    "author" : "xcode"
+  },
+  "properties" : {
+    "template-rendering-intent" : "template"
+  }
+}

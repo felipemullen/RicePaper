@@ -66,6 +66,13 @@
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\AppIcon-512.png" />
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\AppIcon-512%402x.png" />
     <ImageAsset Include="Assets.xcassets\Contents.json" />
+    <ImageAsset Include="Resources\Assets.xcassets\.DS_Store" />
+    <ImageAsset Include="Resources\Assets.xcassets\TrayIcon.imageset\18520.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\TrayIcon.imageset\18520-1.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\TrayIcon.imageset\Contents.json" />
+    <ImageAsset Include="Resources\Assets.xcassets\TrayIcon.imageset\iconfinder_Last.FM_Alt_58841.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\Logo.imageset\external-content.duckduckgo.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\Logo.imageset\Contents.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
