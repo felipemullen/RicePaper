@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.IO;
 using AppKit;
 using CoreGraphics;
 using Foundation;
@@ -25,6 +26,7 @@ namespace RicePaper.MacOS
         #region Constructor
         public AppDelegate()
         {
+            // INSTANTIATE SETTINGS MODUEL AND PASS TO RUNNER
             ricePaperRunner = new RicePaperRunner();
             popoverView = new NSPopover();
 
@@ -45,10 +47,8 @@ namespace RicePaper.MacOS
             popoverView.ContentViewController = viewController;
             popoverView.Behavior = NSPopoverBehavior.Semitransient;
 
-            CreateGridView(viewController.View);
-
             // TODO: remove after implementation
-            OpenMainWindow();
+            //OpenMainWindow();
 
             ricePaperRunner.BeginScheduling();
         }
@@ -83,11 +83,6 @@ namespace RicePaper.MacOS
         private void CloseMainWindow(NSNotification notification)
         {
             popoverView.PerformClose(notification);
-        }
-
-        private void CreateGridView(NSView mainView)
-        {
-            var grid = new NSGridView();
         }
         #endregion
     }

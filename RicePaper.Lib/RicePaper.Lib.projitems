@@ -10,6 +10,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)RicePaperRunner.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)WallpaperUtility.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WallpaperMaker.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\DrawParameters.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\TextDetails.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Model\" />
   </ItemGroup>
 </Project>
