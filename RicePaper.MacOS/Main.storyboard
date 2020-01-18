@@ -686,10 +686,10 @@
             <objects>
                 <viewController storyboardIdentifier="ViewController" id="XfG-lQ-9wD" customClass="ViewController" sceneMemberID="viewController">
                     <stackView key="view" wantsLayer="YES" distribution="fillProportionally" orientation="vertical" alignment="centerX" spacing="6" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PyK-yr-iML">
-                        <rect key="frame" x="0.0" y="0.0" width="470" height="593"/>
+                        <rect key="frame" x="0.0" y="0.0" width="470" height="614"/>
                         <subviews>
                             <stackView distribution="fill" orientation="horizontal" alignment="centerY" spacing="20" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sgp-TE-UUC">
-                                <rect key="frame" x="109" y="477" width="253" height="96"/>
+                                <rect key="frame" x="109" y="498" width="253" height="96"/>
                                 <subviews>
                                     <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="NRK-7h-3Hb">
                                         <rect key="frame" x="0.0" y="0.0" width="109" height="96"/>
@@ -761,10 +761,10 @@
                                 </customSpacing>
                             </stackView>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="z73-aZ-Cp5">
-                                <rect key="frame" x="20" y="438" width="430" height="5"/>
+                                <rect key="frame" x="20" y="467" width="430" height="5"/>
                             </box>
                             <gridView xPlacement="leading" yPlacement="top" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="TPN-VK-hIh">
-                                <rect key="frame" x="20" y="20" width="430" height="414"/>
+                                <rect key="frame" x="20" y="20" width="430" height="443"/>
                                 <rows>
                                     <gridRow yPlacement="top" id="IWV-e2-8ch"/>
                                     <gridRow id="HU0-Wm-P6x"/>
@@ -782,7 +782,7 @@
                                 <gridCells>
                                     <gridCell row="IWV-e2-8ch" column="RuI-91-cPr" id="ppf-d2-fxP">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mZx-94-L14">
-                                            <rect key="frame" x="-2" y="398" width="126" height="16"/>
+                                            <rect key="frame" x="-2" y="427" width="126" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Images" id="EXg-7K-aOt">
                                                 <font key="font" usesAppearanceFont="YES"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -792,7 +792,7 @@
                                     </gridCell>
                                     <gridCell row="IWV-e2-8ch" column="OFm-1o-ngy" id="cdD-l5-QAq">
                                         <stackView key="contentView" distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3eO-JI-79e">
-                                            <rect key="frame" x="138" y="364" width="292" height="50"/>
+                                            <rect key="frame" x="138" y="393" width="292" height="50"/>
                                             <subviews>
                                                 <stackView distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5xS-KE-7bn">
                                                     <rect key="frame" x="0.0" y="29" width="292" height="21"/>
@@ -837,12 +837,6 @@
                                                     </textFieldCell>
                                                 </textField>
                                             </subviews>
-                                            <constraints>
-                                                <constraint firstItem="4tk-Ix-DGl" firstAttribute="leading" secondItem="3eO-JI-79e" secondAttribute="leading" id="dA1-Vl-Gl8"/>
-                                                <constraint firstAttribute="trailing" secondItem="5xS-KE-7bn" secondAttribute="trailing" id="j0e-ye-HxS"/>
-                                                <constraint firstItem="5xS-KE-7bn" firstAttribute="leading" secondItem="3eO-JI-79e" secondAttribute="leading" id="nFF-0Q-vy5"/>
-                                                <constraint firstAttribute="trailing" secondItem="4tk-Ix-DGl" secondAttribute="trailing" id="oji-tD-Gt8"/>
-                                            </constraints>
                                             <visibilityPriorities>
                                                 <integer value="1000"/>
                                                 <integer value="1000"/>
@@ -855,7 +849,7 @@
                                     </gridCell>
                                     <gridCell row="HU0-Wm-P6x" column="RuI-91-cPr" id="PmB-pn-Gse">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="p53-Je-jwm">
-                                            <rect key="frame" x="-2" y="342" width="126" height="16"/>
+                                            <rect key="frame" x="-2" y="371" width="126" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Text Options" id="onS-Qa-DSN">
                                                 <font key="font" usesAppearanceFont="YES"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -865,7 +859,7 @@
                                     </gridCell>
                                     <gridCell row="HU0-Wm-P6x" column="OFm-1o-ngy" id="jQV-58-V9l">
                                         <stackView key="contentView" distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="c2b-Jv-kVw">
-                                            <rect key="frame" x="138" y="278" width="292" height="80"/>
+                                            <rect key="frame" x="138" y="307" width="292" height="80"/>
                                             <subviews>
                                                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="BTc-UX-9di">
                                                     <rect key="frame" x="-2" y="64" width="170" height="18"/>
@@ -912,7 +906,7 @@
                                     </gridCell>
                                     <gridCell row="7zs-N2-Sz9" column="RuI-91-cPr" id="O9M-Wm-P6C">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nYb-pP-VpA">
-                                            <rect key="frame" x="-2" y="256" width="126" height="16"/>
+                                            <rect key="frame" x="-2" y="285" width="126" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Text Position" id="ra3-Np-xzj">
                                                 <font key="font" usesAppearanceFont="YES"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -922,7 +916,7 @@
                                     </gridCell>
                                     <gridCell row="7zs-N2-Sz9" column="OFm-1o-ngy" id="Poi-wP-0Gv">
                                         <box key="contentView" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="Stp-hN-o0K">
-                                            <rect key="frame" x="135" y="162" width="298" height="112"/>
+                                            <rect key="frame" x="135" y="191" width="298" height="112"/>
                                             <view key="contentView" id="hcd-ZI-iEP">
                                                 <rect key="frame" x="3" y="3" width="292" height="106"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1104,7 +1098,7 @@
                                     </gridCell>
                                     <gridCell row="07r-f2-wnp" column="RuI-91-cPr" id="j1D-xZ-WTw">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="0KY-5P-9ve">
-                                            <rect key="frame" x="-2" y="144" width="126" height="16"/>
+                                            <rect key="frame" x="-2" y="173" width="126" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Word List" id="ugg-am-fmE">
                                                 <font key="font" usesAppearanceFont="YES"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1113,36 +1107,57 @@
                                         </textField>
                                     </gridCell>
                                     <gridCell row="07r-f2-wnp" column="OFm-1o-ngy" id="y7Y-ha-01q">
-                                        <stackView key="contentView" distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ePg-4I-yEd">
-                                            <rect key="frame" x="138" y="139" width="292" height="21"/>
+                                        <stackView key="contentView" distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8s8-Yx-Yr7">
+                                            <rect key="frame" x="138" y="139" width="292" height="50"/>
                                             <subviews>
-                                                <popUpButton horizontalHuggingPriority="249" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gFq-Mk-QTg">
-                                                    <rect key="frame" x="-2" y="-3" width="203" height="25"/>
-                                                    <popUpButtonCell key="cell" type="push" title="100 Most Frequent" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="wf2-PD-Fqk" id="35K-Ns-DDv">
-                                                        <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                                        <font key="font" metaFont="system"/>
-                                                        <menu key="menu" id="X8C-rh-MVV">
-                                                            <items>
-                                                                <menuItem title="100 Most Frequent" state="on" id="wf2-PD-Fqk"/>
-                                                                <menuItem title="1000 Most Frequent" id="qf3-jO-E9M"/>
-                                                                <menuItem title="Heisig RTK" id="iXU-4m-loA"/>
-                                                                <menuItem title="JLPT N5" id="M3C-Xa-ymL"/>
-                                                                <menuItem title="JLPT N4" id="AYb-tl-fTz"/>
-                                                                <menuItem title="JLPT N3" id="eRf-vu-oXy"/>
-                                                                <menuItem title="JLPT N2" id="Yv1-DO-WkH"/>
-                                                                <menuItem title="JLPT N1" id="cds-Q5-v51"/>
-                                                                <menuItem title="CORE 6K" id="fQJ-lP-MLa"/>
-                                                            </items>
-                                                        </menu>
-                                                    </popUpButtonCell>
-                                                </popUpButton>
-                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="NfD-9r-WZp">
-                                                    <rect key="frame" x="200" y="-7" width="98" height="32"/>
-                                                    <buttonCell key="cell" type="push" title="Choose..." bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="dg7-st-eeZ">
-                                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                        <font key="font" metaFont="system"/>
-                                                    </buttonCell>
-                                                </button>
+                                                <stackView distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ePg-4I-yEd">
+                                                    <rect key="frame" x="0.0" y="29" width="292" height="21"/>
+                                                    <subviews>
+                                                        <popUpButton horizontalHuggingPriority="249" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gFq-Mk-QTg">
+                                                            <rect key="frame" x="-2" y="-3" width="203" height="25"/>
+                                                            <popUpButtonCell key="cell" type="push" title="100 Most Frequent" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="wf2-PD-Fqk" id="35K-Ns-DDv">
+                                                                <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                                                <font key="font" metaFont="system"/>
+                                                                <menu key="menu" id="X8C-rh-MVV">
+                                                                    <items>
+                                                                        <menuItem title="100 Most Frequent" state="on" id="wf2-PD-Fqk"/>
+                                                                        <menuItem title="1000 Most Frequent" id="qf3-jO-E9M"/>
+                                                                        <menuItem title="Heisig RTK" id="iXU-4m-loA"/>
+                                                                        <menuItem title="JLPT N5" id="M3C-Xa-ymL"/>
+                                                                        <menuItem title="JLPT N4" id="AYb-tl-fTz"/>
+                                                                        <menuItem title="JLPT N3" id="eRf-vu-oXy"/>
+                                                                        <menuItem title="JLPT N2" id="Yv1-DO-WkH"/>
+                                                                        <menuItem title="JLPT N1" id="cds-Q5-v51"/>
+                                                                        <menuItem title="CORE 6K" id="fQJ-lP-MLa"/>
+                                                                    </items>
+                                                                </menu>
+                                                            </popUpButtonCell>
+                                                        </popUpButton>
+                                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="NfD-9r-WZp">
+                                                            <rect key="frame" x="200" y="-7" width="98" height="32"/>
+                                                            <buttonCell key="cell" type="push" title="Choose..." bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="dg7-st-eeZ">
+                                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                                <font key="font" metaFont="system"/>
+                                                            </buttonCell>
+                                                        </button>
+                                                    </subviews>
+                                                    <visibilityPriorities>
+                                                        <integer value="1000"/>
+                                                        <integer value="1000"/>
+                                                    </visibilityPriorities>
+                                                    <customSpacing>
+                                                        <real value="3.4028234663852886e+38"/>
+                                                        <real value="3.4028234663852886e+38"/>
+                                                    </customSpacing>
+                                                </stackView>
+                                                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dBz-bL-yqO">
+                                                    <rect key="frame" x="0.0" y="0.0" width="292" height="21"/>
+                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" enabled="NO" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="ph1-49-z0J">
+                                                        <font key="font" usesAppearanceFont="YES"/>
+                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
                                             </subviews>
                                             <visibilityPriorities>
                                                 <integer value="1000"/>
