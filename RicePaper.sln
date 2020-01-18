@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RicePaper.MacOS", "RicePaper.MacOS\RicePaper.MacOS.csproj", "{1B28F022-50DD-493E-A630-F1F893A94EE1}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "RicePaper.Lib", "RicePaper.Lib\RicePaper.Lib.shproj", "{A187E02D-BD50-48C4-8AD8-81C1061A02E4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

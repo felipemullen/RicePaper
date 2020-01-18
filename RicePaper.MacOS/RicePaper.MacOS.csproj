@@ -121,5 +121,6 @@
   <ItemGroup>
     <InterfaceDefinition Include="Main.storyboard" />
   </ItemGroup>
+  <Import Project="..\RicePaper.Lib\RicePaper.Lib.projitems" Label="Shared" Condition="Exists('..\RicePaper.Lib\RicePaper.Lib.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
 </Project>

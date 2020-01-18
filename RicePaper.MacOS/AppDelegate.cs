@@ -3,6 +3,7 @@ using System.Drawing;
 using AppKit;
 using CoreGraphics;
 using Foundation;
+using RicePaper.Lib;
 
 namespace RicePaper.MacOS
 {
@@ -13,7 +14,8 @@ namespace RicePaper.MacOS
         private const float ICON_SIZE = 18.0f;
         #endregion
 
-        #region Properties
+        #region Private Fields
+        private readonly RicePaperRunner ricePaperRunner;
         private readonly NSStatusItem statusItem;
         private readonly NSPopover popoverView;
         private NSStoryboard mainStoryboard;
@@ -23,6 +25,7 @@ namespace RicePaper.MacOS
         #region Constructor
         public AppDelegate()
         {
+            ricePaperRunner = new RicePaperRunner();
             popoverView = new NSPopover();
 
             statusItem = NSStatusBar.SystemStatusBar.CreateStatusItem(NSStatusItemLength.Square);
@@ -46,6 +49,8 @@ namespace RicePaper.MacOS
 
             // TODO: remove after implementation
             OpenMainWindow();
+
+            ricePaperRunner.BeginScheduling();
         }
 
         public override void WillTerminate(NSNotification notification)
