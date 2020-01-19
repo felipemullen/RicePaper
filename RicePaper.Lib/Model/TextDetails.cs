@@ -7,6 +7,7 @@ namespace RicePaper.Lib.Model
         public string Furigana;
         public string Romaji;
         public string Definition;
-        public string Sentence;
+        public string JapaneseSentence;
+        public string EnglishSentence;
     }
 }

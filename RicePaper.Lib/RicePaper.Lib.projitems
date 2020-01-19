@@ -14,6 +14,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Enums.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\DrawParameters.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\TextDetails.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\FontParams.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Model\" />

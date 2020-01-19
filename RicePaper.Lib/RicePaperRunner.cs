@@ -20,7 +20,11 @@ namespace RicePaper.Lib
         #region Public Methods
         public void BeginScheduling()
         {
-            string filepath = "/Users/fmullen/Desktop/sell/4Q1A4544.JPG";
+            string filepath1 = "/Users/fmullen/Desktop/backgrounds/bigger_bigger.png";
+            string filepath2 = "/Users/fmullen/Desktop/backgrounds/long_bigger.png";
+            string filepath3 = "/Users/fmullen/Desktop/backgrounds/long_smaller.png";
+            string filepath4 = "/Users/fmullen/Desktop/backgrounds/tall_bigger.png";
+            string filepath5 = "/Users/fmullen/Desktop/backgrounds/tall_smaller.png";
 
             var details = new DrawParameters
             {
@@ -28,7 +32,7 @@ namespace RicePaper.Lib
                 Text = GetDetailsFromWord("")
             };
 
-            wallpaperUtility.SetWallpaper(filepath, details);
+            wallpaperUtility.SetWallpaper(filepath1, details);
         }
         #endregion
 
@@ -42,7 +46,8 @@ namespace RicePaper.Lib
                 Furigana = "おんがく",
                 Romaji = "ongaku",
                 Definition = "song/music",
-                Sentence = "僕は音楽が大好きですね"
+                JapaneseSentence = "僕は音楽が大好きですね",
+                EnglishSentence = "I love music ya kno"
             };
         }
         #endregion
