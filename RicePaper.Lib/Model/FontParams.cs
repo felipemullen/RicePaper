@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using AppKit;
 using Foundation;
 
@@ -14,25 +15,30 @@ namespace RicePaper.Lib.Model
         public static int LABEL_SIZE = 14;
         #endregion
 
+        #region Factory
+        static Func<string, FontParams> Make(string font, int size, NSColor color)
+        {
+            return (string text) =>
+            {
+                return new FontParams(text, font, size, color);
+            };
+        }
+        #endregion
+
         #region Static Functions
-        public static NSFont Heading
+        public static Func<string, FontParams> Heading(NSColor color)
         {
-            get { return ToFont(HEADING_FONT, HEADING_SIZE); }
+            return Make(HEADING_FONT, HEADING_SIZE, color);
         }
 
-        public static NSFont Paragraph
+        public static Func<string, FontParams> Paragraph(NSColor color)
         {
-            get { return ToFont(PARAGRAPH_FONT, PARAGRAPH_SIZE); }
+            return Make(PARAGRAPH_FONT, PARAGRAPH_SIZE, color);
         }
 
-        public static NSFont Label
+        public static Func<string, FontParams> Label(NSColor color)
         {
-            get { return ToFont(PARAGRAPH_FONT, LABEL_SIZE); }
-        }
-
-        public static NSFont ToFont(FontParams fontParams)
-        {
-            return ToFont(fontParams.FontName, fontParams.FontSize);
+            return Make(PARAGRAPH_FONT, LABEL_SIZE, color);
         }
 
         public static NSFont ToFont(string fontName, int fontSize)
@@ -40,19 +46,40 @@ namespace RicePaper.Lib.Model
             return NSFont.FromFontName(fontName, fontSize);
         }
 
-        public static NSDictionary GetFontAttrs(NSFont font, NSColor color)
+        public static NSDictionary GetFontAttrs(FontParams fontParams)
         {
             var options = new NSMutableDictionary();
-            options.Add(NSStringAttributeKey.Font, font);
-            options.Add(NSStringAttributeKey.ForegroundColor, color);
+            options.Add(NSStringAttributeKey.Font, fontParams.Font);
+            options.Add(NSStringAttributeKey.ForegroundColor, fontParams.Color);
             return options;
         }
         #endregion
 
         #region Instance Fields
+        public string TextContent;
         public string FontName;
         public int FontSize;
         public int FontColor;
+        public NSFont Font;
+        public NSColor Color;
+        #endregion
+
+        #region Instance Properties
+        public NSString AsNSString
+        {
+            get { return new NSString(TextContent); }
+        }
+        #endregion
+
+        #region Instance Constructor
+        public FontParams(string text, string name, int size, NSColor color)
+        {
+            TextContent = text;
+            FontName = name;
+            FontSize = size;
+            Color = color;
+            Font = ToFont(name, size);
+        }
         #endregion
     }
 }

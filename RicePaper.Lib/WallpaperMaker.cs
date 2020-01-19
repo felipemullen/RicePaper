@@ -45,6 +45,8 @@ namespace RicePaper.Lib
         #region Public Methods
         public void SetWallpaper(string filepath, DrawParameters drawDetails)
         {
+            // TODO: Text scaling percentage
+
 #if __MACOS__
             try
             {
@@ -133,34 +135,36 @@ namespace RicePaper.Lib
                     break;
             }
 
+            var heading = FontParams.Heading(textColor);
+            var label = FontParams.Label(textColor);
+            var paragraph = FontParams.Paragraph(textColor);
+
             var textDetails = drawParameters.Text;
-            CGRect nextBounds = bounds;
-            nextBounds.X = BLOCK_PADDING;
-            nextBounds.Y = BLOCK_PADDING;
+            CGRect nextBounds = GetScreenSafeBounds(bounds);
             if (string.IsNullOrWhiteSpace(textDetails.Kanji))
             {
-                nextBounds = DrawText(textDetails.Furigana, FontParams.Heading, textColor, nextBounds);
+                nextBounds = DrawText(heading(textDetails.Furigana), nextBounds);
             }
             else
             {
-                nextBounds = DrawText(textDetails.Kanji, FontParams.Heading, textColor, nextBounds);
+                nextBounds = DrawText(heading(textDetails.Kanji), nextBounds);
 
                 var subheading = textDetails.Furigana;
                 if (string.IsNullOrWhiteSpace(textDetails.Romaji) == false)
                     subheading = $"{subheading} ({textDetails.Romaji})";
 
-                nextBounds = DrawText(subheading, FontParams.Label, textColor, nextBounds);
+                nextBounds = DrawText(label(subheading), nextBounds);
             }
 
             if (string.IsNullOrWhiteSpace(textDetails.Definition) == false)
             {
                 nextBounds = OffsetBounds(new CGSize(0, LINE_SPACER), nextBounds);
-                nextBounds = DrawText("Definition:", FontParams.Label, textColor, nextBounds);
+                nextBounds = DrawText(label("Definition:"), nextBounds);
 
                 var lines = textDetails.Definition.Split(new string[] { "\n", "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (var line in lines)
                 {
-                    nextBounds = DrawText(line, FontParams.Paragraph, textColor, nextBounds);
+                    nextBounds = DrawText(paragraph(line), nextBounds);
                 }
             }
 
@@ -168,18 +172,28 @@ namespace RicePaper.Lib
             {
                 nextBounds = OffsetBounds(new CGSize(0, LINE_SPACER), nextBounds);
 
-                nextBounds = DrawText("Japanese sentence:", FontParams.Label, textColor, nextBounds);
-                nextBounds = DrawText(textDetails.JapaneseSentence, FontParams.Paragraph, textColor, nextBounds);
+                nextBounds = DrawText(label("Japanese sentence:"), nextBounds);
+                nextBounds = DrawText(paragraph(textDetails.JapaneseSentence), nextBounds);
             }
 
             if (string.IsNullOrWhiteSpace(textDetails.EnglishSentence) == false)
             {
                 nextBounds = OffsetBounds(new CGSize(0, LINE_SPACER), nextBounds);
 
-                nextBounds = DrawText("English sentence:", FontParams.Label, textColor, nextBounds);
-                nextBounds = DrawText(textDetails.EnglishSentence, FontParams.Paragraph, textColor, nextBounds);
+                nextBounds = DrawText(label("English sentence:"), nextBounds);
+                nextBounds = DrawText(paragraph(textDetails.EnglishSentence), nextBounds);
             }
 
+        }
+
+        private CGRect GetScreenSafeBounds(CGRect bounds)
+        {
+            return new CGRect(
+                bounds.X + BLOCK_PADDING,
+                bounds.Y + BLOCK_PADDING,
+                bounds.Width - BLOCK_PADDING,
+                bounds.Height - BLOCK_PADDING
+            );
         }
 
         private CGRect OffsetBounds(CGSize lastSize, CGRect lastBounds)
@@ -192,16 +206,13 @@ namespace RicePaper.Lib
             );
         }
 
-        private CGRect DrawText(string text, NSFont font, NSColor color, CGRect bounds)
+        private CGRect DrawText(FontParams fontParams, CGRect bounds)
         {
-            var options = FontParams.GetFontAttrs(font, color);
-            var nsString = new NSString(text);
+            var options = FontParams.GetFontAttrs(fontParams);
+            var nsString = fontParams.AsNSString;
             nsString.DrawInRect(bounds, options);
 
-            if (font == FontParams.Paragraph)
-                bounds.X += PARAGRAPH_PADDING;
-
-            var textSize = CalculateTextSize(nsString, font);
+            var textSize = CalculateTextSize(nsString, fontParams.Font);
             var nextBounds = OffsetBounds(textSize, bounds);
             return nextBounds;
         }
