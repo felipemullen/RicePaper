@@ -8,5 +8,7 @@ namespace RicePaper.Lib.Model
         public TextDetails Text;
         public DrawPosition Position;
         public NSColor TextColor;
+        public bool ChangeWallpaper;
+        public bool ChangeWord;
     }
 }

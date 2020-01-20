@@ -3,6 +3,7 @@ using AppKit;
 using CoreGraphics;
 using Foundation;
 using RicePaper.Lib;
+using RicePaper.Lib.Model;
 
 namespace RicePaper.MacOS
 {
@@ -14,7 +15,10 @@ namespace RicePaper.MacOS
         #endregion
 
         #region Private Fields
-        private readonly RicePaperRunner ricePaperRunner;
+        private readonly RiceScheduler riceScheduler;
+        #endregion
+
+        #region UI Related Fields
         private readonly NSStatusItem statusItem;
         private readonly NSPopover popoverView;
         private NSStoryboard mainStoryboard;
@@ -24,8 +28,9 @@ namespace RicePaper.MacOS
         #region Constructor
         public AppDelegate()
         {
-            // INSTANTIATE SETTINGS MODUEL AND PASS TO RUNNER
-            ricePaperRunner = new RicePaperRunner();
+            AppSettings.Load();
+            riceScheduler = new RiceScheduler();
+
             popoverView = new NSPopover();
 
             statusItem = NSStatusBar.SystemStatusBar.CreateStatusItem(NSStatusItemLength.Square);
@@ -48,12 +53,12 @@ namespace RicePaper.MacOS
             // TODO: remove after implementation
             //OpenMainWindow();
 
-            ricePaperRunner.BeginScheduling();
+            riceScheduler.BeginScheduling();
         }
 
         public override void WillTerminate(NSNotification notification)
         {
-            // Insert code here to tear down your application
+            AppSettings.Save();
         }
 
         [Export("applicationWillResignActive:")]

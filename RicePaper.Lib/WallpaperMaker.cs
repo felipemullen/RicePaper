@@ -48,19 +48,23 @@ namespace RicePaper.Lib
 #if __MACOS__
             try
             {
-                for (int i = 0; i < NSScreen.Screens.Length; i++)
+                foreach (var _screen in NSScreen.Screens)
                 {
-                    var _screen = NSScreen.Screens[i];
-
-                    string cachePath = DrawImage(i, _screen, filepath, drawDetails);
-                    //NSWorkspace.SharedWorkspace.OpenFile(AppContext.BaseDirectory);
+                    string cachePath = DrawImage(_screen, filepath, drawDetails);
+                    CleanupCache();
 
                     NSUrl url = NSUrl.FromFilename(cachePath);
                     NSError errorContainer = new NSError();
 
                     var workspace = NSWorkspace.SharedWorkspace;
                     var options = workspace.DesktopImageOptions(_screen);
-                    workspace.SetDesktopImageUrl(url, _screen, options, errorContainer);
+                    var result = workspace.SetDesktopImageUrl(url, _screen, options, errorContainer);
+
+                    if (result)
+                        Console.WriteLine($"successfully set {cachePath}");
+                    else
+                        Console.WriteLine(errorContainer.ToString());
+
                 }
             }
             catch (Exception ex)
@@ -69,12 +73,24 @@ namespace RicePaper.Lib
             }
 #endif
         }
+
+        private void CleanupCache()
+        {
+            var fiveMinutesAgo = DateTime.Now.AddMinutes(-5);
+
+            var cacheDirectory = new DirectoryInfo(CacheDirectory);
+            foreach (var file in cacheDirectory.EnumerateFiles())
+            {
+                if (file.CreationTime < fiveMinutesAgo)
+                    file.Delete();
+            }
+        }
         #endregion
 
         #region Drawing
-        private string DrawImage(int iteration, NSScreen screen, string originalImagePath, DrawParameters drawDetails)
+        private string DrawImage(NSScreen screen, string originalImagePath, DrawParameters drawDetails)
         {
-            string outputPath = GetOutputPath(iteration, originalImagePath);
+            string outputPath = GetNewImagePath();
 
             var screenRect = screen.Frame;
 
@@ -435,11 +451,11 @@ namespace RicePaper.Lib
             return img;
         }
 
-        private string GetOutputPath(int iteration, string originalPath)
+        private string GetNewImagePath()
         {
-            //string extension = new FileInfo(originalPath).Extension;
+            Guid guid = Guid.NewGuid();
             string extension = "png";
-            string fileName = $"rp_current_image_{iteration}.{extension}";
+            string fileName = $"{guid}.{extension}";
             return Path.Combine(CacheDirectory, fileName);
         }
 

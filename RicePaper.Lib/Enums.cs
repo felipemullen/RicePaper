@@ -52,7 +52,7 @@
         JapanDict
     }
 
-    public enum CycleType
+    public enum CycleIntervalUnit
     {
         Days,
         Hours,

@@ -5,6 +5,23 @@ using Newtonsoft.Json;
 
 namespace RicePaper.Lib.Model
 {
+    public class AppState
+    {
+        public int ImageIndex;
+        public int WordIndex;
+        public static AppState Default
+        {
+            get
+            {
+                return new AppState()
+                {
+                    ImageIndex = 0,
+                    WordIndex = 0
+                };
+            }
+        }
+    }
+
     public class AppSettings
     {
         #region Instance Fields
@@ -16,8 +33,9 @@ namespace RicePaper.Lib.Model
         private string _wordListPath;
         private WordSelection _wordSelection;
         private DictionarySelection _dictionary;
-        private Cycle _imageCycle;
-        private Cycle _wordCycle;
+        private CycleInfo _imageCycle;
+        private CycleInfo _wordCycle;
+        private AppState _state;
         #endregion
 
         #region Static Instance
@@ -25,11 +43,39 @@ namespace RicePaper.Lib.Model
         private static NSString DATA_KEY = new NSString("ricepaperserialized");
         private static NSUserDefaults valueStore = NSUserDefaults.StandardUserDefaults;
 
+        public static AppSettings Default
+        {
+            get
+            {
+                return new AppSettings()
+                {
+                    _dictionary = DictionarySelection.JapanDict,
+                    _drawPosition = DrawPosition.LeftTop,
+                    _imageCycle = CycleInfo.Default,
+                    _imageOption = ImageOptionType.Japan,
+                    _imagePath = GetFolderPath(ImageOptionType.Japan),
+                    _state = new AppState(),
+                    _textOptions = TextOptions.Default,
+                    _wordCycle = CycleInfo.Default,
+                    _wordList = WordListSelection.MostFrequent1000,
+                    _wordListPath = GetFolderPath(WordListSelection.MostFrequent1000),
+                    _wordSelection = WordSelection.InOrder
+                };
+            }
+        }
+
         public static void Load()
         {
-            NSString data = valueStore.ValueForKey(DATA_KEY) as NSString;
-            AppSettings appSettings = JsonConvert.DeserializeObject<AppSettings>(data);
-            _instance = appSettings;
+            try
+            {
+                NSString data = valueStore.ValueForKey(DATA_KEY) as NSString;
+                AppSettings appSettings = JsonConvert.DeserializeObject<AppSettings>(data);
+                _instance = appSettings;
+            }
+            catch
+            {
+                _instance = AppSettings.Default;
+            }
         }
 
         public static void Save()
@@ -43,114 +89,87 @@ namespace RicePaper.Lib.Model
         #region Static Properties
         public static ImageOptionType ImageOption
         {
-            get { return (_instance != null) ? _instance._imageOption : ImageOptionType.Japan; }
-            set
-            {
-                if (_instance != null)
-                    _instance._imageOption = value;
-            }
+            get { return _instance._imageOption; }
+            set { _instance._imageOption = value; }
         }
 
         public static string ImagePath
         {
             get
             {
-                if (_instance != null && ImageOption == ImageOptionType.Custom)
-                    return _instance._imagePath;
-
-                return GetFolderPath(ImageOption);
+                return (ImageOption == ImageOptionType.Custom)
+                    ? _instance._imagePath
+                    : GetFolderPath(ImageOption);
             }
             set
             {
-                if (_instance != null && ImageOption == ImageOptionType.Custom)
+                if (ImageOption == ImageOptionType.Custom)
                     _instance._imagePath = value;
             }
         }
 
         public static TextOptions TextOptions
         {
-            get { return (_instance != null && _instance._textOptions != null) ? _instance._textOptions : TextOptions.Default; }
-            set
-            {
-                if (_instance != null)
-                    _instance._textOptions = value;
-            }
+            get { return _instance._textOptions; }
+            set { _instance._textOptions = value; }
         }
 
         public static DrawPosition drawPosition
         {
-            get { return (_instance != null) ? _instance._drawPosition : DrawPosition.LeftTop; }
-            set
-            {
-                if (_instance != null)
-                    _instance._drawPosition = value;
-            }
+            get { return _instance._drawPosition; }
+            set { _instance._drawPosition = value; }
         }
 
         public static WordListSelection WordList
         {
-            get { return (_instance != null) ? _instance._wordList : WordListSelection.MostFrequent1000; }
-            set
-            {
-                if (_instance != null)
-                    _instance._wordList = value;
-            }
+            get { return _instance._wordList; }
+            set { _instance._wordList = value; }
         }
 
         public static string WordListPath
         {
             get
             {
-                if (_instance != null && WordList == WordListSelection.Custom)
+                if (WordList == WordListSelection.Custom)
                     return _instance._wordListPath;
 
                 return GetFolderPath(WordList);
             }
             set
             {
-                if (_instance != null && WordList == WordListSelection.Custom)
+                if (WordList == WordListSelection.Custom)
                     _instance._wordListPath = value;
             }
         }
 
         public static WordSelection WordSelection
         {
-            get { return (_instance != null) ? _instance._wordSelection : WordSelection.InOrder; }
-            set
-            {
-                if (_instance != null)
-                    _instance._wordSelection = value;
-            }
+            get { return _instance._wordSelection; }
+            set { _instance._wordSelection = value; }
         }
 
         public static DictionarySelection Dictionary
         {
-            get { return (_instance != null) ? _instance._dictionary : DictionarySelection.Jisho; }
-            set
-            {
-                if (_instance != null)
-                    _instance._dictionary = value;
-            }
+            get { return _instance._dictionary; }
+            set { _instance._dictionary = value; }
         }
 
-        public static Cycle ImageCycle
+        public static CycleInfo ImageCycle
         {
-            get { return (_instance != null) ? _instance._imageCycle : Cycle.Default; }
-            set
-            {
-                if (_instance != null)
-                    _instance._imageCycle = value;
-            }
+            get { return _instance._imageCycle; }
+            set { _instance._imageCycle = value; }
         }
 
-        public static Cycle WordCycle
+        public static CycleInfo WordCycle
         {
-            get { return (_instance != null) ? _instance._wordCycle : Cycle.Default; }
-            set
-            {
-                if (_instance != null)
-                    _instance._wordCycle = value;
-            }
+            get { return _instance._wordCycle; }
+            set { _instance._wordCycle = value; }
+        }
+
+        public static AppState State
+        {
+            get { return _instance._state; }
+            set { _instance._state = value; }
         }
         #endregion
 
