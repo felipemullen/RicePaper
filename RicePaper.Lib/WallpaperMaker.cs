@@ -1,9 +1,6 @@
 ﻿using RicePaper.Lib.Model;
 using System;
 using System.IO;
-using SceneKit;
-using CoreText;
-using System.Runtime.Remoting.Messaging;
 
 #if __MACOS__
 using AppKit;
@@ -46,6 +43,7 @@ namespace RicePaper.Lib
         public void SetWallpaper(string filepath, DrawParameters drawDetails)
         {
             // TODO: Text scaling percentage
+            // TODO: Padding should be relative to screen size
 
 #if __MACOS__
             try
@@ -99,6 +97,8 @@ namespace RicePaper.Lib
                     var flipVertical = new CGAffineTransform(1, 0, 0, -1, 0, screenRect.Height);
                     bitmapContext.ConcatCTM(flipVertical);
 
+                    // TODO: Get font color from average RGB perception
+                    drawDetails.TextColor = NSColor.White;
                     DrawTextBlock(drawDetails, screenRect);
                 }
                 /// Draw: End
@@ -114,6 +114,170 @@ namespace RicePaper.Lib
         }
         #endregion
 
+        #region Text Measurement / Drawing
+        private ExpansionBox MeasureTextBlock(DrawParameters drawParameters)
+        {
+            var _H = FontParams.Heading(drawParameters.TextColor);
+            var _L = FontParams.Label(drawParameters.TextColor);
+            var _P = FontParams.Paragraph(drawParameters.TextColor);
+
+            var box = new ExpansionBox();
+            var block = drawParameters.Text;
+
+            if (string.IsNullOrWhiteSpace(block.Kanji))
+            {
+                var textSize = CalculateTextSize(_H(block.Furigana));
+                box.AddHeight(textSize.Height).MaxWidth(textSize.Width);
+            }
+            else
+            {
+                var headingSize = CalculateTextSize(_H(block.Kanji));
+
+                var subheadingText = block.Furigana;
+                if (string.IsNullOrWhiteSpace(block.Romaji) == false)
+                    subheadingText = $"{subheadingText} ({block.Romaji})";
+
+                var subHeadingSize = CalculateTextSize(_L(subheadingText));
+
+                box.AddHeight(headingSize.Height, subHeadingSize.Height).MaxWidth(headingSize.Width, subHeadingSize.Width);
+            }
+
+            if (string.IsNullOrWhiteSpace(block.Definition) == false)
+            {
+                var labelSize = CalculateTextSize(_L("Definition:"));
+
+                box.AddHeight(LINE_SPACER, labelSize.Height).MaxWidth(labelSize.Width);
+
+                var lines = block.Definition.Split(new string[] { "\n", "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (var line in lines)
+                {
+                    var lineSize = CalculateTextSize(_P(line));
+
+                    box.AddHeight(lineSize.Height).MaxWidth(lineSize.Width);
+                }
+
+            }
+
+            if (string.IsNullOrWhiteSpace(block.JapaneseSentence) == false)
+            {
+                var labelSize = CalculateTextSize(_L("Japanese sentence:"));
+                var sentenceSize = CalculateTextSize(_P(block.JapaneseSentence));
+
+                box.AddHeight(LINE_SPACER, labelSize.Height, sentenceSize.Height).MaxWidth(labelSize.Width, sentenceSize.Width);
+            }
+
+            if (string.IsNullOrWhiteSpace(block.EnglishSentence) == false)
+            {
+                var labelSize = CalculateTextSize(_L("English sentence:"));
+                var sentenceSize = CalculateTextSize(_P(block.EnglishSentence));
+
+                box.AddHeight(LINE_SPACER, labelSize.Height, sentenceSize.Height).MaxWidth(labelSize.Width, sentenceSize.Width);
+            }
+
+            return box;
+        }
+
+        private CGRect DrawTextBlock(DrawParameters drawParameters, CGRect screenBounds)
+        {
+            var _H = FontParams.Heading(drawParameters.TextColor);
+            var _L = FontParams.Label(drawParameters.TextColor);
+            var _P = FontParams.Paragraph(drawParameters.TextColor);
+
+            double totalWidth = 0;
+            double totalHeight = 0;
+
+            CGRect textBounds = GetScreenSafeBounds(drawParameters, screenBounds);
+            var block = drawParameters.Text;
+
+            if (string.IsNullOrWhiteSpace(block.Kanji))
+            {
+                var heading = _H(block.Furigana);
+                var textSize = DrawText(heading, textBounds);
+                textBounds = OffsetBounds(textSize, textBounds);
+
+                totalWidth = Math.Max(totalWidth, textSize.Width);
+                totalHeight += textSize.Height;
+            }
+            else
+            {
+                var heading = _H(block.Kanji);
+                var headingSize = DrawText(heading, textBounds);
+                textBounds = OffsetBounds(headingSize, textBounds);
+
+                var subheadingText = block.Furigana;
+                if (string.IsNullOrWhiteSpace(block.Romaji) == false)
+                    subheadingText = $"{subheadingText} ({block.Romaji})";
+
+                var subheading = _L(subheadingText);
+                var subHeadingSize = DrawText(subheading, textBounds);
+                textBounds = OffsetBounds(subHeadingSize, textBounds);
+
+                double largeWidth = Math.Max(headingSize.Width, subHeadingSize.Width);
+                totalWidth = Math.Max(totalWidth, largeWidth);
+                totalHeight += headingSize.Height + subHeadingSize.Height;
+            }
+
+            if (string.IsNullOrWhiteSpace(block.Definition) == false)
+            {
+                textBounds = OffsetBounds(new CGSize(0, LINE_SPACER), textBounds);
+                var definitionLabel = _L("Definition:");
+                var labelSize = DrawText(definitionLabel, textBounds);
+                textBounds = OffsetBounds(labelSize, textBounds);
+
+                totalWidth = Math.Max(totalWidth, labelSize.Width);
+                totalHeight += LINE_SPACER + labelSize.Height;
+
+                var lines = block.Definition.Split(new string[] { "\n", "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (var line in lines)
+                {
+                    var definitionLine = _P(line);
+                    var lineSize = DrawText(definitionLine, textBounds);
+                    textBounds = OffsetBounds(lineSize, textBounds);
+
+                    totalWidth = Math.Max(totalWidth, lineSize.Width);
+                    totalHeight += lineSize.Height;
+                }
+
+            }
+
+            if (string.IsNullOrWhiteSpace(block.JapaneseSentence) == false)
+            {
+                textBounds = OffsetBounds(new CGSize(0, LINE_SPACER), textBounds);
+
+                var japLabel = _L("Japanese sentence:");
+                var labelSize = DrawText(japLabel, textBounds);
+                textBounds = OffsetBounds(labelSize, textBounds);
+
+                var japSentence = _P(block.JapaneseSentence);
+                var sentenceSize = DrawText(japSentence, textBounds);
+                textBounds = OffsetBounds(sentenceSize, textBounds);
+
+                var largeWidth = Math.Max(labelSize.Width, sentenceSize.Width);
+                totalWidth = Math.Max(totalWidth, largeWidth);
+                totalHeight += LINE_SPACER + labelSize.Height + sentenceSize.Height;
+            }
+
+            if (string.IsNullOrWhiteSpace(block.EnglishSentence) == false)
+            {
+                textBounds = OffsetBounds(new CGSize(0, LINE_SPACER), textBounds);
+
+                var engLabel = _L("English sentence:");
+                var labelSize = DrawText(engLabel, textBounds);
+                textBounds = OffsetBounds(labelSize, textBounds);
+
+                var engSentence = _P(block.EnglishSentence);
+                var sentenceSize = DrawText(engSentence, textBounds);
+                textBounds = OffsetBounds(sentenceSize, textBounds);
+
+                var largeWidth = Math.Max(labelSize.Width, sentenceSize.Width);
+                totalWidth = Math.Max(totalWidth, largeWidth);
+                totalHeight += LINE_SPACER + labelSize.Height + sentenceSize.Height;
+            }
+
+            return textBounds;
+        }
+        #endregion
+
         #region Private Helpers
         private void WriteImageToFile(string filePath, CGImage image)
         {
@@ -123,79 +287,73 @@ namespace RicePaper.Lib
             imageDestination.Close();
         }
 
-        private void DrawTextBlock(DrawParameters drawParameters, CGRect bounds)
+        private CGRect GetScreenSafeBounds(DrawParameters drawParameters, CGRect screenBounds)
         {
-            // TODO: Get font color from average RGB perception
-            var textColor = NSColor.White;
+            var textDimensions = MeasureTextBlock(drawParameters);
 
-            // TODO: Positioning shenanigans
+            CGRect newBounds = screenBounds;
+
+            nfloat center = (nfloat)(screenBounds.Width - textDimensions.Width) / 2.0f;
+            nfloat right = (nfloat)(screenBounds.Width - textDimensions.Width);
+            nfloat mid = (nfloat)(screenBounds.Height - textDimensions.Height) / 2.0f;
+            nfloat bottom = (nfloat)(screenBounds.Height - textDimensions.Height);
+
             switch (drawParameters.Position)
             {
+                case DrawPosition.LeftTop:
+                    newBounds.X += BLOCK_PADDING;
+                    newBounds.Y += BLOCK_PADDING;
+                    break;
+                case DrawPosition.LeftMid:
+                    newBounds.X += BLOCK_PADDING;
+                    newBounds.Y = mid;
+                    break;
+                case DrawPosition.LeftBottom:
+                    newBounds.X += BLOCK_PADDING;
+                    newBounds.Y = bottom - BLOCK_PADDING;
+                    break;
+                case DrawPosition.CenterTop:
+                    newBounds.X = center;
+                    newBounds.Y += BLOCK_PADDING;
+                    break;
                 case DrawPosition.CenterMid:
+                    newBounds.X = center;
+                    newBounds.Y = mid;
+                    break;
+                case DrawPosition.CenterBottom:
+                    newBounds.X = center;
+                    newBounds.Y = bottom - BLOCK_PADDING;
+                    break;
+                case DrawPosition.RightTop:
+                    newBounds.X = right - BLOCK_PADDING;
+                    newBounds.Y += BLOCK_PADDING;
+                    break;
+                case DrawPosition.RightMid:
+                    newBounds.X = right - BLOCK_PADDING;
+                    newBounds.Y = mid;
+                    break;
+                case DrawPosition.RightBottom:
+                    newBounds.X = right - BLOCK_PADDING;
+                    newBounds.Y = bottom - BLOCK_PADDING;
                     break;
             }
 
-            var heading = FontParams.Heading(textColor);
-            var label = FontParams.Label(textColor);
-            var paragraph = FontParams.Paragraph(textColor);
-
-            var textDetails = drawParameters.Text;
-            CGRect nextBounds = GetScreenSafeBounds(bounds);
-            if (string.IsNullOrWhiteSpace(textDetails.Kanji))
-            {
-                nextBounds = DrawText(heading(textDetails.Furigana), nextBounds);
-            }
-            else
-            {
-                nextBounds = DrawText(heading(textDetails.Kanji), nextBounds);
-
-                var subheading = textDetails.Furigana;
-                if (string.IsNullOrWhiteSpace(textDetails.Romaji) == false)
-                    subheading = $"{subheading} ({textDetails.Romaji})";
-
-                nextBounds = DrawText(label(subheading), nextBounds);
-            }
-
-            if (string.IsNullOrWhiteSpace(textDetails.Definition) == false)
-            {
-                nextBounds = OffsetBounds(new CGSize(0, LINE_SPACER), nextBounds);
-                nextBounds = DrawText(label("Definition:"), nextBounds);
-
-                var lines = textDetails.Definition.Split(new string[] { "\n", "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
-                foreach (var line in lines)
-                {
-                    nextBounds = DrawText(paragraph(line), nextBounds);
-                }
-            }
-
-            if (string.IsNullOrWhiteSpace(textDetails.JapaneseSentence) == false)
-            {
-                nextBounds = OffsetBounds(new CGSize(0, LINE_SPACER), nextBounds);
-
-                nextBounds = DrawText(label("Japanese sentence:"), nextBounds);
-                nextBounds = DrawText(paragraph(textDetails.JapaneseSentence), nextBounds);
-            }
-
-            if (string.IsNullOrWhiteSpace(textDetails.EnglishSentence) == false)
-            {
-                nextBounds = OffsetBounds(new CGSize(0, LINE_SPACER), nextBounds);
-
-                nextBounds = DrawText(label("English sentence:"), nextBounds);
-                nextBounds = DrawText(paragraph(textDetails.EnglishSentence), nextBounds);
-            }
-
-        }
-
-        private CGRect GetScreenSafeBounds(CGRect bounds)
-        {
-            return new CGRect(
-                bounds.X + BLOCK_PADDING,
-                bounds.Y + BLOCK_PADDING,
-                bounds.Width - BLOCK_PADDING,
-                bounds.Height - BLOCK_PADDING
+            new CGRect(
+                screenBounds.X + BLOCK_PADDING,
+                screenBounds.Y + BLOCK_PADDING,
+                screenBounds.Width - BLOCK_PADDING,
+                screenBounds.Height - BLOCK_PADDING
             );
+
+            return newBounds;
         }
 
+        /// <summary>
+        /// Shifts a boundary by the Height provided in lastSize
+        /// </summary>
+        /// <param name="lastSize"></param>
+        /// <param name="lastBounds"></param>
+        /// <returns></returns>
         private CGRect OffsetBounds(CGSize lastSize, CGRect lastBounds)
         {
             return new CGRect(
@@ -206,23 +364,29 @@ namespace RicePaper.Lib
             );
         }
 
-        private CGRect DrawText(FontParams fontParams, CGRect bounds)
+        /// <summary>
+        /// Invokes NSString.DrawInRect() to perform a draw call
+        /// against the current graphics context
+        /// </summary>
+        /// <param name="fontParams"></param>
+        /// <param name="bounds"></param>
+        /// <returns></returns>
+        private CGSize DrawText(FontParams fontParams, CGRect bounds)
         {
             var options = FontParams.GetFontAttrs(fontParams);
             var nsString = fontParams.AsNSString;
             nsString.DrawInRect(bounds, options);
 
-            var textSize = CalculateTextSize(nsString, fontParams.Font);
-            var nextBounds = OffsetBounds(textSize, bounds);
-            return nextBounds;
+            var textSize = CalculateTextSize(fontParams);
+            return textSize;
         }
 
-        private CGSize CalculateTextSize(NSString text, NSFont font)
+        private CGSize CalculateTextSize(FontParams fontParams)
         {
             var bounds = new CGSize();
-            var attr = new NSStringAttributes() { Font = font };
+            var attr = new NSStringAttributes() { Font = fontParams.Font };
 
-            var frame = text.GetBoundingRect(
+            var frame = fontParams.AsNSString.GetBoundingRect(
                 bounds,
                 NSStringDrawingOptions.UsesLineFragmentOrigin,
                 attr,
