@@ -16,6 +16,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Model\TextDetails.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\FontParams.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\ExpansionBox.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\TextOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Cycle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AppSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Model\" />

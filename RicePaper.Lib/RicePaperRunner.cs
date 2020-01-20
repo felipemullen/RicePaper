@@ -12,8 +12,7 @@ namespace RicePaper.Lib
         public RicePaperRunner()
         {
             wallpaperUtility = new WallpaperMaker();
-
-            // TODO: Load saved state
+            AppSettings.Load();
         }
         #endregion
 
