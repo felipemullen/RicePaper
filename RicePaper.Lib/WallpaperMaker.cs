@@ -51,20 +51,23 @@ namespace RicePaper.Lib
                 foreach (var _screen in NSScreen.Screens)
                 {
                     string cachePath = DrawImage(_screen, filepath, drawDetails);
+
+                    if (cachePath != null)
+                    {
+                        NSUrl url = NSUrl.FromFilename(cachePath);
+                        NSError errorContainer = new NSError();
+
+                        var workspace = NSWorkspace.SharedWorkspace;
+                        var options = workspace.DesktopImageOptions(_screen);
+                        var result = workspace.SetDesktopImageUrl(url, _screen, options, errorContainer);
+
+                        if (result)
+                            Console.WriteLine($"successfully set {cachePath}");
+                        else
+                            Console.WriteLine(errorContainer.ToString());
+                    }
+
                     CleanupCache();
-
-                    NSUrl url = NSUrl.FromFilename(cachePath);
-                    NSError errorContainer = new NSError();
-
-                    var workspace = NSWorkspace.SharedWorkspace;
-                    var options = workspace.DesktopImageOptions(_screen);
-                    var result = workspace.SetDesktopImageUrl(url, _screen, options, errorContainer);
-
-                    if (result)
-                        Console.WriteLine($"successfully set {cachePath}");
-                    else
-                        Console.WriteLine(errorContainer.ToString());
-
                 }
             }
             catch (Exception ex)
@@ -307,7 +310,8 @@ namespace RicePaper.Lib
         {
             var textDimensions = MeasureTextBlock(drawParameters);
 
-            CGRect newBounds = screenBounds;
+            // Multiple screens end up having coordinates based on their layouts
+            CGRect newBounds = new CGRect(CGPoint.Empty, screenBounds.Size);
 
             nfloat center = (nfloat)(screenBounds.Width - textDimensions.Width) / 2.0f;
             nfloat right = (nfloat)(screenBounds.Width - textDimensions.Width);
@@ -353,13 +357,6 @@ namespace RicePaper.Lib
                     newBounds.Y = bottom - BLOCK_PADDING;
                     break;
             }
-
-            new CGRect(
-                screenBounds.X + BLOCK_PADDING,
-                screenBounds.Y + BLOCK_PADDING,
-                screenBounds.Width - BLOCK_PADDING,
-                screenBounds.Height - BLOCK_PADDING
-            );
 
             return newBounds;
         }

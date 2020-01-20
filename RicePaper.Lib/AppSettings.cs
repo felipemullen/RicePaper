@@ -25,17 +25,17 @@ namespace RicePaper.Lib.Model
     public class AppSettings
     {
         #region Instance Fields
-        private ImageOptionType _imageOption;
-        private string _imagePath;
-        private TextOptions _textOptions;
-        private DrawPosition _drawPosition;
-        private WordListSelection _wordList;
-        private string _wordListPath;
-        private WordSelection _wordSelection;
-        private DictionarySelection _dictionary;
-        private CycleInfo _imageCycle;
-        private CycleInfo _wordCycle;
-        private AppState _state;
+        public ImageOptionType _imageOption;
+        public string _imagePath;
+        public TextOptions _textOptions;
+        public DrawPosition _drawPosition;
+        public WordListSelection _wordList;
+        public string _wordListPath;
+        public WordSelection _wordSelection;
+        public DictionarySelection _dictionary;
+        public CycleInfo _imageCycle;
+        public CycleInfo _wordCycle;
+        public AppState _state;
         #endregion
 
         #region Static Instance
