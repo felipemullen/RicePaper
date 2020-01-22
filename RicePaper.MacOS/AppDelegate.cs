@@ -16,6 +16,7 @@ namespace RicePaper.MacOS
 
         #region Private Fields
         private readonly RiceScheduler riceScheduler;
+        private readonly AppSettings settings;
         #endregion
 
         #region UI Related Fields
@@ -28,8 +29,8 @@ namespace RicePaper.MacOS
         #region Constructor
         public AppDelegate()
         {
-            AppSettings.Load();
-            riceScheduler = new RiceScheduler();
+            settings = AppSettings.Load();
+            riceScheduler = new RiceScheduler(settings);
 
             popoverView = new NSPopover();
 
@@ -50,6 +51,8 @@ namespace RicePaper.MacOS
             popoverView.ContentViewController = viewController;
             popoverView.Behavior = NSPopoverBehavior.Semitransient;
 
+            // TODO: implement logging
+
             // TODO: remove after implementation
             //OpenMainWindow();
 
@@ -58,7 +61,7 @@ namespace RicePaper.MacOS
 
         public override void WillTerminate(NSNotification notification)
         {
-            AppSettings.Save();
+            AppSettings.Save(settings);
         }
 
         [Export("applicationWillResignActive:")]

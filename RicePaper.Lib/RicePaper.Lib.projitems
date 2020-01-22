@@ -19,8 +19,21 @@
     <Compile Include="$(MSBuildThisFileDirectory)Model\TextOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Cycle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AppSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Dictionary\JishoResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Dictionary\JishoApi.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Dictionary\RiceDictionary.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ListIterator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\AppState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WallpaperList.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Model\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Dictionary\" />
+    <Folder Include="$(MSBuildThisFileDirectory)WordLists\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Images\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Images\Japan\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)WordLists\MostFrequent1000.list" />
   </ItemGroup>
 </Project>

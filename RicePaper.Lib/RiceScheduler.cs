@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Design;
-using System.Drawing;
 using System.Threading;
 using Foundation;
+using RicePaper.Lib.Dictionary;
 using RicePaper.Lib.Model;
 
 namespace RicePaper.Lib
@@ -11,40 +10,27 @@ namespace RicePaper.Lib
     public class RiceScheduler
     {
         #region Private Fields
+        private readonly AppSettings settings;
         private readonly WallpaperMaker wallpaperUtility;
+        private readonly RiceDictionary riceDict;
+        private readonly WallpaperList imageList;
 
         private DateTime lastImageChange;
         private DateTime lastWordChange;
         private readonly List<Timer> timers;
-
-        private List<string> wallpaperPaths;
-        private List<string> wordList;
         #endregion
 
         #region Constructor
-        public RiceScheduler()
+        public RiceScheduler(AppSettings settings)
         {
+            this.settings = settings;
             wallpaperUtility = new WallpaperMaker();
+            riceDict = new RiceDictionary(settings);
+            imageList = new WallpaperList(settings);
+
             timers = new List<Timer>();
             lastImageChange = DateTime.MinValue;
             lastWordChange = DateTime.MinValue;
-
-            wallpaperPaths = GetWallpapers();
-            wordList = new List<string>() { "felipo" };
-        }
-
-        private List<string> GetWallpapers()
-        {
-            // TODO: load from directory
-
-            return new List<string>()
-            {
-                { "/Users/fmullen/Desktop/backgrounds/bigger_bigger.png" },
-                { "/Users/fmullen/Desktop/backgrounds/long_bigger.png" },
-                { "/Users/fmullen/Desktop/backgrounds/long_smaller.png" },
-                { "/Users/fmullen/Desktop/backgrounds/tall_bigger.png" },
-                { "/Users/fmullen/Desktop/backgrounds/tall_smaller.png" }
-            };
         }
         #endregion
 
@@ -53,14 +39,14 @@ namespace RicePaper.Lib
         {
             CancelAllTimers();
 
-            if (AppSettings.ImageCycle.Period == AppSettings.WordCycle.Period)
+            if (settings.ImageCycle.Period == settings.WordCycle.Period)
             {
-                ScheduleTask(AppSettings.ImageCycle, () => { Update(true, true); });
+                ScheduleTask(settings.ImageCycle, () => { Update(true, true); });
             }
             else
             {
-                ScheduleTask(AppSettings.ImageCycle, () => { Update(true, false); });
-                ScheduleTask(AppSettings.WordCycle, () => { Update(false, true); });
+                ScheduleTask(settings.ImageCycle, () => { Update(true, false); });
+                ScheduleTask(settings.WordCycle, () => { Update(false, true); });
             }
         }
         #endregion
@@ -91,44 +77,26 @@ namespace RicePaper.Lib
 
         private void Update(bool changeImage, bool changeWord)
         {
-            // TODO: Word resolution
-            int wordIndex = AppSettings.State.WordIndex;
-            var currentWord = "";
+            var currentWord = riceDict.CurrentDefinition();
 
             var parameters = new DrawParameters
             {
-                Position = AppSettings.drawPosition,
+                Position = settings.DrawPosition,
                 ChangeWord = changeWord,
                 ChangeWallpaper = changeImage,
-                Text = GetDetailsFromWord(currentWord)
+                Text = currentWord
             };
 
-            int imageIndex = AppSettings.State.ImageIndex;
-            var imagePath = wallpaperPaths[imageIndex];
-
+            var imagePath = imageList.CurrentItem;
             wallpaperUtility.SetWallpaper(imagePath, parameters);
 
             if (changeImage)
-                AppSettings.State.ImageIndex = (imageIndex + 1) % wallpaperPaths.Count;
+                imageList.Increment();
             if (changeWord)
-                AppSettings.State.WordIndex = (wordIndex + 1) % wordList.Count;
+                riceDict.Increment();
 
             lastWordChange = DateTime.Now;
             lastImageChange = DateTime.Now;
-        }
-
-        public TextDetails GetDetailsFromWord(string word)
-        {
-            // TODO: Dictionary lookup
-            return new TextDetails
-            {
-                Kanji = "音楽",
-                Furigana = "おんがく",
-                Romaji = "ongaku",
-                Definition = "song/music",
-                JapaneseSentence = "僕は音楽が大好きですね",
-                EnglishSentence = "I love music ya kno"
-            };
         }
         #endregion
 
