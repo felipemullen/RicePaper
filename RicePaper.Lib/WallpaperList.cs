@@ -12,7 +12,7 @@ namespace RicePaper.Lib
         #endregion
 
         #region Constructor
-        public WallpaperList(AppSettings settings) : base(settings)
+        public WallpaperList(AppSettings settings) : base(settings, settings.State.ImageIndex)
         {
         }
         #endregion

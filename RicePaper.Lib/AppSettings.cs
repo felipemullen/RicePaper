@@ -78,6 +78,7 @@ namespace RicePaper.Lib.Model
             string jsonString = JsonConvert.SerializeObject(settings);
             NSString data = new NSString(jsonString);
             valueStore.SetValueForKey(data, DATA_KEY);
+            valueStore.Synchronize();
         }
 
         private static string GetFolderPath(ImageOptionType type)

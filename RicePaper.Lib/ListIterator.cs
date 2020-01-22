@@ -12,9 +12,10 @@ namespace RicePaper.Lib
         #endregion
 
         #region Constructor
-        public ListIterator(AppSettings settings)
+        public ListIterator(AppSettings settings, int startAt = 0)
         {
             this.settings = settings;
+            this.index = startAt;
             currentList = LoadData();
         }
         #endregion

@@ -11,7 +11,7 @@ namespace RicePaper.Lib.Dictionary
         #endregion
 
         #region Constructor
-        public RiceDictionary(AppSettings settings) : base(settings)
+        public RiceDictionary(AppSettings settings) : base(settings, settings.State.WordIndex)
         {
             this.jishoApi = new JishoApi();
         }
