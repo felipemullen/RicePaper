@@ -15,8 +15,6 @@ namespace RicePaper.Lib
         private readonly RiceDictionary riceDict;
         private readonly WallpaperList imageList;
 
-        private DateTime lastImageChange;
-        private DateTime lastWordChange;
         private readonly List<Timer> timers;
         #endregion
 
@@ -29,8 +27,6 @@ namespace RicePaper.Lib
             imageList = new WallpaperList(settings);
 
             timers = new List<Timer>();
-            lastImageChange = DateTime.MinValue;
-            lastWordChange = DateTime.MinValue;
         }
         #endregion
 
@@ -95,8 +91,11 @@ namespace RicePaper.Lib
             if (changeWord)
                 riceDict.Increment();
 
-            lastWordChange = DateTime.Now;
-            lastImageChange = DateTime.Now;
+            try
+            {
+                AppSettings.Save(settings);
+            }
+            catch (Exception) { }
         }
         #endregion
 

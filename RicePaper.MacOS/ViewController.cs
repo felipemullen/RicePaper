@@ -62,10 +62,7 @@ namespace RicePaper.MacOS
                     return;
                 }
             }
-            catch (Exception ex)
-            {
-
-            }
+            catch (Exception) { }
         }
         #endregion
     }
