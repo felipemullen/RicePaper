@@ -6,19 +6,21 @@ namespace RicePaper.Lib
     public abstract class ListIterator<T>
     {
         #region Protected Fields
+        protected readonly AppSettings settings;
         protected int index;
-        protected List<T> currentList;
+        protected IList<T> currentList;
         #endregion
 
         #region Constructor
-        public ListIterator()
+        public ListIterator(AppSettings settings)
         {
+            this.settings = settings;
             currentList = LoadData();
         }
         #endregion
 
         #region Abstract Methods
-        protected abstract List<T> LoadData();
+        protected abstract IList<T> LoadData();
         protected abstract void PostIncrement(int preIncrement, int index);
         #endregion
 

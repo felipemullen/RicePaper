@@ -1,39 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup>
-    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
-    <HasSharedItems>true</HasSharedItems>
-    <SharedGUID>{A187E02D-BD50-48C4-8AD8-81C1061A02E4}</SharedGUID>
-  </PropertyGroup>
-  <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>RicePaper.Lib</Import_RootNamespace>
-  </PropertyGroup>
-  <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)RiceScheduler.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)WallpaperMaker.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Enums.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\DrawParameters.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\TextDetails.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\FontParams.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\ExpansionBox.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\TextOptions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\Cycle.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)AppSettings.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Dictionary\JishoResponse.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Dictionary\JishoApi.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Dictionary\RiceDictionary.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ListIterator.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\AppState.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)WallpaperList.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Model\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Dictionary\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Content\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Content\WordLists\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Content\Images\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)Content\WordLists\MostFrequent1000.list" />
-  </ItemGroup>
+    <PropertyGroup>
+        <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+        <HasSharedItems>true</HasSharedItems>
+        <SharedGUID>{A187E02D-BD50-48C4-8AD8-81C1061A02E4}</SharedGUID>
+    </PropertyGroup>
+    <PropertyGroup Label="Configuration">
+        <Import_RootNamespace>RicePaper.Lib</Import_RootNamespace>
+    </PropertyGroup>
+    <ItemGroup>
+        <Compile Include="$(MSBuildThisFileDirectory)RiceScheduler.cs" />
+        <Compile Include="$(MSBuildThisFileDirectory)WallpaperMaker.cs" />
+        <Compile Include="$(MSBuildThisFileDirectory)Enums.cs" />
+        <Compile Include="$(MSBuildThisFileDirectory)Model\DrawParameters.cs" />
+        <Compile Include="$(MSBuildThisFileDirectory)Model\TextDetails.cs" />
+        <Compile Include="$(MSBuildThisFileDirectory)Model\FontParams.cs" />
+        <Compile Include="$(MSBuildThisFileDirectory)Model\ExpansionBox.cs" />
+        <Compile Include="$(MSBuildThisFileDirectory)Model\TextOptions.cs" />
+        <Compile Include="$(MSBuildThisFileDirectory)Model\Cycle.cs" />
+        <Compile Include="$(MSBuildThisFileDirectory)AppSettings.cs" />
+        <Compile Include="$(MSBuildThisFileDirectory)Dictionary\JishoResponse.cs" />
+        <Compile Include="$(MSBuildThisFileDirectory)Dictionary\JishoApi.cs" />
+        <Compile Include="$(MSBuildThisFileDirectory)Dictionary\RiceDictionary.cs" />
+        <Compile Include="$(MSBuildThisFileDirectory)ListIterator.cs" />
+        <Compile Include="$(MSBuildThisFileDirectory)Model\AppState.cs" />
+        <Compile Include="$(MSBuildThisFileDirectory)WallpaperList.cs" />
+    </ItemGroup>
+    <ItemGroup>
+        <Folder Include="$(MSBuildThisFileDirectory)Model\" />
+        <Folder Include="$(MSBuildThisFileDirectory)Dictionary\" />
+        <Folder Include="$(MSBuildThisFileDirectory)Content\" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="$(MSBuildThisFileDirectory)Content\**\*.*">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="$(MSBuildThisFileDirectory)Content\README.md" />
+    </ItemGroup>
 </Project>

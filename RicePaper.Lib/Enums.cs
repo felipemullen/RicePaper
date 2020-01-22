@@ -30,7 +30,7 @@
         JLPTN3,
         JLPTN2,
         JLPTN1,
-        CORE6K,
+        Core6K,
         Custom
     }
 

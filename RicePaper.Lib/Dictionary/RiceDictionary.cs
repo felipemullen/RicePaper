@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.IO;
 using RicePaper.Lib.Model;
 
 namespace RicePaper.Lib.Dictionary
@@ -7,14 +7,12 @@ namespace RicePaper.Lib.Dictionary
     public class RiceDictionary : ListIterator<string>
     {
         #region Private Fields
-        private readonly AppSettings settings;
         private readonly JishoApi jishoApi;
         #endregion
 
         #region Constructor
-        public RiceDictionary(AppSettings settings)
+        public RiceDictionary(AppSettings settings) : base(settings)
         {
-            this.settings = settings;
             this.jishoApi = new JishoApi();
         }
         #endregion
@@ -30,10 +28,11 @@ namespace RicePaper.Lib.Dictionary
         #endregion
 
         #region ListIterator Implementation
-        protected override List<string> LoadData()
+        protected override IList<string> LoadData()
         {
-            // TODO: load from a list
-            return new List<string>() { "音楽", "食べ物", "日本語", "塵", "台所" };
+            var wordList = File.ReadAllLines(this.settings.WordListPath);
+
+            return wordList;
         }
 
         protected override void PostIncrement(int preIncrement, int index)

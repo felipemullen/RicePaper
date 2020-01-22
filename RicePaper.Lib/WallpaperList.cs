@@ -1,33 +1,33 @@
 ﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using RicePaper.Lib.Model;
 
 namespace RicePaper.Lib
 {
     public class WallpaperList : ListIterator<string>
     {
-        #region Private Fields
-        private readonly AppSettings settings;
+        #region Constants
+        private readonly string[] VALID_FILES = { ".png", ".jpg", ".gif" };
         #endregion
 
         #region Constructor
-        public WallpaperList(AppSettings settings) : base()
+        public WallpaperList(AppSettings settings) : base(settings)
         {
-            this.settings = settings;
         }
         #endregion
 
         #region ListIterator Implementation
-        protected override List<string> LoadData()
+        protected override IList<string> LoadData()
         {
-            // TODO: load from directory
-            return new List<string>()
-            {
-                { "/Users/fmullen/Desktop/backgrounds/bigger_bigger.png" },
-                { "/Users/fmullen/Desktop/backgrounds/long_bigger.png" },
-                { "/Users/fmullen/Desktop/backgrounds/long_smaller.png" },
-                { "/Users/fmullen/Desktop/backgrounds/tall_bigger.png" },
-                { "/Users/fmullen/Desktop/backgrounds/tall_smaller.png" }
-            };
+            var imageDirectory = new DirectoryInfo(this.settings.ImagePath);
+
+            var imageFiles = imageDirectory
+                .EnumerateFiles()
+                .Where(x => VALID_FILES.Contains(x.Extension))
+                .Select(x => x.FullName);
+
+            return imageFiles.ToList();
         }
 
         protected override void PostIncrement(int preIncrement, int currentIndex)

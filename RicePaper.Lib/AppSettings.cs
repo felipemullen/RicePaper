@@ -26,7 +26,7 @@ namespace RicePaper.Lib.Model
                     TextOptions = TextOptions.Default,
                     WordCycle = CycleInfo.Default,
                     WordList = WordListSelection.MostFrequent1000,
-                    WordListPath = GetFolderPath(WordListSelection.MostFrequent1000),
+                    WordListPath = GetFilePath(WordListSelection.MostFrequent1000),
                     WordSelection = WordSelection.InOrder
                 };
             }
@@ -62,13 +62,17 @@ namespace RicePaper.Lib.Model
 
         private static string GetFolderPath(ImageOptionType type)
         {
-            return Path.Join(AppContext.BaseDirectory, "images", type.ToString());
+
+            return Path.Combine(AppRoot, "Resources/Content/Images", type.ToString());
         }
 
-        private static string GetFolderPath(WordListSelection list)
+        private static string GetFilePath(WordListSelection list)
         {
-            return Path.Join(AppContext.BaseDirectory, "wordList", list.ToString());
+            return Path.Combine(AppRoot, "Resources/Content/WordLists", $"{list}.list");
         }
+
+        // TODO: Move to util class
+        private static string AppRoot => Directory.GetParent(AppContext.BaseDirectory.TrimEnd('/')).FullName;
         #endregion
 
         #region Properties
@@ -102,7 +106,7 @@ namespace RicePaper.Lib.Model
                 if (WordList == WordListSelection.Custom)
                     return WordListPath;
 
-                return GetFolderPath(WordList);
+                return GetFilePath(WordList);
             }
             set
             {
