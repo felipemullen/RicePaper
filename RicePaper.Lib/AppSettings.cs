@@ -42,8 +42,7 @@ namespace RicePaper.Lib.Model
                     return AppSettings.Default;
 
                 AppSettings appSettings = JsonConvert.DeserializeObject<AppSettings>(data);
-
-                // TODO: AppSettings integrity check in case of corrupted data?
+                IntegrityCheck(appSettings);
 
                 return appSettings;
             }
@@ -51,6 +50,27 @@ namespace RicePaper.Lib.Model
             {
                 return AppSettings.Default;
             }
+        }
+
+        public static void IntegrityCheck(AppSettings settings)
+        {
+            if (settings.ImageCycle == null)
+                settings.ImageCycle = CycleInfo.Default;
+
+            if (settings.ImageOption == ImageOptionType.Custom && settings.ImagePath == null)
+                settings.ImageOption = ImageOptionType.Japan;
+
+            if (settings.State == null)
+                settings.State = new AppState();
+
+            if (settings.TextOptions == null)
+                settings.TextOptions = TextOptions.Default;
+
+            if (settings.WordCycle == null)
+                settings.WordCycle = CycleInfo.Default;
+
+            if (settings.WordList == WordListSelection.Custom && settings.WordListPath == null)
+                settings.WordList = WordListSelection.MostFrequent1000;
         }
 
         public static void Save(AppSettings settings)
