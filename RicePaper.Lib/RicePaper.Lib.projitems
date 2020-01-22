@@ -29,11 +29,11 @@
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Model\" />
     <Folder Include="$(MSBuildThisFileDirectory)Dictionary\" />
-    <Folder Include="$(MSBuildThisFileDirectory)WordLists\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Images\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Images\Japan\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Content\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Content\WordLists\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Content\Images\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)WordLists\MostFrequent1000.list" />
+    <None Include="$(MSBuildThisFileDirectory)Content\WordLists\MostFrequent1000.list" />
   </ItemGroup>
 </Project>
