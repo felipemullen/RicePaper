@@ -13,9 +13,6 @@ namespace RicePaper.MacOS
 	partial class ViewController
 	{
 		[Outlet]
-		AppKit.NSTextField FilePathLabel { get; set; }
-
-		[Outlet]
 		AppKit.NSTextField LabelImagePath { get; set; }
 
 		[Outlet]
@@ -117,9 +114,6 @@ namespace RicePaper.MacOS
 		[Action ("RomajiCheckbox:")]
 		partial void RomajiCheckbox (Foundation.NSObject sender);
 
-		[Action ("SpannerImageInterval:")]
-		partial void SpannerImageInterval (Foundation.NSObject sender);
-
 		[Action ("StepperImageInterval:")]
 		partial void StepperImageInterval (Foundation.NSObject sender);
 
@@ -136,11 +130,6 @@ namespace RicePaper.MacOS
 			if (LabelWordListPath != null) {
 				LabelWordListPath.Dispose ();
 				LabelWordListPath = null;
-			}
-
-			if (FilePathLabel != null) {
-				FilePathLabel.Dispose ();
-				FilePathLabel = null;
 			}
 		}
 	}

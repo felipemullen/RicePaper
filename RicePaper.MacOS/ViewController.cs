@@ -56,7 +56,7 @@ namespace RicePaper.MacOS
                     if (result != null)
                     {
                         var path = result.Path;
-                        FilePathLabel.StringValue = path;
+                        LabelImagePath.StringValue = path;
                     }
                 }
                 else

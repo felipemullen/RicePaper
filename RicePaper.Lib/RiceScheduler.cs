@@ -71,7 +71,7 @@ namespace RicePaper.Lib
             timers.Add(timer);
         }
 
-        private void Update(bool changeImage, bool changeWord)
+        public void Update(bool changeImage, bool changeWord)
         {
             var currentWord = riceDict.CurrentDefinition();
 

@@ -713,7 +713,7 @@
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ewx-TP-Ivb">
                                                 <rect key="frame" x="-2" y="41" width="71" height="14"/>
                                                 <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" title="Version 1.0.0" id="2fT-DX-CjL">
-                                                    <font key="font" metaFont="message" size="11"/>
+                                                    <font key="font" metaFont="label" size="11"/>
                                                     <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
@@ -812,7 +812,7 @@
                                                                 </menu>
                                                             </popUpButtonCell>
                                                             <connections>
-                                                                <action selector="ImageSelectionDropdown:" target="XfG-lQ-9wD" id="Vsi-XG-JbY"/>
+                                                                <action selector="DropdownImageList:" target="XfG-lQ-9wD" id="ucx-LH-YOo"/>
                                                             </connections>
                                                         </popUpButton>
                                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yS0-e4-NnM">
@@ -822,7 +822,7 @@
                                                                 <font key="font" metaFont="system"/>
                                                             </buttonCell>
                                                             <connections>
-                                                                <action selector="FileDialogButton:" target="XfG-lQ-9wD" id="KQ4-SZ-XJu"/>
+                                                                <action selector="ButtonImageDialog:" target="XfG-lQ-9wD" id="JTl-xP-UEv"/>
                                                             </connections>
                                                         </button>
                                                     </subviews>
@@ -875,7 +875,7 @@
                                                         <font key="font" metaFont="system"/>
                                                     </buttonCell>
                                                     <connections>
-                                                        <action selector="KanjiCheckbox:" target="XfG-lQ-9wD" id="ndl-Ws-mFd"/>
+                                                        <action selector="CheckboxKanji:" target="XfG-lQ-9wD" id="o8y-fX-PkT"/>
                                                     </connections>
                                                 </button>
                                                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2oQ-24-g98">
@@ -885,7 +885,7 @@
                                                         <font key="font" metaFont="system"/>
                                                     </buttonCell>
                                                     <connections>
-                                                        <action selector="FuriganaCheckbox:" target="XfG-lQ-9wD" id="fxO-tZ-7xP"/>
+                                                        <action selector="FuriganaCheckbox:" target="XfG-lQ-9wD" id="YiD-9y-CoV"/>
                                                     </connections>
                                                 </button>
                                                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="PiS-6F-XrW">
@@ -895,7 +895,7 @@
                                                         <font key="font" metaFont="system"/>
                                                     </buttonCell>
                                                     <connections>
-                                                        <action selector="RomajiCheckbox:" target="XfG-lQ-9wD" id="7k4-m0-IRA"/>
+                                                        <action selector="CheckboxRomaji:" target="XfG-lQ-9wD" id="cey-Ok-pyg"/>
                                                     </connections>
                                                 </button>
                                                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ynM-79-WNJ">
@@ -1359,7 +1359,7 @@
                                                     <rect key="frame" x="178" y="-3" width="19" height="28"/>
                                                     <stepperCell key="cell" continuous="YES" alignment="left" maxValue="100" id="GK9-Wa-iad"/>
                                                     <connections>
-                                                        <action selector="SpannerImageInterval:" target="XfG-lQ-9wD" id="KCq-w4-mjb"/>
+                                                        <action selector="StepperImageInterval:" target="XfG-lQ-9wD" id="KCq-w4-mjb"/>
                                                     </connections>
                                                 </stepper>
                                                 <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ZkO-wx-ggT">
@@ -1442,7 +1442,7 @@
                                                     <rect key="frame" x="178" y="-3" width="19" height="28"/>
                                                     <stepperCell key="cell" continuous="YES" alignment="left" maxValue="100" id="PUD-gp-wfC"/>
                                                     <connections>
-                                                        <action selector="SpannerWordInterval:" target="XfG-lQ-9wD" id="uJj-MW-ADi"/>
+                                                        <action selector="StepperWordInterval:" target="XfG-lQ-9wD" id="2B2-qk-Uva"/>
                                                     </connections>
                                                 </stepper>
                                                 <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="IY4-X1-r89">
@@ -1546,6 +1546,7 @@
                         <outlet property="DropdownImageIntervalUnit" destination="ZkO-wx-ggT" id="uIH-If-Duk"/>
                         <outlet property="ImagePathLabel" destination="4tk-Ix-DGl" id="wsa-eW-cR2"/>
                         <outlet property="ImageSelectorDropdown" destination="lRB-5f-G6g" id="Lkf-9V-u5c"/>
+                        <outlet property="LabelImagePath" destination="4tk-Ix-DGl" id="Xvh-W4-9Gv"/>
                         <outlet property="LabelWordListPath" destination="dBz-bL-yqO" id="WXo-Ux-KJQ"/>
                         <outlet property="SpinnerImageInterval" destination="Daz-kK-HmW" id="4RM-Dj-amJ"/>
                     </connections>
