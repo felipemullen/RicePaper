@@ -48,6 +48,9 @@ namespace RicePaper.MacOS
             mainStoryboard = NSStoryboard.FromName("Main", null);
 
             viewController = mainStoryboard.InstantiateControllerWithIdentifier("ViewController") as ViewController;
+            viewController.AppSettings = this.settings;
+            viewController.RiceScheduler = riceScheduler;
+
             popoverView.ContentViewController = viewController;
             popoverView.Behavior = NSPopoverBehavior.Semitransient;
 

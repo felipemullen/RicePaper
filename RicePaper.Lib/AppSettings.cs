@@ -144,6 +144,9 @@ namespace RicePaper.Lib.Model
         public CycleInfo WordCycle { get; set; }
 
         public AppState State { get; set; }
+
+        public string ImagePathLabel => (ImageOption == ImageOptionType.Custom) ? ImagePath : $"Image Set: {ImageOption.ToString()}";
+        public string WordListPathLabel => (WordList == WordListSelection.Custom) ? WordListPath : $"Word List: {WordList.ToString()}";
         #endregion
 
         /// <summary>

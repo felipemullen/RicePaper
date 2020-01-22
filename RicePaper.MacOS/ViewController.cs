@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Drawing;
-using System.Security.Policy;
 using AppKit;
 using Foundation;
+using RicePaper.Lib;
+using RicePaper.Lib.Model;
 
 namespace RicePaper.MacOS
 {
@@ -18,6 +18,9 @@ namespace RicePaper.MacOS
                 // Update the view, if already loaded.
             }
         }
+
+        public AppSettings AppSettings { get; set; }
+        public RiceScheduler RiceScheduler { get; internal set; }
         #endregion
 
         #region Constructor
@@ -25,10 +28,10 @@ namespace RicePaper.MacOS
         #endregion
 
         #region NS Lifecycle
-        public override void ViewDidLoad()
+        public override void ViewWillLayout()
         {
-            base.ViewDidLoad();
-            //FilePathLabel.StringValue = "TO BE DETERMINED";
+            base.ViewWillLayout();
+            SetLabels();
         }
         #endregion
 
@@ -63,6 +66,30 @@ namespace RicePaper.MacOS
                 }
             }
             catch (Exception) { }
+        }
+
+        partial void ButtonNextWord(NSObject sender)
+        {
+            RiceScheduler.Update(changeImage: false, changeWord: true);
+            //AppSettings.State.WordIndex.Next();
+
+        }
+        #endregion
+
+        #region Private Helpers
+        private void UpdateSettings()
+        {
+        }
+
+        private void Redraw()
+        {
+
+        }
+
+        private void SetLabels()
+        {
+            LabelImagePath.StringValue = AppSettings.ImagePathLabel;
+            LabelWordListPath.StringValue = AppSettings.WordListPathLabel;
         }
         #endregion
     }
