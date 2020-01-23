@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 using Foundation;
 using RicePaper.Lib.Dictionary;
 using RicePaper.Lib.Model;
@@ -58,7 +59,7 @@ namespace RicePaper.Lib
 
         private void ScheduleTask(CycleInfo cycle, Action task)
         {
-            TimeSpan timeLeft = TimeSpan.FromSeconds(2);
+            TimeSpan timeLeft = TimeSpan.Zero;
 
             var timer = new Timer(x =>
             {

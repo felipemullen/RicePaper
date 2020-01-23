@@ -713,7 +713,7 @@
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ewx-TP-Ivb">
                                                 <rect key="frame" x="-2" y="41" width="71" height="14"/>
                                                 <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" title="Version 1.0.0" id="2fT-DX-CjL">
-                                                    <font key="font" metaFont="label" size="11"/>
+                                                    <font key="font" metaFont="message" size="11"/>
                                                     <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
@@ -805,9 +805,18 @@
                                                                 <font key="font" metaFont="system"/>
                                                                 <menu key="menu" id="Ec6-pA-rTr">
                                                                     <items>
-                                                                        <menuItem title="Japan (Default)" state="on" id="PoI-Vp-sZu"/>
-                                                                        <menuItem title="Nature" id="hoM-yz-wUk"/>
-                                                                        <menuItem title="Custom" id="Ni9-YW-sJ9"/>
+                                                                        <menuItem title="Japan (Default)" state="on" id="PoI-Vp-sZu">
+                                                                            <userDefinedRuntimeAttributes>
+                                                                                <userDefinedRuntimeAttribute type="string" keyPath="enumValue" value="Japan"/>
+                                                                            </userDefinedRuntimeAttributes>
+                                                                            <accessibility identifier="Japan"/>
+                                                                        </menuItem>
+                                                                        <menuItem title="Nature" id="hoM-yz-wUk">
+                                                                            <accessibility identifier="Nature"/>
+                                                                        </menuItem>
+                                                                        <menuItem title="Custom" id="Ni9-YW-sJ9">
+                                                                            <accessibility identifier="Custom"/>
+                                                                        </menuItem>
                                                                     </items>
                                                                 </menu>
                                                             </popUpButtonCell>
@@ -885,7 +894,7 @@
                                                         <font key="font" metaFont="system"/>
                                                     </buttonCell>
                                                     <connections>
-                                                        <action selector="FuriganaCheckbox:" target="XfG-lQ-9wD" id="YiD-9y-CoV"/>
+                                                        <action selector="CheckboxFurigana:" target="XfG-lQ-9wD" id="KmW-lI-mg0"/>
                                                     </connections>
                                                 </button>
                                                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="PiS-6F-XrW">
@@ -1190,15 +1199,36 @@
                                                                 <font key="font" metaFont="system"/>
                                                                 <menu key="menu" id="X8C-rh-MVV">
                                                                     <items>
-                                                                        <menuItem title="100 Most Frequent" state="on" id="wf2-PD-Fqk"/>
-                                                                        <menuItem title="1000 Most Frequent" id="qf3-jO-E9M"/>
-                                                                        <menuItem title="Heisig RTK" id="iXU-4m-loA"/>
-                                                                        <menuItem title="JLPT N5" id="M3C-Xa-ymL"/>
-                                                                        <menuItem title="JLPT N4" id="AYb-tl-fTz"/>
-                                                                        <menuItem title="JLPT N3" id="eRf-vu-oXy"/>
-                                                                        <menuItem title="JLPT N2" id="Yv1-DO-WkH"/>
-                                                                        <menuItem title="JLPT N1" id="cds-Q5-v51"/>
-                                                                        <menuItem title="CORE 6K" id="fQJ-lP-MLa"/>
+                                                                        <menuItem title="100 Most Frequent" state="on" id="wf2-PD-Fqk">
+                                                                            <accessibility identifier="MostFrequent100"/>
+                                                                        </menuItem>
+                                                                        <menuItem title="1000 Most Frequent" id="qf3-jO-E9M">
+                                                                            <accessibility identifier="MostFrequent1000"/>
+                                                                        </menuItem>
+                                                                        <menuItem title="Heisig RTK" id="iXU-4m-loA">
+                                                                            <accessibility identifier="HeisigRTK"/>
+                                                                        </menuItem>
+                                                                        <menuItem title="JLPT N5" id="M3C-Xa-ymL">
+                                                                            <accessibility identifier="JLPTN5"/>
+                                                                        </menuItem>
+                                                                        <menuItem title="JLPT N4" id="AYb-tl-fTz">
+                                                                            <accessibility identifier="JLPTN4"/>
+                                                                        </menuItem>
+                                                                        <menuItem title="JLPT N3" id="eRf-vu-oXy">
+                                                                            <accessibility identifier="JLPTN3"/>
+                                                                        </menuItem>
+                                                                        <menuItem title="JLPT N2" id="Yv1-DO-WkH">
+                                                                            <accessibility identifier="JLPTN2"/>
+                                                                        </menuItem>
+                                                                        <menuItem title="JLPT N1" id="cds-Q5-v51">
+                                                                            <accessibility identifier="JLPTN1"/>
+                                                                        </menuItem>
+                                                                        <menuItem title="CORE 6K" id="fQJ-lP-MLa">
+                                                                            <accessibility identifier="Core6K"/>
+                                                                        </menuItem>
+                                                                        <menuItem title="Custom" id="h4I-Rk-WPZ">
+                                                                            <accessibility identifier="Custom"/>
+                                                                        </menuItem>
                                                                     </items>
                                                                 </menu>
                                                             </popUpButtonCell>
@@ -1303,7 +1333,7 @@
                                     <gridCell row="zQP-jB-tMN" column="OFm-1o-ngy" id="WCx-KL-v95">
                                         <popUpButton key="contentView" horizontalHuggingPriority="249" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="VIc-Zl-nn8">
                                             <rect key="frame" x="136" y="99" width="297" height="25"/>
-                                            <popUpButtonCell key="cell" type="push" title="jisho.org" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="R7x-vf-HVl" id="ZWd-7C-YI7">
+                                            <popUpButtonCell key="cell" type="push" title="jisho.org" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" enabled="NO" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="R7x-vf-HVl" id="ZWd-7C-YI7">
                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                                 <menu key="menu" id="GFM-rM-qLp">
@@ -1346,7 +1376,10 @@
                                                         <constraint firstAttribute="width" constant="35" id="Kr3-F2-Nhc"/>
                                                     </constraints>
                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="right" title="1" drawsBackground="YES" id="Bg1-rz-Lce">
-                                                        <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" formatWidth="-1" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="O2U-OQ-Npc"/>
+                                                        <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" formatWidth="-1" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="O2U-OQ-Npc">
+                                                            <real key="minimum" value="0.0"/>
+                                                            <real key="maximum" value="100"/>
+                                                        </numberFormatter>
                                                         <font key="font" metaFont="system"/>
                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1372,9 +1405,15 @@
                                                         <font key="font" metaFont="system"/>
                                                         <menu key="menu" id="dKS-aO-fdw">
                                                             <items>
-                                                                <menuItem title="Days" state="on" id="qhM-WZ-low"/>
-                                                                <menuItem title="Hours" id="KAP-5d-RY5"/>
-                                                                <menuItem title="Minutes" id="REB-Yc-a7h"/>
+                                                                <menuItem title="Days" state="on" id="qhM-WZ-low">
+                                                                    <accessibility identifier="Days"/>
+                                                                </menuItem>
+                                                                <menuItem title="Hours" id="KAP-5d-RY5">
+                                                                    <accessibility identifier="Hours"/>
+                                                                </menuItem>
+                                                                <menuItem title="Minutes" id="REB-Yc-a7h">
+                                                                    <accessibility identifier="Minutes"/>
+                                                                </menuItem>
                                                             </items>
                                                         </menu>
                                                     </popUpButtonCell>
@@ -1429,7 +1468,10 @@
                                                         <constraint firstAttribute="width" constant="35" id="0Mq-Wf-RFi"/>
                                                     </constraints>
                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="right" title="1" drawsBackground="YES" id="4cU-R0-IED">
-                                                        <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" formatWidth="-1" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="eJH-KV-AHY"/>
+                                                        <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" formatWidth="-1" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="eJH-KV-AHY">
+                                                            <real key="minimum" value="0.0"/>
+                                                            <real key="maximum" value="100"/>
+                                                        </numberFormatter>
                                                         <font key="font" metaFont="system"/>
                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1455,9 +1497,15 @@
                                                         <font key="font" metaFont="system"/>
                                                         <menu key="menu" id="3JU-yf-8b6">
                                                             <items>
-                                                                <menuItem title="Days" state="on" id="Aqn-OK-Kos"/>
-                                                                <menuItem title="Hours" id="ZmW-dK-42D"/>
-                                                                <menuItem title="Minutes" id="Ze5-Yx-R5M"/>
+                                                                <menuItem title="Days" state="on" id="Aqn-OK-Kos">
+                                                                    <accessibility identifier="Days"/>
+                                                                </menuItem>
+                                                                <menuItem title="Hours" id="ZmW-dK-42D">
+                                                                    <accessibility identifier="Hours"/>
+                                                                </menuItem>
+                                                                <menuItem title="Minutes" id="Ze5-Yx-R5M">
+                                                                    <accessibility identifier="Minutes"/>
+                                                                </menuItem>
                                                             </items>
                                                         </menu>
                                                     </popUpButtonCell>
@@ -1543,15 +1591,39 @@
                         </customSpacing>
                     </stackView>
                     <connections>
+                        <outlet property="ButtonRefDefinition" destination="ynM-79-WNJ" id="hNN-nf-qf8"/>
+                        <outlet property="ButtonRefEnglishSentence" destination="7yJ-Pl-8pv" id="Zui-yZ-7Hr"/>
+                        <outlet property="ButtonRefFurigana" destination="2oQ-24-g98" id="5tw-i8-e3V"/>
+                        <outlet property="ButtonRefImagePicker" destination="yS0-e4-NnM" id="gU0-b7-Pt0"/>
+                        <outlet property="ButtonRefJapaneseSentence" destination="FfO-GC-oqh" id="hsQ-d5-OJZ"/>
+                        <outlet property="ButtonRefKanji" destination="BTc-UX-9di" id="g7U-q2-1SC"/>
+                        <outlet property="ButtonRefPosCB" destination="rDa-zN-fgY" id="gR3-8R-K0P"/>
+                        <outlet property="ButtonRefPosCM" destination="T2r-c2-Ikf" id="7V8-QR-Rj9"/>
+                        <outlet property="ButtonRefPosCT" destination="pvs-2P-ikl" id="bmS-Ze-AOG"/>
+                        <outlet property="ButtonRefPosLB" destination="xx2-yM-iFE" id="WuU-cw-cIE"/>
+                        <outlet property="ButtonRefPosLM" destination="8yb-kQ-h3T" id="7HX-0s-7aZ"/>
+                        <outlet property="ButtonRefPosLT" destination="8kd-VM-bj3" id="2wF-jJ-yhh"/>
+                        <outlet property="ButtonRefPosRB" destination="h6Q-w2-C1q" id="EBr-4b-TdZ"/>
+                        <outlet property="ButtonRefPosRM" destination="1r7-hi-x6S" id="efF-8S-NRX"/>
+                        <outlet property="ButtonRefPosRT" destination="QFN-I5-wKW" id="mV8-Fj-Jnd"/>
+                        <outlet property="ButtonRefPosTL" destination="8kd-VM-bj3" id="ckE-AY-gsn"/>
+                        <outlet property="ButtonRefRadioInOrder" destination="Pgd-pd-8yD" id="bmN-s7-D3G"/>
+                        <outlet property="ButtonRefRadioRandom" destination="Rv0-GB-C7G" id="z1B-Vx-hvO"/>
+                        <outlet property="ButtonRefRomaji" destination="PiS-6F-XrW" id="zpN-iF-81a"/>
+                        <outlet property="ButtonRefWordListPicker" destination="NfD-9r-WZp" id="Ucl-WU-r4x"/>
                         <outlet property="DropdownImageIntervalUnit" destination="ZkO-wx-ggT" id="uIH-If-Duk"/>
-                        <outlet property="ImagePathLabel" destination="4tk-Ix-DGl" id="wsa-eW-cR2"/>
-                        <outlet property="ImageSelectorDropdown" destination="lRB-5f-G6g" id="Lkf-9V-u5c"/>
+                        <outlet property="DropdownRefImageList" destination="lRB-5f-G6g" id="gvO-BZ-0kB"/>
+                        <outlet property="DropdownRefWordList" destination="gFq-Mk-QTg" id="Jgl-lA-s5L"/>
+                        <outlet property="FieldRefImageInterval" destination="t4c-aC-A15" id="0a5-zR-Mn1"/>
+                        <outlet property="FieldRefWordInterval" destination="Ljq-qF-Hje" id="hGA-5m-IPf"/>
                         <outlet property="LabelImagePath" destination="4tk-Ix-DGl" id="Xvh-W4-9Gv"/>
                         <outlet property="LabelWordListPath" destination="dBz-bL-yqO" id="WXo-Ux-KJQ"/>
-                        <outlet property="SpinnerImageInterval" destination="Daz-kK-HmW" id="4RM-Dj-amJ"/>
+                        <outlet property="StepperRefImageInterval" destination="Daz-kK-HmW" id="77p-lK-YCN"/>
+                        <outlet property="StepperRefWordInterval" destination="gaz-VM-Ccm" id="zFw-y4-iPW"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <userDefaultsController representsSharedInstance="YES" id="Mgi-GL-Z2r"/>
             </objects>
             <point key="canvasLocation" x="74" y="459"/>
         </scene>

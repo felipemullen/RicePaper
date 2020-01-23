@@ -13,10 +13,85 @@ namespace RicePaper.MacOS
 	partial class ViewController
 	{
 		[Outlet]
+		AppKit.NSButton ButtonRefDefinition { get; set; }
+
+		[Outlet]
+		AppKit.NSButton ButtonRefEnglishSentence { get; set; }
+
+		[Outlet]
+		AppKit.NSButton ButtonRefFurigana { get; set; }
+
+		[Outlet]
+		AppKit.NSButton ButtonRefImagePicker { get; set; }
+
+		[Outlet]
+		AppKit.NSButton ButtonRefJapaneseSentence { get; set; }
+
+		[Outlet]
+		AppKit.NSButton ButtonRefKanji { get; set; }
+
+		[Outlet]
+		AppKit.NSButton ButtonRefPosCB { get; set; }
+
+		[Outlet]
+		AppKit.NSButton ButtonRefPosCM { get; set; }
+
+		[Outlet]
+		AppKit.NSButton ButtonRefPosCT { get; set; }
+
+		[Outlet]
+		AppKit.NSButton ButtonRefPosLB { get; set; }
+
+		[Outlet]
+		AppKit.NSButton ButtonRefPosLM { get; set; }
+
+		[Outlet]
+		AppKit.NSButton ButtonRefPosLT { get; set; }
+
+		[Outlet]
+		AppKit.NSButton ButtonRefPosRB { get; set; }
+
+		[Outlet]
+		AppKit.NSButton ButtonRefPosRM { get; set; }
+
+		[Outlet]
+		AppKit.NSButton ButtonRefPosRT { get; set; }
+
+		[Outlet]
+		AppKit.NSButton ButtonRefRadioInOrder { get; set; }
+
+		[Outlet]
+		AppKit.NSButton ButtonRefRadioRandom { get; set; }
+
+		[Outlet]
+		AppKit.NSButton ButtonRefRomaji { get; set; }
+
+		[Outlet]
+		AppKit.NSButton ButtonRefWordListPicker { get; set; }
+
+		[Outlet]
+		AppKit.NSPopUpButton DropdownRefImageList { get; set; }
+
+		[Outlet]
+		AppKit.NSPopUpButton DropdownRefWordList { get; set; }
+
+		[Outlet]
+		AppKit.NSTextField FieldRefImageInterval { get; set; }
+
+		[Outlet]
+		AppKit.NSTextField FieldRefWordInterval { get; set; }
+
+		[Outlet]
 		AppKit.NSTextField LabelImagePath { get; set; }
 
 		[Outlet]
 		AppKit.NSTextField LabelWordListPath { get; set; }
+
+		[Outlet]
+		AppKit.NSStepper StepperRefImageInterval { get; set; }
+
+		[Outlet]
+		AppKit.NSStepper StepperRefWordInterval { get; set; }
 
 		[Action ("ButtonImageDialog:")]
 		partial void ButtonImageDialog (AppKit.NSButton sender);
@@ -93,26 +168,11 @@ namespace RicePaper.MacOS
 		[Action ("FieldWordInterval:")]
 		partial void FieldWordInterval (Foundation.NSObject sender);
 
-		[Action ("FileDialogButton:")]
-		partial void FileDialogButton (AppKit.NSButton sender);
-
-		[Action ("FuriganaCheckbox:")]
-		partial void FuriganaCheckbox (Foundation.NSObject sender);
-
-		[Action ("ImageSelectionDropdown:")]
-		partial void ImageSelectionDropdown (Foundation.NSObject sender);
-
-		[Action ("KanjiCheckbox:")]
-		partial void KanjiCheckbox (Foundation.NSObject sender);
-
 		[Action ("RadioIterateInOrder:")]
 		partial void RadioIterateInOrder (Foundation.NSObject sender);
 
 		[Action ("RadioIterateRandom:")]
 		partial void RadioIterateRandom (Foundation.NSObject sender);
-
-		[Action ("RomajiCheckbox:")]
-		partial void RomajiCheckbox (Foundation.NSObject sender);
 
 		[Action ("StepperImageInterval:")]
 		partial void StepperImageInterval (Foundation.NSObject sender);
@@ -122,6 +182,121 @@ namespace RicePaper.MacOS
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (ButtonRefKanji != null) {
+				ButtonRefKanji.Dispose ();
+				ButtonRefKanji = null;
+			}
+
+			if (ButtonRefFurigana != null) {
+				ButtonRefFurigana.Dispose ();
+				ButtonRefFurigana = null;
+			}
+
+			if (ButtonRefRomaji != null) {
+				ButtonRefRomaji.Dispose ();
+				ButtonRefRomaji = null;
+			}
+
+			if (ButtonRefDefinition != null) {
+				ButtonRefDefinition.Dispose ();
+				ButtonRefDefinition = null;
+			}
+
+			if (ButtonRefEnglishSentence != null) {
+				ButtonRefEnglishSentence.Dispose ();
+				ButtonRefEnglishSentence = null;
+			}
+
+			if (ButtonRefJapaneseSentence != null) {
+				ButtonRefJapaneseSentence.Dispose ();
+				ButtonRefJapaneseSentence = null;
+			}
+
+			if (ButtonRefImagePicker != null) {
+				ButtonRefImagePicker.Dispose ();
+				ButtonRefImagePicker = null;
+			}
+
+			if (ButtonRefPosCB != null) {
+				ButtonRefPosCB.Dispose ();
+				ButtonRefPosCB = null;
+			}
+
+			if (ButtonRefPosCM != null) {
+				ButtonRefPosCM.Dispose ();
+				ButtonRefPosCM = null;
+			}
+
+			if (ButtonRefPosCT != null) {
+				ButtonRefPosCT.Dispose ();
+				ButtonRefPosCT = null;
+			}
+
+			if (ButtonRefPosLB != null) {
+				ButtonRefPosLB.Dispose ();
+				ButtonRefPosLB = null;
+			}
+
+			if (ButtonRefPosLM != null) {
+				ButtonRefPosLM.Dispose ();
+				ButtonRefPosLM = null;
+			}
+
+			if (ButtonRefPosLT != null) {
+				ButtonRefPosLT.Dispose ();
+				ButtonRefPosLT = null;
+			}
+
+			if (ButtonRefPosRB != null) {
+				ButtonRefPosRB.Dispose ();
+				ButtonRefPosRB = null;
+			}
+
+			if (ButtonRefPosRM != null) {
+				ButtonRefPosRM.Dispose ();
+				ButtonRefPosRM = null;
+			}
+
+			if (ButtonRefPosRT != null) {
+				ButtonRefPosRT.Dispose ();
+				ButtonRefPosRT = null;
+			}
+
+			if (ButtonRefRadioInOrder != null) {
+				ButtonRefRadioInOrder.Dispose ();
+				ButtonRefRadioInOrder = null;
+			}
+
+			if (ButtonRefRadioRandom != null) {
+				ButtonRefRadioRandom.Dispose ();
+				ButtonRefRadioRandom = null;
+			}
+
+			if (ButtonRefWordListPicker != null) {
+				ButtonRefWordListPicker.Dispose ();
+				ButtonRefWordListPicker = null;
+			}
+
+			if (DropdownRefImageList != null) {
+				DropdownRefImageList.Dispose ();
+				DropdownRefImageList = null;
+			}
+
+			if (DropdownRefWordList != null) {
+				DropdownRefWordList.Dispose ();
+				DropdownRefWordList = null;
+			}
+
+			if (FieldRefImageInterval != null) {
+				FieldRefImageInterval.Dispose ();
+				FieldRefImageInterval = null;
+			}
+
+			if (FieldRefWordInterval != null) {
+				FieldRefWordInterval.Dispose ();
+				FieldRefWordInterval = null;
+			}
+
 			if (LabelImagePath != null) {
 				LabelImagePath.Dispose ();
 				LabelImagePath = null;
@@ -130,6 +305,16 @@ namespace RicePaper.MacOS
 			if (LabelWordListPath != null) {
 				LabelWordListPath.Dispose ();
 				LabelWordListPath = null;
+			}
+
+			if (StepperRefImageInterval != null) {
+				StepperRefImageInterval.Dispose ();
+				StepperRefImageInterval = null;
+			}
+
+			if (StepperRefWordInterval != null) {
+				StepperRefWordInterval.Dispose ();
+				StepperRefWordInterval = null;
 			}
 		}
 	}
