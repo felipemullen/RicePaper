@@ -40,9 +40,10 @@ namespace RicePaper.MacOS
         {
             // TODO: Dialog layer sorting
 
-            base.ViewWillLayout();
             // TODO: populate dropdowns with enum values
             UpdateEntireUI();
+
+            base.ViewWillLayout();
         }
         #endregion
 
@@ -67,19 +68,16 @@ namespace RicePaper.MacOS
 
         partial void ActionImageDialog(NSButton sender)
         {
-            try
-            {
-                var dialog = NSOpenPanel.OpenPanel;
-                dialog.OrderFront(sender);
-                //dialog.OrderFrontRegardless();
-                dialog.CanChooseFiles = false;
-                dialog.CanChooseDirectories = true;
-                dialog.Title = "Select Directory";
-                dialog.ShowsResizeIndicator = true;
-                dialog.ShowsHiddenFiles = false;
-                dialog.AllowsMultipleSelection = false;
+            var dialog = NSOpenPanel.OpenPanel;
+            dialog.CanChooseFiles = false;
+            dialog.CanChooseDirectories = true;
+            dialog.Title = "Select Directory";
+            dialog.ShowsResizeIndicator = true;
+            dialog.ShowsHiddenFiles = false;
+            dialog.AllowsMultipleSelection = false;
 
-                var outcome = dialog.RunModal();
+            dialog.BeginSheet(this.View.Window, (nint outcome) =>
+            {
                 if (outcome == 1)
                 {
                     var result = dialog.Url;
@@ -91,24 +89,12 @@ namespace RicePaper.MacOS
                         SetDirty();
                     }
                 }
-                else
-                {
-                    // was canceled
-                    return;
-                }
-            }
-            catch (Exception) { }
+            });
         }
 
-        partial void ActionButtonNextImage(NSObject sender)
-        {
-            RiceScheduler.Update(changeImage: true, changeWord: false);
-        }
+        partial void ActionButtonNextImage(NSObject sender) => RiceScheduler.Update(true, false);
 
-        partial void ActionButtonNextWord(NSObject sender)
-        {
-            RiceScheduler.Update(changeImage: false, changeWord: true);
-        }
+        partial void ActionButtonNextWord(NSObject sender) => RiceScheduler.Update(false, true);
 
         partial void ActionPositionCB(NSObject sender) => UpdatePosition(sender, DrawPosition.CenterBottom);
 
@@ -132,35 +118,28 @@ namespace RicePaper.MacOS
 
         partial void ActionWordListDialog(NSObject sender)
         {
-            try
-            {
-                var dialog = NSOpenPanel.OpenPanel;
-                dialog.CanChooseFiles = true;
-                dialog.CanChooseDirectories = false;
-                dialog.Title = "Select File";
-                dialog.ShowsResizeIndicator = true;
-                dialog.ShowsHiddenFiles = false;
-                dialog.AllowsMultipleSelection = false;
+            var dialog = NSOpenPanel.OpenPanel;
+            dialog.CanChooseFiles = true;
+            dialog.CanChooseDirectories = false;
+            dialog.Title = "Select File";
+            dialog.ShowsResizeIndicator = true;
+            dialog.ShowsHiddenFiles = false;
+            dialog.AllowsMultipleSelection = false;
 
-                var outcome = dialog.RunModal();
+            dialog.BeginSheet(this.View.Window, (nint outcome) =>
+            {
                 if (outcome == 1)
                 {
                     var result = dialog.Url;
 
                     if (result != null)
                     {
-                        _wordPath = result.Path;
+                        _imagePath = result.Path;
                         UpdateLabels();
                         SetDirty();
                     }
                 }
-                else
-                {
-                    // was canceled
-                    return;
-                }
-            }
-            catch (Exception) { }
+            });
         }
 
         partial void ActionImageListDropdown(NSObject sender)
