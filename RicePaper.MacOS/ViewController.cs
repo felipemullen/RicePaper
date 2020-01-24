@@ -9,6 +9,13 @@ namespace RicePaper.MacOS
 {
     public partial class ViewController : NSViewController
     {
+        #region Private Fields
+        private DrawPosition _drawPosition;
+        private WordSelectionMode _wordSelectionMode;
+        private string _imagePath;
+        private string _wordPath;
+        #endregion
+
         #region Properties
         public override NSObject RepresentedObject
         {
@@ -31,6 +38,8 @@ namespace RicePaper.MacOS
         #region NS Lifecycle
         public override void ViewWillLayout()
         {
+            // TODO: Dialog layer sorting
+
             base.ViewWillLayout();
             // TODO: populate dropdowns with enum values
             UpdateEntireUI();
@@ -38,11 +47,31 @@ namespace RicePaper.MacOS
         #endregion
 
         #region Action Handlers
-        partial void ButtonImageDialog(NSButton sender)
+        partial void ActionButtonApply(NSObject sender)
+        {
+            AppSettings.Dictionary = GetPopupButtonValue<DictionarySelection>(DropdownRefDictionary);
+            AppSettings.DrawPosition = _drawPosition;
+            AppSettings.ImageCycle = GetCycleInfo(DropdownRefImageIntervalUnit, FieldRefImageInterval);
+            AppSettings.ImageOption = GetPopupButtonValue<ImageOptionType>(DropdownRefImageList);
+            AppSettings.ImagePath = _imagePath;
+            AppSettings.TextOptions = GetTextOptionsFromUI();
+            AppSettings.WordCycle = GetCycleInfo(DropdownRefWordIntervalUnit, FieldRefWordInterval);
+            AppSettings.WordList = GetPopupButtonValue<WordListSelection>(DropdownRefWordList);
+            AppSettings.WordListPath = _wordPath;
+            AppSettings.WordSelection = _wordSelectionMode;
+
+            SetClean();
+
+            RiceScheduler.Update(changeImage: true, changeWord: true);
+        }
+
+        partial void ActionImageDialog(NSButton sender)
         {
             try
             {
                 var dialog = NSOpenPanel.OpenPanel;
+                dialog.OrderFront(sender);
+                //dialog.OrderFrontRegardless();
                 dialog.CanChooseFiles = false;
                 dialog.CanChooseDirectories = true;
                 dialog.Title = "Select Directory";
@@ -57,10 +86,9 @@ namespace RicePaper.MacOS
 
                     if (result != null)
                     {
-                        var path = result.Path;
-                        AppSettings.ImagePath = path;
+                        _imagePath = result.Path;
                         UpdateLabels();
-                        RiceScheduler.Update(changeImage: true, changeWord: false);
+                        SetDirty();
                     }
                 }
                 else
@@ -72,30 +100,37 @@ namespace RicePaper.MacOS
             catch (Exception) { }
         }
 
-        partial void ButtonNextWord(NSObject sender)
+        partial void ActionButtonNextImage(NSObject sender)
+        {
+            RiceScheduler.Update(changeImage: true, changeWord: false);
+        }
+
+        partial void ActionButtonNextWord(NSObject sender)
         {
             RiceScheduler.Update(changeImage: false, changeWord: true);
         }
 
-        partial void ButtonPositionCB(NSObject sender) => UpdatePosition(sender, DrawPosition.CenterBottom);
+        partial void ActionPositionCB(NSObject sender) => UpdatePosition(sender, DrawPosition.CenterBottom);
 
-        partial void ButtonPositionCM(NSObject sender) => UpdatePosition(sender, DrawPosition.CenterMid);
+        partial void ActionPositionCM(NSObject sender) => UpdatePosition(sender, DrawPosition.CenterMid);
 
-        partial void ButtonPositionCT(NSObject sender) => UpdatePosition(sender, DrawPosition.CenterTop);
+        partial void ActionPositionCT(NSObject sender) => UpdatePosition(sender, DrawPosition.CenterTop);
 
-        partial void ButtonPositionLB(NSObject sender) => UpdatePosition(sender, DrawPosition.LeftBottom);
+        partial void ActionPositionLB(NSObject sender) => UpdatePosition(sender, DrawPosition.LeftBottom);
 
-        partial void ButtonPositionLM(NSObject sender) => UpdatePosition(sender, DrawPosition.LeftMid);
+        partial void ActionPositionLM(NSObject sender) => UpdatePosition(sender, DrawPosition.LeftMid);
 
-        partial void ButtonPositionLT(NSObject sender) => UpdatePosition(sender, DrawPosition.LeftTop);
+        partial void ActionPositionLT(NSObject sender) => UpdatePosition(sender, DrawPosition.LeftTop);
 
-        partial void ButtonPositionRB(NSObject sender) => UpdatePosition(sender, DrawPosition.RightBottom);
+        partial void ActionPositionRB(NSObject sender) => UpdatePosition(sender, DrawPosition.RightBottom);
 
-        partial void ButtonPositionRM(NSObject sender) => UpdatePosition(sender, DrawPosition.RightMid);
+        partial void ActionPositionRM(NSObject sender) => UpdatePosition(sender, DrawPosition.RightMid);
 
-        partial void ButtonPositionRT(NSObject sender) => UpdatePosition(sender, DrawPosition.RightTop);
+        partial void ActionPositionRT(NSObject sender) => UpdatePosition(sender, DrawPosition.RightTop);
 
-        partial void ButtonWordListDialog(NSObject sender)
+        partial void ActionWordListDropdown(NSObject sender) => SetDirty();
+
+        partial void ActionWordListDialog(NSObject sender)
         {
             try
             {
@@ -114,10 +149,9 @@ namespace RicePaper.MacOS
 
                     if (result != null)
                     {
-                        var path = result.Path;
-                        AppSettings.WordListPath = path;
+                        _wordPath = result.Path;
                         UpdateLabels();
-                        RiceScheduler.Update(changeImage: false, changeWord: true);
+                        SetDirty();
                     }
                 }
                 else
@@ -129,59 +163,7 @@ namespace RicePaper.MacOS
             catch (Exception) { }
         }
 
-        partial void CheckboxDefinition(NSObject sender)
-        {
-            AppSettings.TextOptions.Definition = !AppSettings.TextOptions.Definition;
-            RiceScheduler.Update(changeImage: false, changeWord: false);
-        }
-
-        partial void CheckboxEnglishSentence(NSObject sender)
-        {
-            AppSettings.TextOptions.EnglishSentence = !AppSettings.TextOptions.EnglishSentence;
-            RiceScheduler.Update(changeImage: false, changeWord: false);
-        }
-
-        partial void CheckboxFurigana(NSObject sender)
-        {
-            AppSettings.TextOptions.Furigana = !AppSettings.TextOptions.Furigana;
-            RiceScheduler.Update(changeImage: false, changeWord: false);
-        }
-
-        partial void CheckboxJapaneseSentence(NSObject sender)
-        {
-            AppSettings.TextOptions.JapaneseSentence = !AppSettings.TextOptions.JapaneseSentence;
-            RiceScheduler.Update(changeImage: false, changeWord: false);
-        }
-
-        partial void CheckboxKanji(NSObject sender)
-        {
-            AppSettings.TextOptions.Kanji = !AppSettings.TextOptions.Kanji;
-            RiceScheduler.Update(changeImage: false, changeWord: false);
-        }
-
-        partial void CheckboxRomaji(NSObject sender)
-        {
-            AppSettings.TextOptions.Romaji = !AppSettings.TextOptions.Romaji;
-            RiceScheduler.Update(changeImage: false, changeWord: false);
-        }
-
-        partial void DropdownDictionary(NSObject sender)
-        {
-            // At the moment only jisho.org is supported
-        }
-
-        partial void DropdownImageIntervalUnit(NSObject sender)
-        {
-            var choice = GetPopupButtonValue<CycleIntervalUnit>(sender);
-
-            if (AppSettings.ImageCycle.CycleType != choice)
-            {
-                AppSettings.ImageCycle.CycleType = choice;
-                RiceScheduler.Update(changeImage: true, changeWord: false);
-            }
-        }
-
-        partial void DropdownImageList(NSObject sender)
+        partial void ActionImageListDropdown(NSObject sender)
         {
             var choice = GetPopupButtonValue<ImageOptionType>(sender);
 
@@ -194,37 +176,15 @@ namespace RicePaper.MacOS
                     ButtonRefImagePicker.Enabled = false;
 
                 UpdateLabels();
+                SetDirty();
             }
         }
 
-        partial void DropdownWordIntervalUnit(NSObject sender)
-        {
-            var choice = GetPopupButtonValue<CycleIntervalUnit>(sender);
+        partial void DropdownImageIntervalUnit(NSObject sender) => SetDirty();
 
-            if (AppSettings.WordCycle.CycleType != choice)
-            {
-                AppSettings.WordCycle.CycleType = choice;
-                RiceScheduler.Update(changeImage: false, changeWord: true);
-            }
-        }
+        partial void DropdownWordIntervalUnit(NSObject sender) => SetDirty();
 
-        partial void DropdownWordList(NSObject sender)
-        {
-            var choice = GetPopupButtonValue<WordListSelection>(sender);
-
-            if (AppSettings.WordList != choice)
-            {
-                AppSettings.WordList = choice;
-                if (choice == WordListSelection.Custom)
-                    ButtonRefWordListPicker.Enabled = true;
-                else
-                    ButtonRefWordListPicker.Enabled = false;
-
-                UpdateLabels();
-            }
-        }
-
-        partial void FieldImageInterval(NSObject sender)
+        partial void ActionImageIntervalTextField(NSObject sender)
         {
             var field = sender as NSTextField;
             bool isInt = int.TryParse(field.StringValue, out int numberValue);
@@ -232,13 +192,11 @@ namespace RicePaper.MacOS
             if (isInt && numberValue > 0 && numberValue != AppSettings.ImageCycle.Interval)
             {
                 StepperRefImageInterval.StringValue = field.StringValue;
-
-                AppSettings.ImageCycle.Interval = numberValue;
-                RiceScheduler.Update(changeImage: true, changeWord: false);
+                SetDirty();
             }
         }
 
-        partial void FieldWordInterval(NSObject sender)
+        partial void ActionWordIntervalTextField(NSObject sender)
         {
             var field = sender as NSTextField;
             bool isInt = int.TryParse(field.StringValue, out int numberValue);
@@ -246,47 +204,53 @@ namespace RicePaper.MacOS
             if (isInt && numberValue > 0 && numberValue != AppSettings.WordCycle.Interval)
             {
                 StepperRefWordInterval.StringValue = field.StringValue;
-
-                AppSettings.WordCycle.Interval = numberValue;
-                RiceScheduler.Update(changeImage: false, changeWord: true);
+                SetDirty();
             }
         }
 
-        partial void RadioIterateInOrder(NSObject sender)
+        partial void ActionRadioIterateInOrder(NSObject sender)
         {
             ButtonRefRadioRandom.StringValue = "0";
-            AppSettings.WordSelection = WordSelection.InOrder;
-            RiceScheduler.Update(changeImage: false, changeWord: true);
+            _wordSelectionMode = WordSelectionMode.InOrder;
+            SetDirty();
         }
 
-        partial void RadioIterateRandom(NSObject sender)
+        partial void ActionRadioIterateRandom(NSObject sender)
         {
             ButtonRefRadioInOrder.StringValue = "0";
-            AppSettings.WordSelection = WordSelection.Random;
-            RiceScheduler.Update(changeImage: false, changeWord: true);
+            _wordSelectionMode = WordSelectionMode.Random;
+            SetDirty();
         }
 
-        partial void StepperImageInterval(NSObject sender)
+        partial void DropdownDictionary(NSObject sender)
+        {
+            SetDirty();
+        }
+
+        partial void ActionStepperImageInterval(NSObject sender)
         {
             var stepper = sender as NSStepper;
             int numberValue = int.Parse(stepper.StringValue);
 
             FieldRefImageInterval.StringValue = stepper.StringValue;
-
-            AppSettings.ImageCycle.Interval = numberValue;
-            RiceScheduler.Update(changeImage: false, changeWord: true);
+            SetDirty();
         }
 
-        partial void StepperWordInterval(NSObject sender)
+        partial void ActionStepperWordInterval(NSObject sender)
         {
             var stepper = sender as NSStepper;
             int numberValue = int.Parse(stepper.StringValue);
 
             FieldRefWordInterval.StringValue = stepper.StringValue;
-
-            AppSettings.WordCycle.Interval = numberValue;
-            RiceScheduler.Update(changeImage: true, changeWord: false);
+            SetDirty();
         }
+
+        partial void CheckboxKanji(NSObject sender) => SetDirty();
+        partial void CheckboxFurigana(NSObject sender) => SetDirty();
+        partial void CheckboxRomaji(NSObject sender) => SetDirty();
+        partial void CheckboxDefinition(NSObject sender) => SetDirty();
+        partial void CheckboxEnglishSentence(NSObject sender) => SetDirty();
+        partial void CheckboxJapaneseSentence(NSObject sender) => SetDirty();
         #endregion
 
         #region Private Helpers
@@ -305,8 +269,8 @@ namespace RicePaper.MacOS
             var button = sender as NSButton;
             button.AlphaValue = 1.0f;
 
-            AppSettings.DrawPosition = newPosition;
-            RiceScheduler.Update(changeImage: false, changeWord: false);
+            _drawPosition = newPosition;
+            SetDirty();
         }
 
         private void UpdateEntireUI()
@@ -338,8 +302,8 @@ namespace RicePaper.MacOS
                 case DrawPosition.RightBottom: ButtonRefPosRB.AlphaValue = 1; break;
             }
 
-            ButtonRefRadioInOrder.StringValue = (AppSettings.WordSelection == WordSelection.InOrder) ? "1" : "0";
-            ButtonRefRadioRandom.StringValue = (AppSettings.WordSelection == WordSelection.Random) ? "1" : "0";
+            ButtonRefRadioInOrder.StringValue = (AppSettings.WordSelection == WordSelectionMode.InOrder) ? "1" : "0";
+            ButtonRefRadioRandom.StringValue = (AppSettings.WordSelection == WordSelectionMode.Random) ? "1" : "0";
 
             DropdownRefImageList.SelectItem(DropdownRefImageList.Items()
                 .Where(x => x.AccessibilityIdentifier == AppSettings.ImageOption.ToString()).FirstOrDefault()
@@ -387,6 +351,45 @@ namespace RicePaper.MacOS
 
             return choice;
         }
+
+        private int GetUnitValue(NSObject sender)
+        {
+            var field = sender as NSTextField;
+            int numberValue = int.Parse(field.StringValue);
+
+            return numberValue;
+        }
+
+        private CycleInfo GetCycleInfo(NSObject unitDropdown, NSObject textField)
+        {
+            return new CycleInfo()
+            {
+                CycleType = GetPopupButtonValue<CycleIntervalUnit>(unitDropdown),
+                Interval = GetUnitValue(textField)
+            };
+        }
+
+        private bool GetCheckboxValue(NSObject sender)
+        {
+            var checkbox = sender as NSButton;
+            return (checkbox.StringValue == "0") ? false : true;
+        }
+
+        private TextOptions GetTextOptionsFromUI()
+        {
+            return new TextOptions()
+            {
+                Definition = GetCheckboxValue(ButtonRefDefinition),
+                EnglishSentence = GetCheckboxValue(ButtonRefEnglishSentence),
+                Furigana = GetCheckboxValue(ButtonRefFurigana),
+                JapaneseSentence = GetCheckboxValue(ButtonRefJapaneseSentence),
+                Kanji = GetCheckboxValue(ButtonRefKanji),
+                Romaji = GetCheckboxValue(ButtonRefRomaji)
+            };
+        }
+
+        private void SetDirty() => ButtonRefApply.Enabled = true;
+        private void SetClean() => ButtonRefApply.Enabled = false;
         #endregion
     }
 }

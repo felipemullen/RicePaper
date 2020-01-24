@@ -13,6 +13,9 @@ namespace RicePaper.MacOS
 	partial class ViewController
 	{
 		[Outlet]
+		AppKit.NSButton ButtonRefApply { get; set; }
+
+		[Outlet]
 		AppKit.NSButton ButtonRefDefinition { get; set; }
 
 		[Outlet]
@@ -70,7 +73,16 @@ namespace RicePaper.MacOS
 		AppKit.NSButton ButtonRefWordListPicker { get; set; }
 
 		[Outlet]
+		AppKit.NSPopUpButton DropdownRefDictionary { get; set; }
+
+		[Outlet]
+		AppKit.NSPopUpButton DropdownRefImageIntervalUnit { get; set; }
+
+		[Outlet]
 		AppKit.NSPopUpButton DropdownRefImageList { get; set; }
+
+		[Outlet]
+		AppKit.NSPopUpButton DropdownRefWordIntervalUnit { get; set; }
 
 		[Outlet]
 		AppKit.NSPopUpButton DropdownRefWordList { get; set; }
@@ -93,41 +105,71 @@ namespace RicePaper.MacOS
 		[Outlet]
 		AppKit.NSStepper StepperRefWordInterval { get; set; }
 
-		[Action ("ButtonImageDialog:")]
-		partial void ButtonImageDialog (AppKit.NSButton sender);
+		[Action ("ActionButtonApply:")]
+		partial void ActionButtonApply (Foundation.NSObject sender);
 
-		[Action ("ButtonNextWord:")]
-		partial void ButtonNextWord (Foundation.NSObject sender);
+		[Action ("ActionButtonNextImage:")]
+		partial void ActionButtonNextImage (Foundation.NSObject sender);
 
-		[Action ("ButtonPositionCB:")]
-		partial void ButtonPositionCB (Foundation.NSObject sender);
+		[Action ("ActionButtonNextWord:")]
+		partial void ActionButtonNextWord (Foundation.NSObject sender);
 
-		[Action ("ButtonPositionCM:")]
-		partial void ButtonPositionCM (Foundation.NSObject sender);
+		[Action ("ActionImageDialog:")]
+		partial void ActionImageDialog (AppKit.NSButton sender);
 
-		[Action ("ButtonPositionCT:")]
-		partial void ButtonPositionCT (Foundation.NSObject sender);
+		[Action ("ActionImageIntervalTextField:")]
+		partial void ActionImageIntervalTextField (Foundation.NSObject sender);
 
-		[Action ("ButtonPositionLB:")]
-		partial void ButtonPositionLB (Foundation.NSObject sender);
+		[Action ("ActionImageListDropdown:")]
+		partial void ActionImageListDropdown (Foundation.NSObject sender);
 
-		[Action ("ButtonPositionLM:")]
-		partial void ButtonPositionLM (Foundation.NSObject sender);
+		[Action ("ActionPositionCB:")]
+		partial void ActionPositionCB (Foundation.NSObject sender);
 
-		[Action ("ButtonPositionLT:")]
-		partial void ButtonPositionLT (Foundation.NSObject sender);
+		[Action ("ActionPositionCM:")]
+		partial void ActionPositionCM (Foundation.NSObject sender);
 
-		[Action ("ButtonPositionRB:")]
-		partial void ButtonPositionRB (Foundation.NSObject sender);
+		[Action ("ActionPositionCT:")]
+		partial void ActionPositionCT (Foundation.NSObject sender);
 
-		[Action ("ButtonPositionRM:")]
-		partial void ButtonPositionRM (Foundation.NSObject sender);
+		[Action ("ActionPositionLB:")]
+		partial void ActionPositionLB (Foundation.NSObject sender);
 
-		[Action ("ButtonPositionRT:")]
-		partial void ButtonPositionRT (Foundation.NSObject sender);
+		[Action ("ActionPositionLM:")]
+		partial void ActionPositionLM (Foundation.NSObject sender);
 
-		[Action ("ButtonWordListDialog:")]
-		partial void ButtonWordListDialog (Foundation.NSObject sender);
+		[Action ("ActionPositionLT:")]
+		partial void ActionPositionLT (Foundation.NSObject sender);
+
+		[Action ("ActionPositionRB:")]
+		partial void ActionPositionRB (Foundation.NSObject sender);
+
+		[Action ("ActionPositionRM:")]
+		partial void ActionPositionRM (Foundation.NSObject sender);
+
+		[Action ("ActionPositionRT:")]
+		partial void ActionPositionRT (Foundation.NSObject sender);
+
+		[Action ("ActionRadioIterateInOrder:")]
+		partial void ActionRadioIterateInOrder (Foundation.NSObject sender);
+
+		[Action ("ActionRadioIterateRandom:")]
+		partial void ActionRadioIterateRandom (Foundation.NSObject sender);
+
+		[Action ("ActionStepperImageInterval:")]
+		partial void ActionStepperImageInterval (Foundation.NSObject sender);
+
+		[Action ("ActionStepperWordInterval:")]
+		partial void ActionStepperWordInterval (Foundation.NSObject sender);
+
+		[Action ("ActionWordIntervalTextField:")]
+		partial void ActionWordIntervalTextField (Foundation.NSObject sender);
+
+		[Action ("ActionWordListDialog:")]
+		partial void ActionWordListDialog (Foundation.NSObject sender);
+
+		[Action ("ActionWordListDropdown:")]
+		partial void ActionWordListDropdown (Foundation.NSObject sender);
 
 		[Action ("CheckboxDefinition:")]
 		partial void CheckboxDefinition (Foundation.NSObject sender);
@@ -153,48 +195,29 @@ namespace RicePaper.MacOS
 		[Action ("DropdownImageIntervalUnit:")]
 		partial void DropdownImageIntervalUnit (Foundation.NSObject sender);
 
-		[Action ("DropdownImageList:")]
-		partial void DropdownImageList (Foundation.NSObject sender);
-
 		[Action ("DropdownWordIntervalUnit:")]
 		partial void DropdownWordIntervalUnit (Foundation.NSObject sender);
-
-		[Action ("DropdownWordList:")]
-		partial void DropdownWordList (Foundation.NSObject sender);
-
-		[Action ("FieldImageInterval:")]
-		partial void FieldImageInterval (Foundation.NSObject sender);
-
-		[Action ("FieldWordInterval:")]
-		partial void FieldWordInterval (Foundation.NSObject sender);
-
-		[Action ("RadioIterateInOrder:")]
-		partial void RadioIterateInOrder (Foundation.NSObject sender);
-
-		[Action ("RadioIterateRandom:")]
-		partial void RadioIterateRandom (Foundation.NSObject sender);
-
-		[Action ("StepperImageInterval:")]
-		partial void StepperImageInterval (Foundation.NSObject sender);
-
-		[Action ("StepperWordInterval:")]
-		partial void StepperWordInterval (Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (ButtonRefKanji != null) {
-				ButtonRefKanji.Dispose ();
-				ButtonRefKanji = null;
+			if (ButtonRefApply != null) {
+				ButtonRefApply.Dispose ();
+				ButtonRefApply = null;
 			}
 
-			if (ButtonRefFurigana != null) {
-				ButtonRefFurigana.Dispose ();
-				ButtonRefFurigana = null;
+			if (DropdownRefDictionary != null) {
+				DropdownRefDictionary.Dispose ();
+				DropdownRefDictionary = null;
 			}
 
-			if (ButtonRefRomaji != null) {
-				ButtonRefRomaji.Dispose ();
-				ButtonRefRomaji = null;
+			if (DropdownRefWordIntervalUnit != null) {
+				DropdownRefWordIntervalUnit.Dispose ();
+				DropdownRefWordIntervalUnit = null;
+			}
+
+			if (DropdownRefImageIntervalUnit != null) {
+				DropdownRefImageIntervalUnit.Dispose ();
+				DropdownRefImageIntervalUnit = null;
 			}
 
 			if (ButtonRefDefinition != null) {
@@ -207,14 +230,24 @@ namespace RicePaper.MacOS
 				ButtonRefEnglishSentence = null;
 			}
 
-			if (ButtonRefJapaneseSentence != null) {
-				ButtonRefJapaneseSentence.Dispose ();
-				ButtonRefJapaneseSentence = null;
+			if (ButtonRefFurigana != null) {
+				ButtonRefFurigana.Dispose ();
+				ButtonRefFurigana = null;
 			}
 
 			if (ButtonRefImagePicker != null) {
 				ButtonRefImagePicker.Dispose ();
 				ButtonRefImagePicker = null;
+			}
+
+			if (ButtonRefJapaneseSentence != null) {
+				ButtonRefJapaneseSentence.Dispose ();
+				ButtonRefJapaneseSentence = null;
+			}
+
+			if (ButtonRefKanji != null) {
+				ButtonRefKanji.Dispose ();
+				ButtonRefKanji = null;
 			}
 
 			if (ButtonRefPosCB != null) {
@@ -270,6 +303,11 @@ namespace RicePaper.MacOS
 			if (ButtonRefRadioRandom != null) {
 				ButtonRefRadioRandom.Dispose ();
 				ButtonRefRadioRandom = null;
+			}
+
+			if (ButtonRefRomaji != null) {
+				ButtonRefRomaji.Dispose ();
+				ButtonRefRomaji = null;
 			}
 
 			if (ButtonRefWordListPicker != null) {

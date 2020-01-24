@@ -27,7 +27,7 @@ namespace RicePaper.Lib.Model
                     WordCycle = CycleInfo.Default,
                     WordList = WordListSelection.MostFrequent1000,
                     WordListPath = GetFilePath(WordListSelection.MostFrequent1000),
-                    WordSelection = WordSelection.InOrder
+                    WordSelection = WordSelectionMode.InOrder
                 };
             }
         }
@@ -104,15 +104,16 @@ namespace RicePaper.Lib.Model
             get
             {
                 return (ImageOption == ImageOptionType.Custom)
-                    ? ImagePath
+                    ? _imagePath
                     : GetFolderPath(ImageOption);
             }
             set
             {
                 if (ImageOption == ImageOptionType.Custom)
-                    ImagePath = value;
+                    _imagePath = value;
             }
         }
+        private string _imagePath;
 
         public TextOptions TextOptions { get; set; }
 
@@ -125,18 +126,19 @@ namespace RicePaper.Lib.Model
             get
             {
                 if (WordList == WordListSelection.Custom)
-                    return WordListPath;
+                    return _wordlistPath;
 
                 return GetFilePath(WordList);
             }
             set
             {
                 if (WordList == WordListSelection.Custom)
-                    WordListPath = value;
+                    _wordlistPath = value;
             }
         }
+        private string _wordlistPath;
 
-        public WordSelection WordSelection { get; set; }
+        public WordSelectionMode WordSelection { get; set; }
 
         public DictionarySelection Dictionary { get; set; }
 
@@ -146,8 +148,8 @@ namespace RicePaper.Lib.Model
 
         public AppState State { get; set; }
 
-        public string ImagePathLabel => (ImageOption == ImageOptionType.Custom) ? ImagePath : $"Image Set: {ImageOption.ToString()}";
-        public string WordListPathLabel => (WordList == WordListSelection.Custom) ? WordListPath : $"Word List: {WordList.ToString()}";
+        public string ImagePathLabel => (ImageOption == ImageOptionType.Custom && ImagePath != null) ? ImagePath : $"Image Set: {ImageOption.ToString()}";
+        public string WordListPathLabel => (WordList == WordListSelection.Custom && WordListPath != null) ? WordListPath : $"Word List: {WordList.ToString()}";
         #endregion
 
         /// <summary>
