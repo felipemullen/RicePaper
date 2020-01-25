@@ -20,7 +20,14 @@ namespace RicePaper.Lib
         #region ListIterator Implementation
         protected override IList<string> LoadData()
         {
-            var imageDirectory = new DirectoryInfo(this.settings.ImagePath);
+            return LoadData(this.settings.ImagePath);
+        }
+
+        protected override IList<string> LoadData(string path)
+        {
+            settings.State.LastImagePath = path;
+
+            var imageDirectory = new DirectoryInfo(path);
 
             var imageFiles = imageDirectory
                 .EnumerateFiles()
@@ -30,11 +37,15 @@ namespace RicePaper.Lib
             return imageFiles.ToList();
         }
 
-        protected override void PostIncrement(int preIncrement, int currentIndex)
+        public override void LoadNewList(string path)
         {
-            // TODO: implement random ordering
-            this.index = this.index % this.currentList.Count;
-            settings.State.ImageIndex = index;
+            base.LoadNewList(path);
+            settings.State.LastImagePath = path;
+        }
+
+        protected override void PostIncrement(int preIncrement, int postIncrement)
+        {
+            settings.State.ImageIndex = postIncrement;
         }
         #endregion
     }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using AppKit;
 using RicePaper.Lib.Model;
 
 namespace RicePaper.Lib.Dictionary
@@ -30,15 +31,27 @@ namespace RicePaper.Lib.Dictionary
         #region ListIterator Implementation
         protected override IList<string> LoadData()
         {
+            return LoadData(this.settings.WordListPath);
+        }
+
+        protected override IList<string> LoadData(string path)
+        {
+            settings.State.LastWordListPath = path;
+
             var wordList = File.ReadAllLines(this.settings.WordListPath);
 
             return wordList;
         }
 
-        protected override void PostIncrement(int preIncrement, int index)
+        public override void LoadNewList(string path)
         {
-            this.index = this.index % this.currentList.Count;
-            settings.State.WordIndex = this.index;
+            base.LoadNewList(path);
+            settings.State.LastWordListPath = path;
+        }
+
+        protected override void PostIncrement(int preIncrement, int postIncrement)
+        {
+            settings.State.WordIndex = postIncrement;
         }
         #endregion
     }

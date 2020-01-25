@@ -3,6 +3,7 @@ using System.Linq;
 using AppKit;
 using Foundation;
 using RicePaper.Lib;
+using RicePaper.Lib.Dictionary;
 using RicePaper.Lib.Model;
 
 namespace RicePaper.MacOS
@@ -12,8 +13,10 @@ namespace RicePaper.MacOS
         #region Private Fields
         private DrawPosition _drawPosition;
         private WordSelectionMode _wordSelectionMode;
+        private ImageOptionType _imageOptionType = ImageOptionType.Unset;
+        private WordListSelection _wordListSelection = WordListSelection.Unset;
         private string _imagePath;
-        private string _wordPath;
+        private string _wordListPath;
         #endregion
 
         #region Properties
@@ -28,7 +31,9 @@ namespace RicePaper.MacOS
         }
 
         public AppSettings AppSettings { get; set; }
-        public RiceScheduler RiceScheduler { get; internal set; }
+        public RiceScheduler RiceScheduler { get; set; }
+        public RiceDictionary RiceDictionary { get; internal set; }
+        public WallpaperList ImageList { get; internal set; }
         #endregion
 
         #region Constructor
@@ -38,32 +43,67 @@ namespace RicePaper.MacOS
         #region NS Lifecycle
         public override void ViewWillLayout()
         {
-            // TODO: Dialog layer sorting
+            LoadVolatileValues();
 
             // TODO: populate dropdowns with enum values
             UpdateEntireUI();
 
             base.ViewWillLayout();
         }
+
+        /// <summary>
+        /// I couldn't think of a more appropriate name for this method after
+        /// a good 10 seconds of pondering. The responsibility of this method
+        /// is to set the values for variables used in this controller that
+        /// come straight from AppSettings but need to be loaded before
+        /// the UI is rendered
+        /// </summary>
+        private void LoadVolatileValues()
+        {
+            _imagePath = AppSettings.UserImagePath;
+            _wordListPath = AppSettings.UserWordListPath;
+
+            _imageOptionType = AppSettings.ImageOption;
+            _wordListSelection = AppSettings.WordList;
+        }
         #endregion
 
         #region Action Handlers
         partial void ActionButtonApply(NSObject sender)
         {
+            AppSettings.WordList = GetPopupButtonValue<WordListSelection>(DropdownRefWordList);
+            AppSettings.ImageOption = GetPopupButtonValue<ImageOptionType>(DropdownRefImageList);
+
+            if (AppSettings.State.LastImagePath != _imagePath || AppSettings.ImageOption != _imageOptionType)
+            {
+                ImageList.LoadNewList(AppSettings.ImagePath);
+            }
+
+            if (AppSettings.State.LastWordListPath != _wordListPath || AppSettings.WordList != _wordListSelection)
+            {
+                RiceDictionary.LoadNewList(AppSettings.WordListPath);
+            }
+
             AppSettings.Dictionary = GetPopupButtonValue<DictionarySelection>(DropdownRefDictionary);
             AppSettings.DrawPosition = _drawPosition;
             AppSettings.ImageCycle = GetCycleInfo(DropdownRefImageIntervalUnit, FieldRefImageInterval);
-            AppSettings.ImageOption = GetPopupButtonValue<ImageOptionType>(DropdownRefImageList);
+
             AppSettings.ImagePath = _imagePath;
             AppSettings.TextOptions = GetTextOptionsFromUI();
             AppSettings.WordCycle = GetCycleInfo(DropdownRefWordIntervalUnit, FieldRefWordInterval);
-            AppSettings.WordList = GetPopupButtonValue<WordListSelection>(DropdownRefWordList);
-            AppSettings.WordListPath = _wordPath;
+
+            AppSettings.WordListPath = _wordListPath;
             AppSettings.WordSelection = _wordSelectionMode;
 
             SetClean();
 
             RiceScheduler.Update(changeImage: true, changeWord: true);
+
+            try
+            {
+                AppSettings.Save(AppSettings);
+            }
+            catch (Exception) { }
         }
 
         partial void ActionImageDialog(NSButton sender)
@@ -114,8 +154,6 @@ namespace RicePaper.MacOS
 
         partial void ActionPositionRT(NSObject sender) => UpdatePosition(sender, DrawPosition.RightTop);
 
-        partial void ActionWordListDropdown(NSObject sender) => SetDirty();
-
         partial void ActionWordListDialog(NSObject sender)
         {
             var dialog = NSOpenPanel.OpenPanel;
@@ -146,13 +184,26 @@ namespace RicePaper.MacOS
         {
             var choice = GetPopupButtonValue<ImageOptionType>(sender);
 
-            if (AppSettings.ImageOption != choice)
+            if (_imageOptionType != choice)
             {
-                AppSettings.ImageOption = choice;
-                if (choice == ImageOptionType.Custom)
-                    ButtonRefImagePicker.Enabled = true;
-                else
-                    ButtonRefImagePicker.Enabled = false;
+                _imageOptionType = choice;
+
+                ButtonRefImagePicker.Enabled = (choice == ImageOptionType.Custom);
+
+                UpdateLabels();
+                SetDirty();
+            }
+        }
+
+        partial void ActionWordListDropdown(NSObject sender)
+        {
+            var choice = GetPopupButtonValue<WordListSelection>(sender);
+
+            if (_wordListSelection != choice)
+            {
+                _wordListSelection = choice;
+
+                ButtonRefWordListPicker.Enabled = (choice == WordListSelection.Custom);
 
                 UpdateLabels();
                 SetDirty();
@@ -209,7 +260,6 @@ namespace RicePaper.MacOS
         partial void ActionStepperImageInterval(NSObject sender)
         {
             var stepper = sender as NSStepper;
-            int numberValue = int.Parse(stepper.StringValue);
 
             FieldRefImageInterval.StringValue = stepper.StringValue;
             SetDirty();
@@ -218,7 +268,6 @@ namespace RicePaper.MacOS
         partial void ActionStepperWordInterval(NSObject sender)
         {
             var stepper = sender as NSStepper;
-            int numberValue = int.Parse(stepper.StringValue);
 
             FieldRefWordInterval.StringValue = stepper.StringValue;
             SetDirty();
@@ -298,21 +347,27 @@ namespace RicePaper.MacOS
             FieldRefWordInterval.StringValue = AppSettings.WordCycle.Interval.ToString();
             StepperRefWordInterval.StringValue = AppSettings.WordCycle.Interval.ToString();
 
-            LabelImagePath.StringValue = AppSettings.ImagePathLabel;
-            LabelWordListPath.StringValue = AppSettings.WordListPathLabel;
-
             ButtonRefKanji.StringValue = (AppSettings.TextOptions.Kanji) ? "1" : "0";
             ButtonRefFurigana.StringValue = (AppSettings.TextOptions.Furigana) ? "1" : "0";
             ButtonRefRomaji.StringValue = (AppSettings.TextOptions.Romaji) ? "1" : "0";
             ButtonRefDefinition.StringValue = (AppSettings.TextOptions.Definition) ? "1" : "0";
             ButtonRefEnglishSentence.StringValue = (AppSettings.TextOptions.EnglishSentence) ? "1" : "0";
             ButtonRefJapaneseSentence.StringValue = (AppSettings.TextOptions.JapaneseSentence) ? "1" : "0";
+
+            UpdateLabels();
         }
 
         private void UpdateLabels()
         {
-            LabelImagePath.StringValue = AppSettings.ImagePathLabel;
-            LabelWordListPath.StringValue = AppSettings.WordListPathLabel;
+            if (_imageOptionType == ImageOptionType.Custom && string.IsNullOrWhiteSpace(_imagePath) != true)
+                LabelImagePath.StringValue = _imagePath;
+            else
+                LabelImagePath.StringValue = $"Image Set: {DropdownRefImageList.Title}";
+
+            if (_wordListSelection == WordListSelection.Custom && string.IsNullOrWhiteSpace(_wordListPath) != true)
+                LabelWordListPath.StringValue = _wordListPath;
+            else
+                LabelWordListPath.StringValue = $"Word List: {DropdownRefWordList.Title}";
         }
 
         /// <summary>

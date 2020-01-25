@@ -3,6 +3,7 @@ using AppKit;
 using CoreGraphics;
 using Foundation;
 using RicePaper.Lib;
+using RicePaper.Lib.Dictionary;
 using RicePaper.Lib.Model;
 
 namespace RicePaper.MacOS
@@ -15,6 +16,8 @@ namespace RicePaper.MacOS
         #endregion
 
         #region Private Fields
+        private readonly RiceDictionary riceDict;
+        private readonly WallpaperList imageList;
         private readonly RiceScheduler riceScheduler;
         private readonly AppSettings settings;
         #endregion
@@ -30,7 +33,10 @@ namespace RicePaper.MacOS
         public AppDelegate()
         {
             settings = AppSettings.Load();
-            riceScheduler = new RiceScheduler(settings);
+
+            riceDict = new RiceDictionary(settings);
+            imageList = new WallpaperList(settings);
+            riceScheduler = new RiceScheduler(settings, riceDict, imageList);
 
             popoverView = new NSPopover();
 
@@ -49,6 +55,8 @@ namespace RicePaper.MacOS
 
             viewController = mainStoryboard.InstantiateControllerWithIdentifier("ViewController") as ViewController;
             viewController.AppSettings = this.settings;
+            viewController.RiceDictionary = this.riceDict;
+            viewController.ImageList = this.imageList;
             viewController.RiceScheduler = riceScheduler;
 
             popoverView.ContentViewController = viewController;

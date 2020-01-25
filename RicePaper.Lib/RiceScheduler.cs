@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-using System.Threading.Tasks;
 using Foundation;
 using RicePaper.Lib.Dictionary;
 using RicePaper.Lib.Model;
@@ -20,12 +19,12 @@ namespace RicePaper.Lib
         #endregion
 
         #region Constructor
-        public RiceScheduler(AppSettings settings)
+        public RiceScheduler(AppSettings settings, RiceDictionary riceDict, WallpaperList imageList)
         {
             this.settings = settings;
             wallpaperUtility = new WallpaperMaker();
-            riceDict = new RiceDictionary(settings);
-            imageList = new WallpaperList(settings);
+            this.riceDict = riceDict;
+            this.imageList = imageList;
 
             timers = new List<Timer>();
         }
@@ -91,12 +90,6 @@ namespace RicePaper.Lib
                 imageList.Increment();
             if (changeWord)
                 riceDict.Increment();
-
-            try
-            {
-                AppSettings.Save(settings);
-            }
-            catch (Exception) { }
         }
         #endregion
 

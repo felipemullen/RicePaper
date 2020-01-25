@@ -18,7 +18,8 @@
         Japan,
         Abstract,
         Nature,
-        Custom
+        Custom,
+        Unset
     }
 
     public enum WordListSelection
@@ -32,7 +33,8 @@
         JLPTN2,
         JLPTN1,
         Core6K,
-        Custom
+        Custom,
+        Unset
     }
 
     public enum AspectMode

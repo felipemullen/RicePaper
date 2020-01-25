@@ -21,12 +21,12 @@ namespace RicePaper.Lib.Model
                     DrawPosition = DrawPosition.LeftTop,
                     ImageCycle = CycleInfo.Default,
                     ImageOption = ImageOptionType.Japan,
-                    ImagePath = GetFolderPath(ImageOptionType.Japan),
+                    ImagePath = string.Empty,
                     State = new AppState(),
                     TextOptions = TextOptions.Default,
                     WordCycle = CycleInfo.Default,
                     WordList = WordListSelection.MostFrequent1000,
-                    WordListPath = GetFilePath(WordListSelection.MostFrequent1000),
+                    WordListPath = string.Empty,
                     WordSelection = WordSelectionMode.InOrder
                 };
             }
@@ -103,17 +103,14 @@ namespace RicePaper.Lib.Model
         {
             get
             {
-                return (ImageOption == ImageOptionType.Custom)
-                    ? _imagePath
+                return (ImageOption == ImageOptionType.Custom && string.IsNullOrWhiteSpace(UserImagePath) != true)
+                    ? UserImagePath
                     : GetFolderPath(ImageOption);
             }
-            set
-            {
-                if (ImageOption == ImageOptionType.Custom)
-                    _imagePath = value;
-            }
+            set { UserImagePath = value; }
         }
-        private string _imagePath;
+
+        public string UserImagePath { get; private set; }
 
         public TextOptions TextOptions { get; set; }
 
@@ -125,18 +122,14 @@ namespace RicePaper.Lib.Model
         {
             get
             {
-                if (WordList == WordListSelection.Custom)
-                    return _wordlistPath;
-
-                return GetFilePath(WordList);
+                return (WordList == WordListSelection.Custom && string.IsNullOrWhiteSpace(UserWordListPath) != true)
+                    ? UserWordListPath
+                    : GetFilePath(WordList);
             }
-            set
-            {
-                if (WordList == WordListSelection.Custom)
-                    _wordlistPath = value;
-            }
+            set { UserWordListPath = value; }
         }
-        private string _wordlistPath;
+
+        public string UserWordListPath { get; private set; }
 
         public WordSelectionMode WordSelection { get; set; }
 
@@ -148,8 +141,6 @@ namespace RicePaper.Lib.Model
 
         public AppState State { get; set; }
 
-        public string ImagePathLabel => (ImageOption == ImageOptionType.Custom && ImagePath != null) ? ImagePath : $"Image Set: {ImageOption.ToString()}";
-        public string WordListPathLabel => (WordList == WordListSelection.Custom && WordListPath != null) ? WordListPath : $"Word List: {WordList.ToString()}";
         #endregion
 
         /// <summary>
