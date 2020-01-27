@@ -12,21 +12,12 @@ namespace RicePaper.Lib
         #endregion
 
         #region Constructor
-        public WallpaperList(AppSettings settings) : base(settings, settings.State.ImageIndex)
-        {
-        }
+        public WallpaperList() : base() { }
         #endregion
 
         #region ListIterator Implementation
-        protected override IList<string> LoadData()
-        {
-            return LoadData(this.settings.ImagePath);
-        }
-
         protected override IList<string> LoadData(string path)
         {
-            settings.State.LastImagePath = path;
-
             var imageDirectory = new DirectoryInfo(path);
 
             var imageFiles = imageDirectory
@@ -36,16 +27,13 @@ namespace RicePaper.Lib
 
             return imageFiles.ToList();
         }
+        #endregion
 
-        public override void LoadNewList(string path)
+        #region Public Methods
+        public void Load(ImageOptionType option)
         {
-            base.LoadNewList(path);
-            settings.State.LastImagePath = path;
-        }
-
-        protected override void PostIncrement(int preIncrement, int postIncrement)
-        {
-            settings.State.ImageIndex = postIncrement;
+            string path = AppSettings.GetFolderPath(option);
+            Load(path);
         }
         #endregion
     }

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using AppKit;
 using RicePaper.Lib.Model;
 
 namespace RicePaper.Lib.Dictionary
@@ -12,7 +11,7 @@ namespace RicePaper.Lib.Dictionary
         #endregion
 
         #region Constructor
-        public RiceDictionary(AppSettings settings) : base(settings, settings.State.WordIndex)
+        public RiceDictionary() : base()
         {
             this.jishoApi = new JishoApi();
         }
@@ -29,29 +28,19 @@ namespace RicePaper.Lib.Dictionary
         #endregion
 
         #region ListIterator Implementation
-        protected override IList<string> LoadData()
-        {
-            return LoadData(this.settings.WordListPath);
-        }
-
         protected override IList<string> LoadData(string path)
         {
-            settings.State.LastWordListPath = path;
-
-            var wordList = File.ReadAllLines(this.settings.WordListPath);
+            var wordList = File.ReadAllLines(path);
 
             return wordList;
         }
+        #endregion
 
-        public override void LoadNewList(string path)
+        #region Public Methods
+        public void Load(WordListSelection option)
         {
-            base.LoadNewList(path);
-            settings.State.LastWordListPath = path;
-        }
-
-        protected override void PostIncrement(int preIncrement, int postIncrement)
-        {
-            settings.State.WordIndex = postIncrement;
+            var filePath = AppSettings.GetFilePath(option);
+            Load(filePath);
         }
         #endregion
     }

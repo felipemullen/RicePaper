@@ -71,33 +71,67 @@ namespace RicePaper.MacOS
         #region Action Handlers
         partial void ActionButtonApply(NSObject sender)
         {
-            AppSettings.WordList = GetPopupButtonValue<WordListSelection>(DropdownRefWordList);
-            AppSettings.ImageOption = GetPopupButtonValue<ImageOptionType>(DropdownRefImageList);
+            if (!ValidateSettings())
+                return;
 
-            if (AppSettings.State.LastImagePath != _imagePath || AppSettings.ImageOption != _imageOptionType)
+            bool imageFolderWasChanged = false;
+            bool wordListWasChanged = false;
+
+            if (AppSettings.ImageOption != _imageOptionType)
             {
-                ImageList.LoadNewList(AppSettings.ImagePath);
+                if (_imageOptionType == ImageOptionType.Custom)
+                {
+                    ImageList.Load(_imagePath);
+                    AppSettings.UserImagePath = _imagePath;
+                }
+                else
+                {
+                    ImageList.Load(_imageOptionType);
+                }
+
+                AppSettings.ImageOption = GetPopupButtonValue<ImageOptionType>(DropdownRefImageList);
+                imageFolderWasChanged = true;
             }
 
-            if (AppSettings.State.LastWordListPath != _wordListPath || AppSettings.WordList != _wordListSelection)
+            else if (AppSettings.ImageOption == ImageOptionType.Custom && _imageOptionType == ImageOptionType.Custom && AppSettings.UserImagePath != _imagePath)
             {
-                RiceDictionary.LoadNewList(AppSettings.WordListPath);
+                ImageList.Load(_imagePath);
+                AppSettings.UserImagePath = _imagePath;
+                imageFolderWasChanged = true;
+            }
+
+            if (AppSettings.WordList != _wordListSelection)
+            {
+                if (_wordListSelection == WordListSelection.Custom)
+                {
+                    RiceDictionary.Load(_wordListPath);
+                    AppSettings.UserWordListPath = _wordListPath;
+                }
+                else
+                {
+                    RiceDictionary.Load(_wordListSelection);
+                }
+
+                AppSettings.WordList = GetPopupButtonValue<WordListSelection>(DropdownRefWordList);
+                wordListWasChanged = true;
+            }
+            else if (AppSettings.WordList == WordListSelection.Custom && _wordListSelection == WordListSelection.Custom && AppSettings.UserWordListPath != _wordListPath)
+            {
+                RiceDictionary.Load(_wordListPath);
+                AppSettings.UserWordListPath = _wordListPath;
+                wordListWasChanged = true;
             }
 
             AppSettings.Dictionary = GetPopupButtonValue<DictionarySelection>(DropdownRefDictionary);
             AppSettings.DrawPosition = _drawPosition;
             AppSettings.ImageCycle = GetCycleInfo(DropdownRefImageIntervalUnit, FieldRefImageInterval);
-
-            AppSettings.ImagePath = _imagePath;
             AppSettings.TextOptions = GetTextOptionsFromUI();
             AppSettings.WordCycle = GetCycleInfo(DropdownRefWordIntervalUnit, FieldRefWordInterval);
-
-            AppSettings.WordListPath = _wordListPath;
             AppSettings.WordSelection = _wordSelectionMode;
 
             SetClean();
 
-            RiceScheduler.Update(changeImage: true, changeWord: true);
+            RiceScheduler.Update(changeImage: imageFolderWasChanged, changeWord: wordListWasChanged);
 
             try
             {
@@ -282,6 +316,38 @@ namespace RicePaper.MacOS
         #endregion
 
         #region Private Helpers
+        private bool ValidateSettings()
+        {
+            if (_imageOptionType == ImageOptionType.Custom && string.IsNullOrWhiteSpace(_imagePath))
+            {
+                // TODO: Refactor alerts to util class
+                var alert = new NSAlert()
+                {
+                    AlertStyle = NSAlertStyle.Critical,
+                    MessageText = "Invalid Settings",
+                    InformativeText = "Please specify a folder path for custom images"
+                };
+                alert.BeginSheet(this.View.Window);
+
+                return false;
+            }
+
+            if (_wordListSelection == WordListSelection.Custom && string.IsNullOrWhiteSpace(_wordListPath))
+            {
+                var alert = new NSAlert()
+                {
+                    AlertStyle = NSAlertStyle.Critical,
+                    MessageText = "Invalid Settings",
+                    InformativeText = "Please specify a file path for custom word lists"
+                };
+                alert.BeginSheet(this.View.Window);
+
+                return false;
+            }
+
+            return true;
+        }
+
         private void UpdatePosition(NSObject sender, DrawPosition newPosition)
         {
             ButtonRefPosLT.AlphaValue = 0.6f;

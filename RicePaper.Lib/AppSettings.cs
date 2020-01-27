@@ -21,13 +21,13 @@ namespace RicePaper.Lib.Model
                     DrawPosition = DrawPosition.LeftTop,
                     ImageCycle = CycleInfo.Default,
                     ImageOption = ImageOptionType.Japan,
-                    ImagePath = string.Empty,
+                    UserImagePath = string.Empty,
                     State = new AppState(),
                     TextOptions = TextOptions.Default,
                     WordCycle = CycleInfo.Default,
                     WordList = WordListSelection.MostFrequent1000,
-                    WordListPath = string.Empty,
-                    WordSelection = WordSelectionMode.InOrder
+                    UserWordListPath = string.Empty,
+                    WordSelection = WordSelectionMode.InOrder,
                 };
             }
         }
@@ -57,7 +57,7 @@ namespace RicePaper.Lib.Model
             if (settings.ImageCycle == null)
                 settings.ImageCycle = CycleInfo.Default;
 
-            if (settings.ImageOption == ImageOptionType.Custom && settings.ImagePath == null)
+            if (settings.ImageOption == ImageOptionType.Custom && string.IsNullOrWhiteSpace(settings.UserImagePath))
                 settings.ImageOption = ImageOptionType.Japan;
 
             if (settings.State == null)
@@ -69,7 +69,7 @@ namespace RicePaper.Lib.Model
             if (settings.WordCycle == null)
                 settings.WordCycle = CycleInfo.Default;
 
-            if (settings.WordList == WordListSelection.Custom && settings.WordListPath == null)
+            if (settings.WordList == WordListSelection.Custom && string.IsNullOrWhiteSpace(settings.WordListPath))
                 settings.WordList = WordListSelection.MostFrequent1000;
         }
 
@@ -81,13 +81,12 @@ namespace RicePaper.Lib.Model
             valueStore.Synchronize();
         }
 
-        private static string GetFolderPath(ImageOptionType type)
+        public static string GetFolderPath(ImageOptionType type)
         {
-
             return Path.Combine(AppRoot, "Resources/Content/Images", type.ToString());
         }
 
-        private static string GetFilePath(WordListSelection list)
+        public static string GetFilePath(WordListSelection list)
         {
             return Path.Combine(AppRoot, "Resources/Content/WordLists", $"{list}.list");
         }
@@ -103,14 +102,13 @@ namespace RicePaper.Lib.Model
         {
             get
             {
-                return (ImageOption == ImageOptionType.Custom && string.IsNullOrWhiteSpace(UserImagePath) != true)
+                return (ImageOption == ImageOptionType.Custom)
                     ? UserImagePath
                     : GetFolderPath(ImageOption);
             }
-            set { UserImagePath = value; }
         }
 
-        public string UserImagePath { get; private set; }
+        public string UserImagePath { get; set; }
 
         public TextOptions TextOptions { get; set; }
 
@@ -122,14 +120,13 @@ namespace RicePaper.Lib.Model
         {
             get
             {
-                return (WordList == WordListSelection.Custom && string.IsNullOrWhiteSpace(UserWordListPath) != true)
+                return (WordList == WordListSelection.Custom)
                     ? UserWordListPath
                     : GetFilePath(WordList);
             }
-            set { UserWordListPath = value; }
         }
 
-        public string UserWordListPath { get; private set; }
+        public string UserWordListPath { get; set; }
 
         public WordSelectionMode WordSelection { get; set; }
 

@@ -34,9 +34,12 @@ namespace RicePaper.MacOS
         {
             settings = AppSettings.Load();
 
-            riceDict = new RiceDictionary(settings);
-            imageList = new WallpaperList(settings);
+            riceDict = new RiceDictionary();
+            imageList = new WallpaperList();
             riceScheduler = new RiceScheduler(settings, riceDict, imageList);
+
+            riceDict.Load(settings.WordListPath, settings.State.WordIndex);
+            imageList.Load(settings.ImagePath, settings.State.ImageIndex);
 
             popoverView = new NSPopover();
 

@@ -1,27 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using RicePaper.Lib.Model;
+﻿using System.Collections.Generic;
 
 namespace RicePaper.Lib
 {
     public abstract class ListIterator<T>
     {
         #region Protected Fields
-        protected readonly AppSettings settings;
         private int index;
         private int max;
         protected IList<T> currentList;
         #endregion
 
         #region Constructor
-        public ListIterator(AppSettings settings, int startAt = 0)
-        {
-            this.settings = settings;
-
-            currentList = LoadData();
-
-            Reset(currentList.Count, startAt);
-        }
+        public ListIterator() { }
 
         protected void Reset(int max = 0, int startAt = 0)
         {
@@ -31,25 +21,22 @@ namespace RicePaper.Lib
         #endregion
 
         #region Abstract Methods
-        protected abstract IList<T> LoadData();
         protected abstract IList<T> LoadData(string path);
-        protected abstract void PostIncrement(int preIncrement, int postIncrement);
         #endregion
 
         #region Public Methods
         public virtual T CurrentItem => currentList[index];
 
-        public virtual void LoadNewList(string path)
+        public virtual void Load(string path, int startAt = 0)
         {
             this.currentList = LoadData(path);
-            Reset(this.currentList.Count);
+            Reset(this.currentList.Count, startAt);
         }
 
-        public void Increment()
+        public int Increment()
         {
-            int preIncrement = index;
             index = (index + 1) % max;
-            PostIncrement(preIncrement, index);
+            return index;
         }
         #endregion
     }

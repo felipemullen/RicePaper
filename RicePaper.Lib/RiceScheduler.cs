@@ -73,7 +73,7 @@ namespace RicePaper.Lib
 
         public void Update(bool changeImage, bool changeWord)
         {
-            var currentWord = riceDict.CurrentDefinition();
+            TextDetails currentWord = riceDict.CurrentDefinition();
 
             var parameters = new DrawParameters
             {
@@ -87,9 +87,10 @@ namespace RicePaper.Lib
             wallpaperUtility.SetWallpaper(imagePath, parameters);
 
             if (changeImage)
-                imageList.Increment();
+                settings.State.ImageIndex = imageList.Increment();
+
             if (changeWord)
-                riceDict.Increment();
+                settings.State.WordIndex = riceDict.Increment();
         }
         #endregion
 
