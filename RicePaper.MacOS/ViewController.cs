@@ -407,6 +407,14 @@ namespace RicePaper.MacOS
                 .Where(x => x.AccessibilityIdentifier == AppSettings.WordList.ToString()).FirstOrDefault()
             );
 
+            DropdownRefImageIntervalUnit.SelectItem(DropdownRefImageIntervalUnit.Items()
+                .Where(x => x.AccessibilityIdentifier == AppSettings.ImageCycle.CycleType.ToString()).FirstOrDefault()
+            );
+
+            DropdownRefWordIntervalUnit.SelectItem(DropdownRefWordIntervalUnit.Items()
+                .Where(x => x.AccessibilityIdentifier == AppSettings.WordCycle.CycleType.ToString()).FirstOrDefault()
+            );
+
             FieldRefImageInterval.StringValue = AppSettings.ImageCycle.Interval.ToString();
             StepperRefImageInterval.StringValue = AppSettings.ImageCycle.Interval.ToString();
 
