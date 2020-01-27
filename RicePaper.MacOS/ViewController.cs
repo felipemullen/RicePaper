@@ -131,7 +131,7 @@ namespace RicePaper.MacOS
 
             SetClean();
 
-            RiceScheduler.Update(changeImage: imageFolderWasChanged, changeWord: wordListWasChanged);
+            RiceScheduler.ForcedUpdate(changeImage: imageFolderWasChanged, changeWord: wordListWasChanged);
 
             try
             {
@@ -166,9 +166,9 @@ namespace RicePaper.MacOS
             });
         }
 
-        partial void ActionButtonNextImage(NSObject sender) => RiceScheduler.Update(true, false);
+        partial void ActionButtonNextImage(NSObject sender) => RiceScheduler.ForcedUpdate(true, false);
 
-        partial void ActionButtonNextWord(NSObject sender) => RiceScheduler.Update(false, true);
+        partial void ActionButtonNextWord(NSObject sender) => RiceScheduler.ForcedUpdate(false, true);
 
         partial void ActionPositionCB(NSObject sender) => UpdatePosition(sender, DrawPosition.CenterBottom);
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Threading;
 using Foundation;
 using RicePaper.Lib.Dictionary;
@@ -31,9 +32,20 @@ namespace RicePaper.Lib
         #endregion
 
         #region Public Methods
-        public void BeginScheduling()
+        public void BeginScheduling(bool startImmediate = true)
         {
             CancelAllTimers();
+
+            if (startImmediate == true)
+            {
+                settings.ImageCycle.DueTime = null;
+                settings.WordCycle.DueTime = null;
+            }
+            else
+            {
+                settings.ImageCycle.DueTime = DateTime.Now.Add(settings.ImageCycle.Period) - DateTime.Now;
+                settings.WordCycle.DueTime = DateTime.Now.Add(settings.WordCycle.Period) - DateTime.Now;
+            }
 
             if (settings.ImageCycle.Period == settings.WordCycle.Period)
             {
@@ -50,9 +62,12 @@ namespace RicePaper.Lib
         #region Private Helpers
         private void CancelAllTimers()
         {
-            foreach (var timer in timers)
+            for (int i = timers.Count - 1; i >= 0; i--)
             {
+                var timer = timers[i];
                 timer.Change(Timeout.Infinite, Timeout.Infinite);
+
+                timers.RemoveAt(i);
             }
         }
 
@@ -66,12 +81,12 @@ namespace RicePaper.Lib
                 {
                     pool.InvokeOnMainThread(task);
                 }
-            }, null, timeLeft, cycle.Period);
+            }, cycle.DueTime, timeLeft, cycle.Period);
 
             timers.Add(timer);
         }
 
-        public void Update(bool changeImage, bool changeWord)
+        private void Update(bool changeImage, bool changeWord)
         {
             TextDetails currentWord = riceDict.CurrentDefinition();
 
@@ -91,6 +106,16 @@ namespace RicePaper.Lib
 
             if (changeWord)
                 settings.State.WordIndex = riceDict.Increment();
+        }
+
+        /// <summary>
+        /// Similar to Update() except it will reset timers to make sure there
+        /// are no double updates taking place
+        /// </summary>
+        public void ForcedUpdate(bool changeImage, bool changeWord)
+        {
+            BeginScheduling(startImmediate: false);
+            Update(changeImage, changeWord);
         }
         #endregion
 
