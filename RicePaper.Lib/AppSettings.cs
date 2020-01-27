@@ -22,7 +22,8 @@ namespace RicePaper.Lib.Model
                     ImageCycle = CycleInfo.Default,
                     ImageOption = ImageOptionType.Japan,
                     UserImagePath = string.Empty,
-                    State = new AppState(),
+                    ImageIndex = 0,
+                    WordIndex = 0,
                     TextOptions = TextOptions.Default,
                     WordCycle = CycleInfo.Default,
                     WordList = WordListSelection.MostFrequent1000,
@@ -59,9 +60,6 @@ namespace RicePaper.Lib.Model
 
             if (settings.ImageOption == ImageOptionType.Custom && string.IsNullOrWhiteSpace(settings.UserImagePath))
                 settings.ImageOption = ImageOptionType.Japan;
-
-            if (settings.State == null)
-                settings.State = new AppState();
 
             if (settings.TextOptions == null)
                 settings.TextOptions = TextOptions.Default;
@@ -136,7 +134,9 @@ namespace RicePaper.Lib.Model
 
         public CycleInfo WordCycle { get; set; }
 
-        public AppState State { get; set; }
+        public int ImageIndex { get; set; }
+
+        public int WordIndex { get; set; }
 
         #endregion
 

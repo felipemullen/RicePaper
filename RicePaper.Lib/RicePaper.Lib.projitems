@@ -23,7 +23,6 @@
         <Compile Include="$(MSBuildThisFileDirectory)Dictionary\JishoApi.cs" />
         <Compile Include="$(MSBuildThisFileDirectory)Dictionary\RiceDictionary.cs" />
         <Compile Include="$(MSBuildThisFileDirectory)ListIterator.cs" />
-        <Compile Include="$(MSBuildThisFileDirectory)Model\AppState.cs" />
         <Compile Include="$(MSBuildThisFileDirectory)WallpaperList.cs" />
     </ItemGroup>
     <ItemGroup>

@@ -73,7 +73,9 @@ namespace RicePaper.Lib
 
         private void ScheduleTask(CycleInfo cycle, Action task)
         {
-            TimeSpan timeLeft = TimeSpan.Zero;
+            TimeSpan timeLeft = (cycle.DueTime != null)
+                ? (TimeSpan)cycle.DueTime
+                : TimeSpan.Zero;
 
             var timer = new Timer(x =>
             {
@@ -81,7 +83,7 @@ namespace RicePaper.Lib
                 {
                     pool.InvokeOnMainThread(task);
                 }
-            }, cycle.DueTime, timeLeft, cycle.Period);
+            }, null, timeLeft, cycle.Period);
 
             timers.Add(timer);
         }
@@ -102,10 +104,10 @@ namespace RicePaper.Lib
             wallpaperUtility.SetWallpaper(imagePath, parameters);
 
             if (changeImage)
-                settings.State.ImageIndex = imageList.Increment();
+                settings.ImageIndex = imageList.Increment();
 
             if (changeWord)
-                settings.State.WordIndex = riceDict.Increment();
+                settings.WordIndex = riceDict.Increment();
         }
 
         /// <summary>
