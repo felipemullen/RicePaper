@@ -18,8 +18,8 @@
         Japan,
         Abstract,
         Nature,
-        Custom,
-        Unset
+        MacDefault,
+        Custom
     }
 
     public enum WordListSelection
@@ -33,8 +33,7 @@
         JLPTN2,
         JLPTN1,
         Core6K,
-        Custom,
-        Unset
+        Custom
     }
 
     public enum AspectMode

@@ -762,10 +762,10 @@
                                 </customSpacing>
                             </stackView>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="z73-aZ-Cp5">
-                                <rect key="frame" x="20" y="597" width="430" height="5"/>
+                                <rect key="frame" x="20" y="603" width="430" height="5"/>
                             </box>
                             <gridView xPlacement="leading" yPlacement="top" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="TPN-VK-hIh">
-                                <rect key="frame" x="20" y="60" width="430" height="533"/>
+                                <rect key="frame" x="20" y="66" width="430" height="533"/>
                                 <rows>
                                     <gridRow yPlacement="top" id="IWV-e2-8ch"/>
                                     <gridRow id="HU0-Wm-P6x"/>
@@ -801,19 +801,25 @@
                                                     <subviews>
                                                         <popUpButton horizontalHuggingPriority="249" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lRB-5f-G6g">
                                                             <rect key="frame" x="-2" y="-3" width="191" height="25"/>
-                                                            <popUpButtonCell key="cell" type="push" title="Japan (Default)" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="PoI-Vp-sZu" id="qIQ-Qh-ege">
+                                                            <popUpButtonCell key="cell" type="push" title="Japan (Default)" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="Hid-jO-sIi" id="qIQ-Qh-ege">
                                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                                                 <font key="font" metaFont="system"/>
                                                                 <menu key="menu" id="Ec6-pA-rTr">
                                                                     <items>
-                                                                        <menuItem title="Japan (Default)" state="on" id="PoI-Vp-sZu">
+                                                                        <menuItem title="Japan (Default)" state="on" id="Hid-jO-sIi">
                                                                             <userDefinedRuntimeAttributes>
                                                                                 <userDefinedRuntimeAttribute type="string" keyPath="enumValue" value="Japan"/>
                                                                             </userDefinedRuntimeAttributes>
                                                                             <accessibility identifier="Japan"/>
                                                                         </menuItem>
-                                                                        <menuItem title="Nature" id="hoM-yz-wUk">
+                                                                        <menuItem title="MacOS" id="hoM-yz-wUk">
+                                                                            <accessibility identifier="MacDefault"/>
+                                                                        </menuItem>
+                                                                        <menuItem title="Nature" id="nQz-6w-wpn">
                                                                             <accessibility identifier="Nature"/>
+                                                                        </menuItem>
+                                                                        <menuItem title="Abstract" id="6nn-Jq-Qfn">
+                                                                            <accessibility identifier="Abstract"/>
                                                                         </menuItem>
                                                                         <menuItem title="Custom" id="Ni9-YW-sJ9">
                                                                             <accessibility identifier="Custom"/>
@@ -971,7 +977,7 @@
                                         <box key="contentView" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="Stp-hN-o0K">
                                             <rect key="frame" x="147" y="237" width="286" height="112"/>
                                             <view key="contentView" id="hcd-ZI-iEP">
-                                                <rect key="frame" x="3" y="3" width="279" height="106"/>
+                                                <rect key="frame" x="3" y="3" width="280" height="106"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <stackView distribution="equalCentering" orientation="vertical" alignment="centerX" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gYC-XE-ZGg">

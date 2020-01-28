@@ -13,8 +13,8 @@ namespace RicePaper.MacOS
         #region Private Fields
         private DrawPosition _drawPosition;
         private WordSelectionMode _wordSelectionMode;
-        private ImageOptionType _imageOptionType = ImageOptionType.Unset;
-        private WordListSelection _wordListSelection = WordListSelection.Unset;
+        private ImageOptionType _imageOptionType;
+        private WordListSelection _wordListSelection;
         private string _imagePath;
         private string _wordListPath;
         #endregion

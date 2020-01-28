@@ -81,7 +81,13 @@ namespace RicePaper.Lib.Model
 
         public static string GetFolderPath(ImageOptionType type)
         {
-            return Path.Combine(Util.AppRoot, "Resources/Content/Images", type.ToString());
+            switch (type)
+            {
+                case ImageOptionType.MacDefault:
+                    return "/Library/Desktop Pictures";
+                default:
+                    return Path.Combine(Util.AppRoot, "Resources/Content/Images", type.ToString());
+            }
         }
 
         public static string GetFilePath(WordListSelection list)
