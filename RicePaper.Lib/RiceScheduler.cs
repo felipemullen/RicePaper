@@ -96,6 +96,8 @@ namespace RicePaper.Lib
                 Position = settings.DrawPosition,
                 ChangeWord = changeWord,
                 ChangeWallpaper = changeImage,
+                PrimaryTextScale = settings.PrimaryTextScale,
+                SecondaryTextScale = settings.SecondaryTextScale,
                 Text = currentWord
             };
 

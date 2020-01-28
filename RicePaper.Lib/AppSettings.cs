@@ -7,6 +7,12 @@ namespace RicePaper.Lib.Model
 {
     public class AppSettings
     {
+        #region Constants
+        private static float DEFAULT_TEXT_SCALE = 0.75f;
+        private static float MIN_TEXT_SCALE = 0.5f;
+        private static float MAX_TEXT_SCALE = 1.0f;
+        #endregion
+
         #region Static Instance
         private static NSString DATA_KEY = new NSString("RP_DATA");
         private static NSUserDefaults valueStore = NSUserDefaults.StandardUserDefaults;
@@ -29,6 +35,8 @@ namespace RicePaper.Lib.Model
                     WordList = WordListSelection.MostFrequent1000,
                     UserWordListPath = string.Empty,
                     WordSelection = WordSelectionMode.InOrder,
+                    PrimaryTextScale = DEFAULT_TEXT_SCALE,
+                    SecondaryTextScale = DEFAULT_TEXT_SCALE
                 };
             }
         }
@@ -69,6 +77,12 @@ namespace RicePaper.Lib.Model
 
             if (settings.WordList == WordListSelection.Custom && string.IsNullOrWhiteSpace(settings.WordListPath))
                 settings.WordList = WordListSelection.MostFrequent1000;
+
+            if (settings.PrimaryTextScale < MIN_TEXT_SCALE || settings.PrimaryTextScale > MAX_TEXT_SCALE)
+                settings.PrimaryTextScale = DEFAULT_TEXT_SCALE;
+
+            if (settings.SecondaryTextScale < MIN_TEXT_SCALE || settings.SecondaryTextScale > MAX_TEXT_SCALE)
+                settings.SecondaryTextScale = DEFAULT_TEXT_SCALE;
         }
 
         public static void Save(AppSettings settings)
@@ -141,6 +155,9 @@ namespace RicePaper.Lib.Model
 
         public int WordIndex { get; set; }
 
+        public float PrimaryTextScale { get; set; }
+
+        public float SecondaryTextScale { get; set; }
         #endregion
 
         /// <summary>

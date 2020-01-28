@@ -100,6 +100,12 @@ namespace RicePaper.MacOS
 		AppKit.NSTextField LabelWordListPath { get; set; }
 
 		[Outlet]
+		AppKit.NSSlider SliderRefPrimaryText { get; set; }
+
+		[Outlet]
+		AppKit.NSSlider SliderRefSecondaryText { get; set; }
+
+		[Outlet]
 		AppKit.NSStepper StepperRefImageInterval { get; set; }
 
 		[Outlet]
@@ -156,6 +162,12 @@ namespace RicePaper.MacOS
 		[Action ("ActionRadioIterateRandom:")]
 		partial void ActionRadioIterateRandom (Foundation.NSObject sender);
 
+		[Action ("ActionSliderPrimary:")]
+		partial void ActionSliderPrimary (Foundation.NSObject sender);
+
+		[Action ("ActionSliderSecondary:")]
+		partial void ActionSliderSecondary (Foundation.NSObject sender);
+
 		[Action ("ActionStepperImageInterval:")]
 		partial void ActionStepperImageInterval (Foundation.NSObject sender);
 
@@ -200,24 +212,19 @@ namespace RicePaper.MacOS
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (SliderRefSecondaryText != null) {
+				SliderRefSecondaryText.Dispose ();
+				SliderRefSecondaryText = null;
+			}
+
+			if (SliderRefPrimaryText != null) {
+				SliderRefPrimaryText.Dispose ();
+				SliderRefPrimaryText = null;
+			}
+
 			if (ButtonRefApply != null) {
 				ButtonRefApply.Dispose ();
 				ButtonRefApply = null;
-			}
-
-			if (DropdownRefDictionary != null) {
-				DropdownRefDictionary.Dispose ();
-				DropdownRefDictionary = null;
-			}
-
-			if (DropdownRefWordIntervalUnit != null) {
-				DropdownRefWordIntervalUnit.Dispose ();
-				DropdownRefWordIntervalUnit = null;
-			}
-
-			if (DropdownRefImageIntervalUnit != null) {
-				DropdownRefImageIntervalUnit.Dispose ();
-				DropdownRefImageIntervalUnit = null;
 			}
 
 			if (ButtonRefDefinition != null) {
@@ -315,9 +322,24 @@ namespace RicePaper.MacOS
 				ButtonRefWordListPicker = null;
 			}
 
+			if (DropdownRefDictionary != null) {
+				DropdownRefDictionary.Dispose ();
+				DropdownRefDictionary = null;
+			}
+
+			if (DropdownRefImageIntervalUnit != null) {
+				DropdownRefImageIntervalUnit.Dispose ();
+				DropdownRefImageIntervalUnit = null;
+			}
+
 			if (DropdownRefImageList != null) {
 				DropdownRefImageList.Dispose ();
 				DropdownRefImageList = null;
+			}
+
+			if (DropdownRefWordIntervalUnit != null) {
+				DropdownRefWordIntervalUnit.Dispose ();
+				DropdownRefWordIntervalUnit = null;
 			}
 
 			if (DropdownRefWordList != null) {

@@ -11,8 +11,8 @@ namespace RicePaper.Lib.Model
         public static string HEADING_FONT = "Helvetica Bold";
         public static int HEADING_SIZE = 100;
         public static string PARAGRAPH_FONT = "Helvetica";
-        public static int PARAGRAPH_SIZE = 20;
-        public static int LABEL_SIZE = 14;
+        public static int PARAGRAPH_SIZE = 32;
+        public static int LABEL_SIZE = 22;
         #endregion
 
         #region Factory
@@ -26,19 +26,19 @@ namespace RicePaper.Lib.Model
         #endregion
 
         #region Static Functions
-        public static Func<string, FontParams> Heading(NSColor color)
+        public static Func<string, FontParams> Heading(NSColor color, float scale)
         {
-            return Make(HEADING_FONT, HEADING_SIZE, color);
+            return Make(HEADING_FONT, (int)(HEADING_SIZE * scale), color);
         }
 
-        public static Func<string, FontParams> Paragraph(NSColor color)
+        public static Func<string, FontParams> Paragraph(NSColor color, float scale)
         {
-            return Make(PARAGRAPH_FONT, PARAGRAPH_SIZE, color);
+            return Make(PARAGRAPH_FONT, (int)(PARAGRAPH_SIZE * scale), color);
         }
 
-        public static Func<string, FontParams> Label(NSColor color)
+        public static Func<string, FontParams> Label(NSColor color, float scale)
         {
-            return Make(PARAGRAPH_FONT, LABEL_SIZE, color);
+            return Make(PARAGRAPH_FONT, (int)(LABEL_SIZE * scale), color);
         }
 
         public static NSFont ToFont(string fontName, int fontSize)

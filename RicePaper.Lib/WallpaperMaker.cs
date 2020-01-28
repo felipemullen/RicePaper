@@ -42,7 +42,6 @@ namespace RicePaper.Lib
         #region Public Methods
         public void SetWallpaper(string filepath, DrawParameters drawDetails)
         {
-            // TODO: Text scaling percentage
             // TODO: Padding should be relative to screen size
 
 #if __MACOS__
@@ -136,9 +135,9 @@ namespace RicePaper.Lib
         #region Text Measurement / Drawing
         private ExpansionBox MeasureTextBlock(DrawParameters drawParameters)
         {
-            var _H = FontParams.Heading(drawParameters.TextColor);
-            var _L = FontParams.Label(drawParameters.TextColor);
-            var _P = FontParams.Paragraph(drawParameters.TextColor);
+            var _H = FontParams.Heading(drawParameters.TextColor, drawParameters.PrimaryTextScale);
+            var _L = FontParams.Label(drawParameters.TextColor, drawParameters.SecondaryTextScale);
+            var _P = FontParams.Paragraph(drawParameters.TextColor, drawParameters.SecondaryTextScale);
 
             var box = new ExpansionBox();
             var block = drawParameters.Text;
@@ -198,9 +197,9 @@ namespace RicePaper.Lib
 
         private CGRect DrawTextBlock(DrawParameters drawParameters, CGRect screenBounds)
         {
-            var _H = FontParams.Heading(drawParameters.TextColor);
-            var _L = FontParams.Label(drawParameters.TextColor);
-            var _P = FontParams.Paragraph(drawParameters.TextColor);
+            var _H = FontParams.Heading(drawParameters.TextColor, drawParameters.PrimaryTextScale);
+            var _L = FontParams.Label(drawParameters.TextColor, drawParameters.SecondaryTextScale);
+            var _P = FontParams.Paragraph(drawParameters.TextColor, drawParameters.SecondaryTextScale);
 
             double totalWidth = 0;
             double totalHeight = 0;

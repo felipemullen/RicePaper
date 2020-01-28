@@ -1,5 +1,4 @@
-﻿using System;
-using AppKit;
+﻿using AppKit;
 
 namespace RicePaper.Lib.Model
 {
@@ -10,5 +9,7 @@ namespace RicePaper.Lib.Model
         public NSColor TextColor;
         public bool ChangeWallpaper;
         public bool ChangeWord;
+        public float PrimaryTextScale;
+        public float SecondaryTextScale;
     }
 }

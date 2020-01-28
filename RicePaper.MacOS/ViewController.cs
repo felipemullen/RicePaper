@@ -128,6 +128,8 @@ namespace RicePaper.MacOS
             AppSettings.TextOptions = GetTextOptionsFromUI();
             AppSettings.WordCycle = GetCycleInfo(DropdownRefWordIntervalUnit, FieldRefWordInterval);
             AppSettings.WordSelection = _wordSelectionMode;
+            AppSettings.PrimaryTextScale = SliderRefPrimaryText.FloatValue;
+            AppSettings.SecondaryTextScale = SliderRefSecondaryText.FloatValue;
 
             SetClean();
 
@@ -313,6 +315,8 @@ namespace RicePaper.MacOS
         partial void CheckboxDefinition(NSObject sender) => SetDirty();
         partial void CheckboxEnglishSentence(NSObject sender) => SetDirty();
         partial void CheckboxJapaneseSentence(NSObject sender) => SetDirty();
+        partial void ActionSliderPrimary(NSObject sender) => SetDirty();
+        partial void ActionSliderSecondary(NSObject sender) => SetDirty();
         #endregion
 
         #region Private Helpers
@@ -422,6 +426,9 @@ namespace RicePaper.MacOS
             ButtonRefDefinition.StringValue = (AppSettings.TextOptions.Definition) ? "1" : "0";
             ButtonRefEnglishSentence.StringValue = (AppSettings.TextOptions.EnglishSentence) ? "1" : "0";
             ButtonRefJapaneseSentence.StringValue = (AppSettings.TextOptions.JapaneseSentence) ? "1" : "0";
+
+            SliderRefPrimaryText.FloatValue = AppSettings.PrimaryTextScale;
+            SliderRefSecondaryText.FloatValue = AppSettings.SecondaryTextScale;
 
             UpdateLabels();
         }
