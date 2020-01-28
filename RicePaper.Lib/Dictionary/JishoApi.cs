@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Http;
 using Newtonsoft.Json;
+using RicePaper.Lib.Utilities;
 
 namespace RicePaper.Lib.Dictionary
 {
