@@ -1,10 +1,14 @@
 ﻿using System.Collections.Generic;
 
+/// <summary>
+/// Several items have been commented out in order to make this
+/// class ever so much slimmer in memory
+/// </summary>
 namespace RicePaper.Lib.Dictionary
 {
     public class JishoResponse
     {
-        public Meta meta { get; set; }
+        //public Meta meta { get; set; }
         public IEnumerable<JishoWordEntry> data { get; set; }
     }
 
@@ -15,11 +19,11 @@ namespace RicePaper.Lib.Dictionary
 
     public class JishoWordEntry
     {
-        public bool is_common { get; set; }
-        public IEnumerable<string> tags { get; set; }
+        //public bool is_common { get; set; }
+        //public IEnumerable<string> tags { get; set; }
         public IEnumerable<JapaneseTerm> japanese { get; set; }
         public IEnumerable<Senses> senses { get; set; }
-        public Attribution attribution { get; set; }
+        //public Attribution attribution { get; set; }
     }
 
     public class JapaneseTerm
@@ -31,14 +35,14 @@ namespace RicePaper.Lib.Dictionary
     public class Senses
     {
         public IEnumerable<string> english_definitions { get; set; }
-        public IEnumerable<object> parts_of_speech { get; set; }
-        public IEnumerable<Link> links { get; set; }
-        public IEnumerable<object> tags { get; set; }
-        public IEnumerable<object> restrictions { get; set; }
-        public IEnumerable<object> see_also { get; set; }
-        public IEnumerable<object> antonyms { get; set; }
-        public IEnumerable<object> source { get; set; }
-        public IEnumerable<object> info { get; set; }
+        //public IEnumerable<object> parts_of_speech { get; set; }
+        //public IEnumerable<Link> links { get; set; }
+        //public IEnumerable<object> tags { get; set; }
+        //public IEnumerable<object> restrictions { get; set; }
+        //public IEnumerable<object> see_also { get; set; }
+        //public IEnumerable<object> antonyms { get; set; }
+        //public IEnumerable<object> source { get; set; }
+        //public IEnumerable<object> info { get; set; }
         public IEnumerable<object> sentences { get; set; }
     }
 

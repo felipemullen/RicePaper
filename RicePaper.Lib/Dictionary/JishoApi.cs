@@ -5,8 +5,6 @@ using Newtonsoft.Json;
 
 namespace RicePaper.Lib.Dictionary
 {
-    // TODO: Cache api results 
-
     public class JishoApi
     {
         #region Constants
@@ -14,10 +12,22 @@ namespace RicePaper.Lib.Dictionary
         private const string SEARCH_API = "https://jisho.org/api/v1/search/words";
         #endregion
 
-        public JishoApi() { }
+        #region Private Fields
+        private readonly SimpleCache<string, JishoResponse> cache;
+        #endregion
+
+        #region Constructor
+        public JishoApi()
+        {
+            cache = new SimpleCache<string, JishoResponse>(maxSize: 200);
+        }
+        #endregion
 
         public JishoResponse Search(string terms)
         {
+            if (cache.Contains(terms))
+                return cache.Get(terms);
+
             string encodedTerms = WebUtility.UrlEncode(terms);
             string url = $"{SEARCH_API}?keyword={encodedTerms}";
 
@@ -28,6 +38,8 @@ namespace RicePaper.Lib.Dictionary
             {
                 var jsonString = response.Content.ReadAsStringAsync().Result;
                 var searchResponse = JsonConvert.DeserializeObject<JishoResponse>(jsonString);
+
+                cache.Add(terms, searchResponse);
 
                 return searchResponse;
             }
