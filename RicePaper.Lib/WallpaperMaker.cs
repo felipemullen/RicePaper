@@ -16,7 +16,7 @@ namespace RicePaper.Lib
     {
         #region Static Constants
         private const int BITS_PER_COMPONENT = 8;
-        private const int BYTES_PER_ROW = 0;
+        private const int CHANNELS = 4;
 
         private const int BLOCK_PADDING = 40;
         private const int LINE_SPACER = 20;
@@ -96,28 +96,28 @@ namespace RicePaper.Lib
             string outputPath = GetNewImagePath();
 
             var screenRect = screen.Frame;
+            byte[] rawData = new byte[(int)screenRect.Width * (int)screenRect.Height * CHANNELS];
+            int BYTES_PER_ROW = CHANNELS * (int)screenRect.Width;
 
             using (var pool = new NSAutoreleasePool())
             using (var colorSpace = CGColorSpace.CreateDeviceRGB())
-            using (var bitmapContext = new CGBitmapContext(null, (nint)screenRect.Width, (nint)screenRect.Height, BITS_PER_COMPONENT, BYTES_PER_ROW, colorSpace, CGImageAlphaInfo.PremultipliedLast))
+            using (var bitmapContext = new CGBitmapContext(rawData, (nint)screenRect.Width, (nint)screenRect.Height, BITS_PER_COMPONENT, BYTES_PER_ROW, colorSpace, CGBitmapFlags.PremultipliedLast | CGBitmapFlags.ByteOrder32Big))
             using (var previousContext = NSGraphicsContext.CurrentContext)
             {
                 NSGraphicsContext.CurrentContext = NSGraphicsContext.FromCGContext(bitmapContext, true);
 
                 /// Draw: Begin
                 {
-                    // TODO: remove this
-                    //bitmapContext.SetFillColor(NSColor.Red.CGColor);
-                    //bitmapContext.FillRect(screenRect);
-
                     var originalImage = OpenAsNSImage(originalImagePath);
                     DrawImage(originalImage, screenRect);
 
                     var flipVertical = new CGAffineTransform(1, 0, 0, -1, 0, screenRect.Height);
                     bitmapContext.ConcatCTM(flipVertical);
 
-                    // TODO: Get font color from average RGB perception
-                    drawDetails.TextColor = NSColor.White;
+                    var pixelAverage = Util.GetAverageColor(rawData, (int)screenRect.Width, (int)screenRect.Height);
+                    var color = Util.ContrastColor(pixelAverage);
+
+                    drawDetails.TextColor = NSColor.FromCGColor(color);
                     DrawTextBlock(drawDetails, screenRect);
                 }
                 /// Draw: End
