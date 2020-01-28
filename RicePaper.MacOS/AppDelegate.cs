@@ -67,9 +67,6 @@ namespace RicePaper.MacOS
 
             // TODO: implement logging
 
-            // TODO: remove after implementation
-            //OpenMainWindow();
-
             riceScheduler.BeginScheduling();
         }
 
