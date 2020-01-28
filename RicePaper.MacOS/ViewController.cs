@@ -320,27 +320,22 @@ namespace RicePaper.MacOS
         {
             if (_imageOptionType == ImageOptionType.Custom && string.IsNullOrWhiteSpace(_imagePath))
             {
-                // TODO: Refactor alerts to util class
-                var alert = new NSAlert()
-                {
-                    AlertStyle = NSAlertStyle.Critical,
-                    MessageText = "Invalid Settings",
-                    InformativeText = "Please specify a folder path for custom images"
-                };
-                alert.BeginSheet(this.View.Window);
+                Util.Alert(
+                    title: "Invalid Settings",
+                    message: "Please specify a folder path for custom images",
+                    window: this.View.Window
+                );
 
                 return false;
             }
 
             if (_wordListSelection == WordListSelection.Custom && string.IsNullOrWhiteSpace(_wordListPath))
             {
-                var alert = new NSAlert()
-                {
-                    AlertStyle = NSAlertStyle.Critical,
-                    MessageText = "Invalid Settings",
-                    InformativeText = "Please specify a file path for custom word lists"
-                };
-                alert.BeginSheet(this.View.Window);
+                Util.Alert(
+                    title: "Invalid Settings",
+                    message: "Please specify a file path for custom word lists",
+                    window: this.View.Window
+                );
 
                 return false;
             }

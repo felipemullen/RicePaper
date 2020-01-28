@@ -10,7 +10,6 @@
     </PropertyGroup>
     <ItemGroup>
         <Compile Include="$(MSBuildThisFileDirectory)RiceScheduler.cs" />
-        <Compile Include="$(MSBuildThisFileDirectory)WallpaperMaker.cs" />
         <Compile Include="$(MSBuildThisFileDirectory)Enums.cs" />
         <Compile Include="$(MSBuildThisFileDirectory)Model\DrawParameters.cs" />
         <Compile Include="$(MSBuildThisFileDirectory)Model\TextDetails.cs" />
@@ -22,13 +21,16 @@
         <Compile Include="$(MSBuildThisFileDirectory)Dictionary\JishoResponse.cs" />
         <Compile Include="$(MSBuildThisFileDirectory)Dictionary\JishoApi.cs" />
         <Compile Include="$(MSBuildThisFileDirectory)Dictionary\RiceDictionary.cs" />
-        <Compile Include="$(MSBuildThisFileDirectory)ListIterator.cs" />
         <Compile Include="$(MSBuildThisFileDirectory)WallpaperList.cs" />
+        <Compile Include="$(MSBuildThisFileDirectory)Utilities\ListIterator.cs" />
+        <Compile Include="$(MSBuildThisFileDirectory)WallpaperMaker.cs" />
+        <Compile Include="$(MSBuildThisFileDirectory)Utilities\Util.cs" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="$(MSBuildThisFileDirectory)Model\" />
         <Folder Include="$(MSBuildThisFileDirectory)Dictionary\" />
         <Folder Include="$(MSBuildThisFileDirectory)Content\" />
+        <Folder Include="$(MSBuildThisFileDirectory)Utilities\" />
     </ItemGroup>
     <ItemGroup>
         <Content Include="$(MSBuildThisFileDirectory)Content\**\*.*">

@@ -81,16 +81,13 @@ namespace RicePaper.Lib.Model
 
         public static string GetFolderPath(ImageOptionType type)
         {
-            return Path.Combine(AppRoot, "Resources/Content/Images", type.ToString());
+            return Path.Combine(Util.AppRoot, "Resources/Content/Images", type.ToString());
         }
 
         public static string GetFilePath(WordListSelection list)
         {
-            return Path.Combine(AppRoot, "Resources/Content/WordLists", $"{list}.list");
+            return Path.Combine(Util.AppRoot, "Resources/Content/WordLists", $"{list}.list");
         }
-
-        // TODO: Move to util class
-        private static string AppRoot => Directory.GetParent(AppContext.BaseDirectory.TrimEnd('/')).FullName;
         #endregion
 
         #region Properties
