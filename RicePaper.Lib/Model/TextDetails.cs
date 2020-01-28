@@ -22,6 +22,13 @@ namespace RicePaper.Lib.Model
                     .DefaultIfEmpty("")
                     .First();
 
+            string romaji = "";
+            try
+            {
+                romaji = RomajiConvert.FromKana(furigana);
+            }
+            catch (Exception) { }
+
             return new TextDetails()
             {
                 Kanji = topResult.japanese
@@ -41,7 +48,7 @@ namespace RicePaper.Lib.Model
                     .DefaultIfEmpty()
                     .First(),
 
-                Romaji = RomajiConvert.FromKana(furigana),
+                Romaji = romaji,
                 //JapaneseSentence =
             };
         }
