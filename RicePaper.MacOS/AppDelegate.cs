@@ -48,6 +48,16 @@ namespace RicePaper.MacOS
             statusItem.Button.Image = NSImage.ImageNamed("TrayIcon");
             statusItem.Button.Image.Size = new CGSize(ICON_SIZE, ICON_SIZE);
             statusItem.Button.Action = new ObjCRuntime.Selector("StatusBarClicked:");
+
+            RegisterAppKitNotifications();
+        }
+
+        private void RegisterAppKitNotifications()
+        {
+            NSNotificationCenter.DefaultCenter.AddObserver(NSApplication.DidChangeScreenParametersNotification, (n) =>
+            {
+                riceScheduler.ForcedUpdate(false, false);
+            });
         }
         #endregion
 
