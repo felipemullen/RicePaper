@@ -25,6 +25,7 @@
         <Compile Include="$(MSBuildThisFileDirectory)Utilities\ListIterator.cs" />
         <Compile Include="$(MSBuildThisFileDirectory)WallpaperMaker.cs" />
         <Compile Include="$(MSBuildThisFileDirectory)Utilities\Util.cs" />
+        <Compile Include="$(MSBuildThisFileDirectory)Utilities\RomajiConvert.cs" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="$(MSBuildThisFileDirectory)Model\" />

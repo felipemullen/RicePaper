@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using RicePaper.Lib.Dictionary;
+using RicePaper.Lib.Utilities;
 
 namespace RicePaper.Lib.Model
 {
@@ -16,6 +17,10 @@ namespace RicePaper.Lib.Model
         public static TextDetails FromJisho(JishoResponse response)
         {
             JishoWordEntry topResult = response.data.First();
+            var furigana = topResult.japanese
+                    .Select(x => x?.reading)
+                    .DefaultIfEmpty("")
+                    .First();
 
             return new TextDetails()
             {
@@ -24,10 +29,7 @@ namespace RicePaper.Lib.Model
                     .DefaultIfEmpty("")
                     .First(),
 
-                Furigana = topResult.japanese
-                    .Select(x => x?.reading)
-                    .DefaultIfEmpty("")
-                    .First(),
+                Furigana = furigana,
 
                 Definition = string.Join("/", topResult.senses
                     .Select(x => x?.english_definitions)
@@ -37,10 +39,9 @@ namespace RicePaper.Lib.Model
                 EnglishSentence = topResult.senses
                     .Select(x => x?.sentences?.ToString())
                     .DefaultIfEmpty()
-                    .First()
+                    .First(),
 
-                // TODO: Translate to romaji? Find sentences?
-                //Romaji =
+                Romaji = RomajiConvert.FromKana(furigana),
                 //JapaneseSentence =
             };
         }
