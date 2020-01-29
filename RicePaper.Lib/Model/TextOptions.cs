@@ -1,5 +1,4 @@
-﻿using System;
-namespace RicePaper.Lib.Model
+﻿namespace RicePaper.Lib.Model
 {
     public class TextOptions
     {

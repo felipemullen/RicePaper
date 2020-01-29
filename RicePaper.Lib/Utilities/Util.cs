@@ -53,5 +53,10 @@ namespace RicePaper.Lib
 
             return new CGColor(hue, hue, hue);
         }
+
+        public static NSColor ToNSColor(Pixel8888 c)
+        {
+            return NSColor.FromCalibratedRgba(c.R, c.G, c.B, c.A);
+        }
     }
 }

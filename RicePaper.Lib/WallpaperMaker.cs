@@ -21,6 +21,10 @@ namespace RicePaper.Lib
         private const int BLOCK_PADDING = 40;
         private const int LINE_SPACER = 20;
         private const int PARAGRAPH_PADDING = 10;
+
+        private const int SHADOW_BLUR = 1;
+        private CGColor SHADOW_COLOR = new CGColor(0, 0, 0, 0.7f);
+        private static CGSize SHADOW_OFFSET = new CGSize(2, -2);
         #endregion
 
         #region Properties
@@ -117,6 +121,7 @@ namespace RicePaper.Lib
                     var color = Util.ContrastColor(pixelAverage);
 
                     drawDetails.TextColor = NSColor.FromCGColor(color);
+                    bitmapContext.SetShadow(SHADOW_OFFSET, SHADOW_BLUR, SHADOW_COLOR);
                     DrawTextBlock(drawDetails, screenRect);
                 }
                 /// Draw: End
