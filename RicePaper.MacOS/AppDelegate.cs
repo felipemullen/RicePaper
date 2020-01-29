@@ -75,8 +75,6 @@ namespace RicePaper.MacOS
             popoverView.ContentViewController = viewController;
             popoverView.Behavior = NSPopoverBehavior.Semitransient;
 
-            // TODO: implement logging
-
             riceScheduler.BeginScheduling();
         }
 

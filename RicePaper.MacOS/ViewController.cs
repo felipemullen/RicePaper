@@ -44,8 +44,6 @@ namespace RicePaper.MacOS
         public override void ViewWillLayout()
         {
             LoadVolatileValues();
-
-            // TODO: populate dropdowns with enum values
             UpdateEntireUI();
 
             base.ViewWillLayout();
