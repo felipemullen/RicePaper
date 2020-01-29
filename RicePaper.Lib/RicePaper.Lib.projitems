@@ -27,6 +27,7 @@
         <Compile Include="$(MSBuildThisFileDirectory)Utilities\Util.cs" />
         <Compile Include="$(MSBuildThisFileDirectory)Utilities\RomajiConvert.cs" />
         <Compile Include="$(MSBuildThisFileDirectory)Utilities\SimpleCache.cs" />
+        <Compile Include="$(MSBuildThisFileDirectory)Model\TextMeasurements.cs" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="$(MSBuildThisFileDirectory)Model\" />
