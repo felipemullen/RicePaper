@@ -18,9 +18,7 @@ namespace RicePaper.Lib
         private const int BITS_PER_COMPONENT = 8;
         private const int CHANNELS = 4;
 
-        private const int BLOCK_PADDING = 40;
         private const int LINE_SPACER = 20;
-        private const int PARAGRAPH_PADDING = 10;
 
         private const int SHADOW_BLUR = 1;
         private CGColor SHADOW_COLOR = new CGColor(0, 0, 0, 0.7f);
@@ -46,8 +44,6 @@ namespace RicePaper.Lib
         #region Public Methods
         public void SetWallpaper(string filepath, DrawParameters drawDetails)
         {
-            // TODO: Padding should be relative to screen size
-
 #if __MACOS__
             try
             {
@@ -321,6 +317,8 @@ namespace RicePaper.Lib
             nfloat right = (nfloat)(screenBounds.Width - textDimensions.Width);
             nfloat mid = (nfloat)(screenBounds.Height - textDimensions.Height) / 2.0f;
             nfloat bottom = (nfloat)(screenBounds.Height - textDimensions.Height);
+
+            int BLOCK_PADDING = (int)(screenBounds.Size.Height * 0.04f);
 
             switch (drawParameters.Position)
             {
