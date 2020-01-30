@@ -1,9 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace RicePaper.Lib
 {
     public abstract class ListIterator<T>
     {
+        #region Static Constants
+        private static Random random = new Random();
+        #endregion
+
         #region Protected Fields
         private int index;
         private int max;
@@ -33,9 +38,17 @@ namespace RicePaper.Lib
             Reset(this.currentList.Count, startAt);
         }
 
-        public int Increment()
+        public int Increment(WordSelectionMode mode)
         {
-            index = (index + 1) % max;
+            if (mode == WordSelectionMode.InOrder)
+            {
+                index = (index + 1) % max;
+            }
+            else
+            {
+                index = random.Next(0, currentList.Count);
+            }
+
             return index;
         }
         #endregion

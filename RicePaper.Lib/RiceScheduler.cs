@@ -105,10 +105,10 @@ namespace RicePaper.Lib
             wallpaperUtility.SetWallpaper(imagePath, parameters);
 
             if (changeImage)
-                settings.ImageIndex = imageList.Increment();
+                settings.ImageIndex = imageList.Increment(settings.WordSelection);
 
             if (changeWord)
-                settings.WordIndex = riceDict.Increment();
+                settings.WordIndex = riceDict.Increment(settings.WordSelection);
         }
 
         /// <summary>
