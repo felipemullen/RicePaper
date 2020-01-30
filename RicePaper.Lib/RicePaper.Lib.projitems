@@ -28,6 +28,8 @@
         <Compile Include="$(MSBuildThisFileDirectory)Utilities\RomajiConvert.cs" />
         <Compile Include="$(MSBuildThisFileDirectory)Utilities\SimpleCache.cs" />
         <Compile Include="$(MSBuildThisFileDirectory)Model\TextMeasurements.cs" />
+        <Compile Include="$(MSBuildThisFileDirectory)Dictionary\SentenceFinder.cs" />
+        <Compile Include="$(MSBuildThisFileDirectory)Model\Tatoeba.cs" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="$(MSBuildThisFileDirectory)Model\" />

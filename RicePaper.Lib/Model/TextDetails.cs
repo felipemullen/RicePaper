@@ -1,7 +1,5 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using RicePaper.Lib.Dictionary;
-using RicePaper.Lib.Utilities;
 
 namespace RicePaper.Lib.Model
 {
@@ -17,17 +15,6 @@ namespace RicePaper.Lib.Model
         public static TextDetails FromJisho(JishoResponse response)
         {
             JishoWordEntry topResult = response.data.First();
-            var furigana = topResult.japanese
-                    .Select(x => x?.reading)
-                    .DefaultIfEmpty("")
-                    .First();
-
-            string romaji = "";
-            try
-            {
-                romaji = RomajiConvert.FromKana(furigana);
-            }
-            catch (Exception) { }
 
             return new TextDetails()
             {
@@ -36,7 +23,10 @@ namespace RicePaper.Lib.Model
                     .DefaultIfEmpty("")
                     .First(),
 
-                Furigana = furigana,
+                Furigana = topResult.japanese
+                    .Select(x => x?.reading)
+                    .DefaultIfEmpty("")
+                    .First(),
 
                 Definition = string.Join("/", topResult.senses
                     .Select(x => x?.english_definitions)
@@ -47,9 +37,19 @@ namespace RicePaper.Lib.Model
                     .Select(x => x?.sentences?.ToString())
                     .DefaultIfEmpty()
                     .First(),
+            };
+        }
 
-                Romaji = romaji,
-                //JapaneseSentence =
+        internal static TextDetails FromSentence(Core6KSentence sentence)
+        {
+            return new TextDetails()
+            {
+                Definition = sentence.Definition,
+                EnglishSentence = sentence.EnglishSentence,
+                Furigana = sentence.Reading,
+                JapaneseSentence = sentence.JapaneseSentence,
+                Kanji = sentence.Word,
+                Romaji = sentence.Romaji
             };
         }
     }

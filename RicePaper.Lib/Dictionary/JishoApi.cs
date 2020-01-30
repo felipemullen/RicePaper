@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using Newtonsoft.Json;
@@ -14,12 +16,14 @@ namespace RicePaper.Lib.Dictionary
         #endregion
 
         #region Private Fields
+        private readonly HttpClient client;
         private readonly SimpleCache<string, JishoResponse> cache;
         #endregion
 
         #region Constructor
         public JishoApi()
         {
+            client = new HttpClient();
             cache = new SimpleCache<string, JishoResponse>(maxSize: 200);
         }
         #endregion
@@ -32,7 +36,6 @@ namespace RicePaper.Lib.Dictionary
             string encodedTerms = WebUtility.UrlEncode(terms);
             string url = $"{SEARCH_API}?keyword={encodedTerms}";
 
-            var client = new HttpClient();
             var response = client.GetAsync(url).Result;
 
             if (response.IsSuccessStatusCode)
