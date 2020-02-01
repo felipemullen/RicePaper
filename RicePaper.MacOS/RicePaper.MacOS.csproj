@@ -32,7 +32,6 @@
     <XamMacArch></XamMacArch>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release</OutputPath>
     <DefineConstants></DefineConstants>
@@ -44,9 +43,12 @@
     <IncludeMonoRuntime>true</IncludeMonoRuntime>
     <UseSGen>true</UseSGen>
     <UseRefCounting>true</UseRefCounting>
-    <LinkMode>SdkOnly</LinkMode>
+    <LinkMode>Full</LinkMode>
     <HttpClientHandler></HttpClientHandler>
     <XamMacArch></XamMacArch>
+    <CodeSigningKey>Mac Developer</CodeSigningKey>
+    <PackageSigningKey>3rd Party Mac Developer Installer</PackageSigningKey>
+    <AOTMode>None</AOTMode>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -63,16 +65,6 @@
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\AppIcon-128.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\AppIcon-128%402x.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\AppIcon-16.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\AppIcon-16%402x.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\AppIcon-256.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\AppIcon-256%402x.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\AppIcon-32.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\AppIcon-32%402x.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\AppIcon-512.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\AppIcon-512%402x.png" />
     <ImageAsset Include="Assets.xcassets\Contents.json" />
     <ImageAsset Include="Resources\Assets.xcassets\.DS_Store" />
     <ImageAsset Include="Resources\Assets.xcassets\TrayIcon.imageset\18520.png" />
@@ -110,6 +102,18 @@
     <ImageAsset Include="Resources\Assets.xcassets\pos_left_top.imageset\Contents.json" />
     <ImageAsset Include="Resources\Assets.xcassets\TrayIcon.imageset\tray_lgt.pdf" />
     <ImageAsset Include="Resources\Assets.xcassets\TrayIcon.imageset\tray_drk.pdf" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\RicePaper16x16.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\RicePaper16x16%402x.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\RicePaper32x32.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\RicePaper32x32%402x.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\RicePaper128x128.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\RicePaper128x128%402x.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\RicePaper256x256.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\RicePaper256x256%402x.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\RicePaper512x512.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\RicePaper512x512%402x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\Logo.imageset\RicePaper256x256.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\Logo.imageset\RicePaper256x256%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />

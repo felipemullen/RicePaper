@@ -1,8 +1,14 @@
 {
   "images" : [
     {
-      "idiom" : "universal",
-      "filename" : "external-content.duckduckgo.png"
+      "idiom" : "mac",
+      "filename" : "RicePaper256x256.png",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "mac",
+      "filename" : "RicePaper256x256@2x.png",
+      "scale" : "2x"
     }
   ],
   "info" : {
