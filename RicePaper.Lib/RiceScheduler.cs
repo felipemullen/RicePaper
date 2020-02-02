@@ -95,7 +95,7 @@ namespace RicePaper.Lib
             if (changeWord)
                 settings.WordIndex = riceDict.Increment(settings.WordSelection);
 
-            TextDetails currentWord = riceDict.CurrentDefinition();
+            TextDetails currentWord = riceDict.CurrentDefinition(settings);
 
             var parameters = new DrawParameters
             {

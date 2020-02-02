@@ -23,14 +23,14 @@ namespace RicePaper.Lib.Dictionary
         #endregion
 
         #region Public Methods
-        public TextDetails CurrentDefinition()
+        public TextDetails CurrentDefinition(AppSettings settings)
         {
             string currentWord = CurrentItem;
 
             var sentence = sentenceFinder.GetEntry(currentWord);
             if (sentence != null)
             {
-                return TextDetails.FromSentence(sentence);
+                return RemoveDisabledOptions(settings, TextDetails.FromSentence(sentence));
             }
             else
             {
@@ -43,19 +43,28 @@ namespace RicePaper.Lib.Dictionary
                 }
                 catch (Exception) { }
 
-                try
+                if (settings.TextOptions.EnglishSentence || settings.TextOptions.JapaneseSentence)
                 {
-                    var tatoebaSentence = sentenceFinder.FindSentences(currentWord);
-                    if (sentence != null)
+                    try
                     {
-                        textDetails.JapaneseSentence = tatoebaSentence.JapaneseSentence;
-                        textDetails.EnglishSentence = tatoebaSentence.EnglishSentence;
+                        var tatoebaSentence = sentenceFinder.FindSentences(currentWord);
+                        if (sentence != null)
+                        {
+                            textDetails.JapaneseSentence = tatoebaSentence.JapaneseSentence;
+                            textDetails.EnglishSentence = tatoebaSentence.EnglishSentence;
+                        }
                     }
+                    catch (Exception) { }
                 }
-                catch (Exception) { }
 
-                return textDetails;
+                return RemoveDisabledOptions(settings, textDetails);
             }
+        }
+
+        public void Load(WordListSelection option)
+        {
+            var filePath = AppSettings.GetFilePath(option);
+            Load(filePath);
         }
         #endregion
 
@@ -68,11 +77,18 @@ namespace RicePaper.Lib.Dictionary
         }
         #endregion
 
-        #region Public Methods
-        public void Load(WordListSelection option)
+        #region Private Helpers
+        private TextDetails RemoveDisabledOptions(AppSettings settings, TextDetails details)
         {
-            var filePath = AppSettings.GetFilePath(option);
-            Load(filePath);
+            return new TextDetails()
+            {
+                Kanji = settings.TextOptions.Kanji ? details.Kanji : string.Empty,
+                Furigana = settings.TextOptions.Furigana ? details.Furigana : string.Empty,
+                EnglishSentence = settings.TextOptions.EnglishSentence ? details.EnglishSentence : string.Empty,
+                JapaneseSentence = settings.TextOptions.JapaneseSentence ? details.JapaneseSentence : string.Empty,
+                Definition = settings.TextOptions.Definition ? details.Definition : string.Empty,
+                Romaji = settings.TextOptions.Romaji ? details.Romaji : string.Empty
+            };
         }
         #endregion
     }
