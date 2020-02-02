@@ -16,11 +16,11 @@
                 return new TextOptions()
                 {
                     Kanji = true,
-                    Furigana = false,
-                    Romaji = false,
+                    Furigana = true,
+                    Romaji = true,
                     Definition = true,
                     JapaneseSentence = true,
-                    EnglishSentence = false
+                    EnglishSentence = true
                 };
             }
         }
