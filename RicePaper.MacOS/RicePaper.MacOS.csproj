@@ -52,6 +52,7 @@
     <PackageSigningKey>3rd Party Mac Developer Installer: Felipe Mullen (7685J9W3LF)</PackageSigningKey>
     <AOTMode>None</AOTMode>
     <CodeSignProvision>RicePaper Release Profile</CodeSignProvision>
+    <CodeSignEntitlements>Entitlements.plist</CodeSignEntitlements>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
