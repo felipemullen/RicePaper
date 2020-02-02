@@ -114,9 +114,9 @@
                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
                                             </textField>
-                                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ZoS-37-bga">
+                                            <button focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ZoS-37-bga">
                                                 <rect key="frame" x="0.0" y="0.0" width="114" height="15"/>
-                                                <buttonCell key="cell" type="roundRect" title="www.somesite.com" bezelStyle="roundedRect" alignment="center" state="on" imageScaling="proportionallyDown" inset="2" id="15Y-0J-QCz">
+                                                <buttonCell key="cell" type="roundRect" title="www.somesite.com" bezelStyle="roundedRect" alignment="center" focusRingType="none" transparent="YES" imageScaling="proportionallyDown" inset="2" id="15Y-0J-QCz">
                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                     <font key="font" metaFont="label" size="12"/>
                                                 </buttonCell>
@@ -149,10 +149,10 @@
                                 </customSpacing>
                             </stackView>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="z73-aZ-Cp5">
-                                <rect key="frame" x="20" y="653" width="430" height="5"/>
+                                <rect key="frame" x="20" y="659" width="430" height="5"/>
                             </box>
                             <gridView xPlacement="leading" yPlacement="top" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="TPN-VK-hIh">
-                                <rect key="frame" x="20" y="60" width="430" height="589"/>
+                                <rect key="frame" x="20" y="66" width="430" height="589"/>
                                 <rows>
                                     <gridRow yPlacement="top" id="IWV-e2-8ch"/>
                                     <gridRow id="fbp-g3-nIz"/>
@@ -203,9 +203,6 @@
                                                                         </menuItem>
                                                                         <menuItem title="MacOS" id="hoM-yz-wUk">
                                                                             <accessibility identifier="MacDefault"/>
-                                                                        </menuItem>
-                                                                        <menuItem title="Nature" id="nQz-6w-wpn">
-                                                                            <accessibility identifier="Nature"/>
                                                                         </menuItem>
                                                                         <menuItem title="Abstract" id="6nn-Jq-Qfn">
                                                                             <accessibility identifier="Abstract"/>
@@ -1137,7 +1134,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Logo" width="256" height="256"/>
+        <image name="Logo" width="512" height="512"/>
         <image name="pos_ctr_bottom" width="147" height="115"/>
         <image name="pos_ctr_mid" width="147" height="115"/>
         <image name="pos_ctr_top" width="147" height="115"/>

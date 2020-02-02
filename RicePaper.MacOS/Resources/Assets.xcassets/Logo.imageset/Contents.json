@@ -2,12 +2,12 @@
   "images" : [
     {
       "idiom" : "mac",
-      "filename" : "RicePaper256x256.png",
+      "filename" : "RicePaper512x512.png",
       "scale" : "1x"
     },
     {
       "idiom" : "mac",
-      "filename" : "RicePaper256x256@2x.png",
+      "filename" : "RicePaper512x512@2x.png",
       "scale" : "2x"
     }
   ],

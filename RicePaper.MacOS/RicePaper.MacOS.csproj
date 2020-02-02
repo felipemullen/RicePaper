@@ -114,6 +114,8 @@
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\RicePaper512x512%402x.png" />
     <ImageAsset Include="Resources\Assets.xcassets\Logo.imageset\RicePaper256x256.png" />
     <ImageAsset Include="Resources\Assets.xcassets\Logo.imageset\RicePaper256x256%402x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\Logo.imageset\RicePaper512x512%402x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\Logo.imageset\RicePaper512x512.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
