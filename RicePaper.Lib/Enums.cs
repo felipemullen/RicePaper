@@ -15,9 +15,9 @@
 
     public enum ImageOptionType
     {
-        Japan,
-        Abstract,
-        Nature,
+        //Japan,
+        //Abstract,
+        //Nature,
         MacDefault,
         Custom
     }

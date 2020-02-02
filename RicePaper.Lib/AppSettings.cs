@@ -25,7 +25,7 @@ namespace RicePaper.Lib.Model
                     Dictionary = DictionarySelection.JapanDict,
                     DrawPosition = DrawPosition.LeftTop,
                     ImageCycle = CycleInfo.Default,
-                    ImageOption = ImageOptionType.Japan,
+                    ImageOption = ImageOptionType.MacDefault,
                     UserImagePath = string.Empty,
                     ImageIndex = 0,
                     WordIndex = 0,
@@ -66,7 +66,7 @@ namespace RicePaper.Lib.Model
                 settings.ImageCycle = CycleInfo.Default;
 
             if (settings.ImageOption == ImageOptionType.Custom && string.IsNullOrWhiteSpace(settings.UserImagePath))
-                settings.ImageOption = ImageOptionType.Japan;
+                settings.ImageOption = ImageOptionType.MacDefault;
 
             if (settings.TextOptions == null)
                 settings.TextOptions = TextOptions.Default;

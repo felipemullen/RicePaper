@@ -195,7 +195,7 @@
                                                                 <font key="font" metaFont="system"/>
                                                                 <menu key="menu" id="Ec6-pA-rTr">
                                                                     <items>
-                                                                        <menuItem title="Japan (Default)" state="on" id="Hid-jO-sIi">
+                                                                        <menuItem title="Japan (Default)" state="on" hidden="YES" enabled="NO" id="Hid-jO-sIi">
                                                                             <userDefinedRuntimeAttributes>
                                                                                 <userDefinedRuntimeAttribute type="string" keyPath="enumValue" value="Japan"/>
                                                                             </userDefinedRuntimeAttributes>
@@ -204,7 +204,7 @@
                                                                         <menuItem title="MacOS" id="hoM-yz-wUk">
                                                                             <accessibility identifier="MacDefault"/>
                                                                         </menuItem>
-                                                                        <menuItem title="Abstract" id="6nn-Jq-Qfn">
+                                                                        <menuItem title="Abstract" hidden="YES" enabled="NO" id="6nn-Jq-Qfn">
                                                                             <accessibility identifier="Abstract"/>
                                                                         </menuItem>
                                                                         <menuItem title="Custom" id="Ni9-YW-sJ9">
