@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Foundation;
 
 /// <summary>
 /// Several items have been commented out in order to make this
@@ -6,6 +7,7 @@
 /// </summary>
 namespace RicePaper.Lib.Dictionary
 {
+    [Preserve(AllMembers = true)]
     public class JishoResponse
     {
         //public Meta meta { get; set; }
@@ -17,6 +19,7 @@ namespace RicePaper.Lib.Dictionary
         public int status { get; set; }
     }
 
+    [Preserve(AllMembers = true)]
     public class JishoWordEntry
     {
         //public bool is_common { get; set; }
@@ -26,12 +29,14 @@ namespace RicePaper.Lib.Dictionary
         //public Attribution attribution { get; set; }
     }
 
+    [Preserve(AllMembers = true)]
     public class JapaneseTerm
     {
         public string word { get; set; }
         public string reading { get; set; }
     }
 
+    [Preserve(AllMembers = true)]
     public class Senses
     {
         public IEnumerable<string> english_definitions { get; set; }
