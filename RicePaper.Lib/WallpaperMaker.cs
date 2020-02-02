@@ -1,6 +1,7 @@
 ﻿using RicePaper.Lib.Model;
 using System;
 using System.IO;
+using System.Threading.Tasks;
 
 #if __MACOS__
 using AppKit;
@@ -66,7 +67,10 @@ namespace RicePaper.Lib
                             Console.WriteLine(errorContainer.ToString());
                     }
 
-                    CleanupCache();
+                    Task.Run(() =>
+                    {
+                        CleanupCache();
+                    });
                 }
             }
             catch (Exception ex)
