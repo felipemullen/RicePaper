@@ -8,6 +8,8 @@ namespace RicePaper.Lib
 {
     public class Util
     {
+        public static string AppContainer => Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+
         public static string AppRoot => Directory.GetParent(AppContext.BaseDirectory.TrimEnd('/')).FullName;
 
         public static void Alert(string title, string message, NSWindow window, NSAlertStyle alertStyle = NSAlertStyle.Critical)

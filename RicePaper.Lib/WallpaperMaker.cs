@@ -29,16 +29,31 @@ namespace RicePaper.Lib
         #region Properties
         public string CacheDirectory
         {
-            get { return Path.Combine(AppContext.BaseDirectory, "cache"); }
+            get { return Path.Combine(Util.AppContainer, "cache"); }
         }
         #endregion
 
         #region Constructor
         public WallpaperMaker()
         {
-            var cachePath = new DirectoryInfo(CacheDirectory);
-            if (cachePath.Exists == false)
-                cachePath.Create();
+            try
+            {
+                var cachePath = new DirectoryInfo(CacheDirectory);
+                if (cachePath.Exists == false)
+                    Directory.CreateDirectory(CacheDirectory);
+            }
+            catch (Exception ex)
+            {
+                NSAlert alert = new NSAlert()
+                {
+                    AlertStyle = NSAlertStyle.Critical,
+                    MessageText = "Unable to create cache directory!",
+                    InformativeText = ex.Message
+                };
+
+                alert.RunModal();
+                System.Environment.Exit(0);
+            }
         }
         #endregion
 

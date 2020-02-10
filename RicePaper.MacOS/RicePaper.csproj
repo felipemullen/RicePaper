@@ -32,6 +32,7 @@
     <XamMacArch></XamMacArch>
     <PackageSigningKey>3rd Party Mac Developer Installer</PackageSigningKey>
     <AOTMode>None</AOTMode>
+    <UseHardenedRuntime>true</UseHardenedRuntime>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>
@@ -40,19 +41,19 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <EnableCodeSigning>true</EnableCodeSigning>
-    <CreatePackage>true</CreatePackage>
-    <EnablePackageSigning>true</EnablePackageSigning>
+    <CreatePackage>false</CreatePackage>
+    <EnablePackageSigning>false</EnablePackageSigning>
     <IncludeMonoRuntime>true</IncludeMonoRuntime>
     <UseSGen>true</UseSGen>
     <UseRefCounting>true</UseRefCounting>
     <LinkMode>Full</LinkMode>
     <HttpClientHandler></HttpClientHandler>
     <XamMacArch></XamMacArch>
-    <CodeSigningKey>3rd Party Mac Developer Application: Felipe Mullen (7685J9W3LF)</CodeSigningKey>
+    <CodeSigningKey>Developer ID Application: Felipe Mullen (7685J9W3LF)</CodeSigningKey>
     <PackageSigningKey>3rd Party Mac Developer Installer: Felipe Mullen (7685J9W3LF)</PackageSigningKey>
     <AOTMode>None</AOTMode>
-    <CodeSignProvision>RicePaper Release Profile</CodeSignProvision>
     <CodeSignEntitlements>Entitlements.plist</CodeSignEntitlements>
+    <UseHardenedRuntime>true</UseHardenedRuntime>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -139,6 +140,9 @@
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Main.storyboard" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\RicePaper.MacOS.entitlements" />
   </ItemGroup>
   <Import Project="..\RicePaper.Lib\RicePaper.Lib.projitems" Label="Shared" Condition="Exists('..\RicePaper.Lib\RicePaper.Lib.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
