@@ -16,47 +16,62 @@ namespace RicePaper.MacOS
         #endregion
 
         #region Private Fields
-        private readonly RiceDictionary riceDict;
-        private readonly WallpaperList imageList;
-        private readonly RiceScheduler riceScheduler;
-        private readonly AppSettings settings;
+        public readonly RiceDictionary RiceDict;
+        public readonly WallpaperList ImageList;
+        public readonly RiceScheduler Scheduler;
+        public readonly AppSettings Settings;
         #endregion
 
         #region UI Related Fields
         private readonly NSStatusItem statusItem;
-        private readonly NSPopover popoverView;
         private NSStoryboard mainStoryboard;
-        private ViewController viewController;
+
+        private NSWindowController aboutWindow;
+        private NSWindowController settingsWindow;
         #endregion
 
         #region Constructor
         public AppDelegate()
         {
-            settings = AppSettings.Load();
+            Settings = AppSettings.Load();
 
-            riceDict = new RiceDictionary();
-            imageList = new WallpaperList();
-            riceScheduler = new RiceScheduler(settings, riceDict, imageList);
+            RiceDict = new RiceDictionary();
+            ImageList = new WallpaperList();
+            Scheduler = new RiceScheduler(Settings, RiceDict, ImageList);
 
-            riceDict.Load(settings.WordListPath, settings.WordIndex);
-            imageList.Load(settings.ImagePath, settings.ImageIndex);
-
-            popoverView = new NSPopover();
+            RiceDict.Load(Settings.WordListPath, Settings.WordIndex);
+            ImageList.Load(Settings.ImagePath, Settings.ImageIndex);
 
             statusItem = NSStatusBar.SystemStatusBar.CreateStatusItem(NSStatusItemLength.Square);
             statusItem.Button.Target = this;
             statusItem.Button.Image = NSImage.ImageNamed("TrayIcon");
             statusItem.Button.Image.Size = new CGSize(ICON_SIZE, ICON_SIZE);
-            statusItem.Button.Action = new ObjCRuntime.Selector("StatusBarClicked:");
+
+            statusItem.Menu = CreateStatusBarMenu();
 
             RegisterAppKitNotifications();
+        }
+
+        private NSMenu CreateStatusBarMenu()
+        {
+            var menu = new NSMenu();
+
+            menu.AddItem("Next Image", new ObjCRuntime.Selector("MenuNextImage:"), "");
+            menu.AddItem("Next Word", new ObjCRuntime.Selector("MenuNextWord:"), "");
+            menu.AddItem(NSMenuItem.SeparatorItem);
+            menu.AddItem("Settings", new ObjCRuntime.Selector("MenuSettings:"), "");
+            menu.AddItem(NSMenuItem.SeparatorItem);
+            menu.AddItem("About RicePaper", new ObjCRuntime.Selector("MenuAbout:"), "");
+            menu.AddItem("Quit", new ObjCRuntime.Selector("MenuQuit:"), "");
+
+            return menu;
         }
 
         private void RegisterAppKitNotifications()
         {
             NSNotificationCenter.DefaultCenter.AddObserver(NSApplication.DidChangeScreenParametersNotification, (n) =>
             {
-                riceScheduler.ForcedUpdate(false, false);
+                Scheduler.ForcedUpdate(false, false);
             });
         }
         #endregion
@@ -66,48 +81,64 @@ namespace RicePaper.MacOS
         {
             mainStoryboard = NSStoryboard.FromName("Main", null);
 
-            viewController = mainStoryboard.InstantiateControllerWithIdentifier("ViewController") as ViewController;
-            viewController.AppSettings = this.settings;
-            viewController.RiceDictionary = this.riceDict;
-            viewController.ImageList = this.imageList;
-            viewController.RiceScheduler = riceScheduler;
+            aboutWindow = mainStoryboard.InstantiateControllerWithIdentifier("AboutWindow") as NSWindowController;
+            settingsWindow = mainStoryboard.InstantiateControllerWithIdentifier("SettingsWindow") as NSWindowController;
 
-            popoverView.ContentViewController = viewController;
-            popoverView.Behavior = NSPopoverBehavior.Semitransient;
-
-            riceScheduler.BeginScheduling();
+            Scheduler.BeginScheduling();
         }
 
         public override void WillTerminate(NSNotification notification)
         {
-            AppSettings.Save(settings);
-        }
-
-        [Export("applicationWillResignActive:")]
-        public override void WillResignActive(NSNotification notification)
-        {
-            CloseMainWindow(notification);
+            AppSettings.Save(Settings);
+            // TODO: Restore original user wallpaper
         }
         #endregion
 
         #region Button Actions
-        [Action("StatusBarClicked:")]
-        public void StatusBarClicked(NSObject sender)
+        [Action("MenuNextImage:")]
+        public void NextImage(NSObject sender)
         {
-            OpenMainWindow();
+            Scheduler.ForcedUpdate(changeImage: true, changeWord: false);
+        }
+
+        [Action("MenuNextWord:")]
+        public void NextWord(NSObject sender)
+        {
+            Scheduler.ForcedUpdate(changeImage: false, changeWord: true);
+        }
+
+        [Action("MenuQuit:")]
+        public void Quit(NSObject sender)
+        {
+            System.Environment.Exit(0);
+        }
+
+        [Action("MenuSettings:")]
+        public void OpenSettings(NSObject sender)
+        {
+            FocusWindow(settingsWindow);
+        }
+
+        [Action("MenuAbout:")]
+        public void OpenAbout(NSObject sender)
+        {
+            FocusWindow(aboutWindow);
         }
         #endregion
 
         #region Private Helpers
-        private void OpenMainWindow()
+        private void FocusWindow(NSWindowController controller)
         {
-            popoverView.Show(statusItem.Button.Bounds, statusItem.Button, NSRectEdge.MaxYEdge);
-            NSRunningApplication.CurrentApplication.Activate(NSApplicationActivationOptions.ActivateIgnoringOtherWindows);
-        }
+            if (controller.Window.IsVisible == false)
+            {
+                controller.ShowWindow(this);
+            }
 
-        private void CloseMainWindow(NSNotification notification)
-        {
-            popoverView.PerformClose(notification);
+            controller.Window.Center();
+            controller.Window.MakeKeyAndOrderFront(this);
+            controller.Window.BecomeKeyWindow();
+            controller.Window.BecomeMainWindow();
+            controller.Window.BecomeFirstResponder();
         }
         #endregion
     }

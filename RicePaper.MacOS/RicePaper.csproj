@@ -124,6 +124,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
+    <Folder Include="View Controllers\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -132,11 +133,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
-    <Compile Include="ViewController.cs" />
-    <Compile Include="ViewController.designer.cs">
-      <DependentUpon>ViewController.cs</DependentUpon>
-    </Compile>
     <Compile Include="AppDelegate.cs" />
+    <Compile Include="ReplaceViewSegue.cs" />
+    <Compile Include="View Controllers\GeneralTabController.cs" />
+    <Compile Include="View Controllers\GeneralTabController.designer.cs">
+      <DependentUpon>GeneralTabController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View Controllers\ImagesTabController.cs" />
+    <Compile Include="View Controllers\ImagesTabController.designer.cs">
+      <DependentUpon>ImagesTabController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View Controllers\ScheduleTabController.cs" />
+    <Compile Include="View Controllers\ScheduleTabController.designer.cs">
+      <DependentUpon>ScheduleTabController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View Controllers\TabController.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Main.storyboard" />
