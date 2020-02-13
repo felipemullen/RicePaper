@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using RicePaper.Lib.Model;
 using RicePaper.Lib.Utilities;
 
@@ -26,6 +27,8 @@ namespace RicePaper.Lib.Dictionary
         public TextDetails CurrentDefinition(AppSettings settings)
         {
             string currentWord = CurrentItem;
+
+            CacheNextWords(count: 10);
 
             var sentence = sentenceFinder.GetEntry(currentWord);
             if (sentence != null)
@@ -89,6 +92,19 @@ namespace RicePaper.Lib.Dictionary
                 Definition = settings.TextOptions.Definition ? details.Definition : string.Empty,
                 Romaji = settings.TextOptions.Romaji ? details.Romaji : string.Empty
             };
+        }
+
+        private void CacheNextWords(int count)
+        {
+            Task.Run(() =>
+            {
+                for (int i = 0; i < count; i++)
+                {
+                    var item = currentList[Index + i];
+                    jishoApi.Search(item);
+                    sentenceFinder.FindSentences(item);
+                }
+            });
         }
         #endregion
     }
