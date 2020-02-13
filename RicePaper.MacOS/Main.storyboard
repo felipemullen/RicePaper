@@ -183,6 +183,9 @@
                             <real value="3.4028234663852886e+38"/>
                         </customSpacing>
                     </stackView>
+                    <connections>
+                        <outlet property="FieldRefVersion" destination="shV-b1-zfL" id="uRD-Tw-Tmm"/>
+                    </connections>
                 </viewController>
                 <customObject id="qzr-Pg-L7i" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -857,15 +860,15 @@
                                                     <subviews>
                                                         <popUpButton horizontalHuggingPriority="249" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="soJ-WT-nt5">
                                                             <rect key="frame" x="-2" y="-3" width="191" height="25"/>
-                                                            <popUpButtonCell key="cell" type="push" title="Unchanged" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="sIw-Wu-Ege" id="NHp-VZ-0Ar">
+                                                            <popUpButtonCell key="cell" type="push" title="Unchanged" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="sIw-Wu-Ege" id="NHp-VZ-0Ar">
                                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                                                 <font key="font" metaFont="system"/>
                                                                 <menu key="menu" id="CeP-bf-gnK">
                                                                     <items>
-                                                                        <menuItem title="Unchanged" id="sIw-Wu-Ege">
+                                                                        <menuItem title="Unchanged" state="on" id="sIw-Wu-Ege">
                                                                             <accessibility identifier="Unchanged"/>
                                                                         </menuItem>
-                                                                        <menuItem title="Japan (Default)" state="on" hidden="YES" enabled="NO" id="X8F-JQ-ewJ">
+                                                                        <menuItem title="Japan (Default)" hidden="YES" enabled="NO" id="X8F-JQ-ewJ">
                                                                             <userDefinedRuntimeAttributes>
                                                                                 <userDefinedRuntimeAttribute type="string" keyPath="enumValue" value="Japan"/>
                                                                             </userDefinedRuntimeAttributes>
