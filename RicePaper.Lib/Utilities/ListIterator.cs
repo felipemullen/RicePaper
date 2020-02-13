@@ -15,6 +15,10 @@ namespace RicePaper.Lib
         protected IList<T> currentList;
         #endregion
 
+        #region Properties
+        public int Index { get { return index; } }
+        #endregion
+
         #region Constructor
         public ListIterator() { }
 
