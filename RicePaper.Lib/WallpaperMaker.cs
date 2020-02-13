@@ -26,6 +26,10 @@ namespace RicePaper.Lib
         private static CGSize SHADOW_OFFSET = new CGSize(2, -2);
         #endregion
 
+        #region Private Fields
+        private AppSettings settings;
+        #endregion
+
         #region Properties
         public string CacheDirectory
         {
@@ -34,8 +38,10 @@ namespace RicePaper.Lib
         #endregion
 
         #region Constructor
-        public WallpaperMaker()
+        public WallpaperMaker(AppSettings settings)
         {
+            this.settings = settings;
+
             try
             {
                 var cachePath = new DirectoryInfo(CacheDirectory);
@@ -65,6 +71,20 @@ namespace RicePaper.Lib
             {
                 foreach (var _screen in NSScreen.Screens)
                 {
+                    // Use current wallpapers if option is "unchanged"
+                    if (settings.ImageOption == ImageOptionType.Unchanged)
+                    {
+                        string id = Util.ScreenId(_screen);
+                        foreach (var item in settings.SavedDesktop)
+                        {
+                            if (item.Key == id)
+                            {
+                                var uri = new Uri(item.Value);
+                                filepath = uri.LocalPath;
+                            }
+                        }
+                    }
+
                     string cachePath = DrawImage(_screen, filepath, drawDetails);
 
                     if (cachePath != null)

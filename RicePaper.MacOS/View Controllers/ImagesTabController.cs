@@ -2,7 +2,6 @@ using System;
 using Foundation;
 using AppKit;
 using RicePaper.Lib;
-using RicePaper.Lib.Model;
 using System.Linq;
 using RicePaper.MacOS.ViewControllers;
 
@@ -39,6 +38,11 @@ namespace RicePaper.MacOS
 
                     ButtonRefImagePicker.Enabled = true;
                 }
+                else if (choice == ImageOptionType.Unchanged)
+                {
+                    ButtonRefImagePicker.Enabled = false;
+                    UpdateImage();
+                }
                 else
                 {
                     ButtonRefImagePicker.Enabled = false;
@@ -48,6 +52,7 @@ namespace RicePaper.MacOS
 
                 Settings.ImageOption = choice;
                 UpdateLabels();
+                App.RefreshImageMenuText();
             }
         }
 

@@ -1,4 +1,7 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
+using AppKit;
+using CoreGraphics;
 using Foundation;
 using Newtonsoft.Json;
 
@@ -22,10 +25,11 @@ namespace RicePaper.Lib.Model
             {
                 return new AppSettings()
                 {
+                    SavedDesktop = StoreCurrentDesktop(),
                     Dictionary = DictionarySelection.JapanDict,
                     DrawPosition = DrawPosition.LeftTop,
                     ImageCycle = CycleInfo.Default,
-                    ImageOption = ImageOptionType.MacDefault,
+                    ImageOption = ImageOptionType.Unchanged,
                     UserImagePath = string.Empty,
                     ImageIndex = 0,
                     WordIndex = 0,
@@ -66,7 +70,7 @@ namespace RicePaper.Lib.Model
                 settings.ImageCycle = CycleInfo.Default;
 
             if (settings.ImageOption == ImageOptionType.Custom && string.IsNullOrWhiteSpace(settings.UserImagePath))
-                settings.ImageOption = ImageOptionType.MacDefault;
+                settings.ImageOption = ImageOptionType.Unchanged;
 
             if (settings.TextOptions == null)
                 settings.TextOptions = TextOptions.Default;
@@ -82,6 +86,9 @@ namespace RicePaper.Lib.Model
 
             if (settings.SecondaryTextScale < MIN_TEXT_SCALE || settings.SecondaryTextScale > MAX_TEXT_SCALE)
                 settings.SecondaryTextScale = DEFAULT_TEXT_SCALE;
+
+            if (settings.SavedDesktop == null || settings.SavedDesktop.Count == 0)
+                settings.SavedDesktop = StoreCurrentDesktop();
         }
 
         public static void Save(AppSettings settings)
@@ -106,6 +113,46 @@ namespace RicePaper.Lib.Model
         public static string GetFilePath(WordListSelection list)
         {
             return Path.Combine(Util.AppRoot, "Resources/Content/WordLists", $"{list}.list");
+        }
+
+        private static Dictionary<string, string> StoreCurrentDesktop()
+        {
+            var paths = new Dictionary<string, string>();
+            foreach (var screen in NSScreen.Screens)
+            {
+                try
+                {
+                    var id = Util.ScreenId(screen);
+                    NSUrl filepath = NSWorkspace.SharedWorkspace.DesktopImageUrl(screen);
+                    paths.Add(id.ToString(), filepath.ToString());
+                }
+                catch (System.Exception ex)
+                {
+                    System.Console.WriteLine(ex);
+                }
+            }
+
+            return paths;
+        }
+
+        public static void RestoreSavedDesktop(AppSettings settings)
+        {
+            foreach (var item in settings.SavedDesktop)
+            {
+                foreach (var screen in NSScreen.Screens)
+                {
+                    var id = Util.ScreenId(screen);
+                    if (id == item.Key)
+                    {
+                        NSError errorContainer = new NSError();
+
+                        var workspace = NSWorkspace.SharedWorkspace;
+                        var options = workspace.DesktopImageOptions(screen);
+                        var url = new NSUrl(item.Value);
+                        NSWorkspace.SharedWorkspace.SetDesktopImageUrl(url, screen, options, errorContainer);
+                    }
+                }
+            }
         }
         #endregion
 
@@ -157,6 +204,8 @@ namespace RicePaper.Lib.Model
         public float PrimaryTextScale { get; set; }
 
         public float SecondaryTextScale { get; set; }
+
+        public Dictionary<string, string> SavedDesktop { get; private set; }
         #endregion
 
         /// <summary>

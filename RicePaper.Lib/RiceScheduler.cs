@@ -22,7 +22,7 @@ namespace RicePaper.Lib
         public RiceScheduler(AppSettings settings, RiceDictionary riceDict, WallpaperList imageList)
         {
             this.settings = settings;
-            wallpaperUtility = new WallpaperMaker();
+            wallpaperUtility = new WallpaperMaker(settings);
             this.riceDict = riceDict;
             this.imageList = imageList;
 
@@ -89,7 +89,7 @@ namespace RicePaper.Lib
 
         private void Update(bool changeImage, bool changeWord)
         {
-            if (changeImage)
+            if (changeImage && settings.ImageOption != ImageOptionType.Unchanged)
                 settings.ImageIndex = imageList.Increment(settings.WordSelection);
 
             if (changeWord)
@@ -107,7 +107,9 @@ namespace RicePaper.Lib
                 Text = currentWord
             };
 
-            var imagePath = imageList.CurrentItem;
+            string imagePath = (settings.ImageOption == ImageOptionType.Unchanged)
+                ? string.Empty
+                : imageList.CurrentItem;
             wallpaperUtility.SetWallpaper(imagePath, parameters);
         }
 

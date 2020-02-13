@@ -148,6 +148,10 @@
       <DependentUpon>ScheduleTabController.cs</DependentUpon>
     </Compile>
     <Compile Include="View Controllers\TabController.cs" />
+    <Compile Include="AboutController.cs" />
+    <Compile Include="AboutController.designer.cs">
+      <DependentUpon>AboutController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Main.storyboard" />

@@ -3,11 +3,14 @@ using System.IO;
 using Accelerate;
 using AppKit;
 using CoreGraphics;
+using Foundation;
 
 namespace RicePaper.Lib
 {
     public class Util
     {
+        private static NSString DISPLAY_ID_KEY = new NSString("NSScreenNumber");
+
         public static string AppContainer => Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
         public static string AppRoot => Directory.GetParent(AppContext.BaseDirectory.TrimEnd('/')).FullName;
@@ -59,6 +62,11 @@ namespace RicePaper.Lib
         public static NSColor ToNSColor(Pixel8888 c)
         {
             return NSColor.FromCalibratedRgba(c.R, c.G, c.B, c.A);
+        }
+
+        public static string ScreenId(NSScreen screen)
+        {
+            return screen.DeviceDescription.ValueForKey(DISPLAY_ID_KEY).ToString();
         }
     }
 }

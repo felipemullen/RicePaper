@@ -28,6 +28,7 @@ namespace RicePaper.MacOS
 
         private NSWindowController aboutWindow;
         private NSWindowController settingsWindow;
+        private NSMenuItem imageMenuItem;
         #endregion
 
         #region Constructor
@@ -42,7 +43,9 @@ namespace RicePaper.MacOS
             Scheduler = new RiceScheduler(Settings, RiceDict, ImageList);
 
             RiceDict.Load(Settings.WordListPath, Settings.WordIndex);
-            ImageList.Load(Settings.ImagePath, Settings.ImageIndex);
+
+            if (Settings.ImageOption != ImageOptionType.Unchanged)
+                ImageList.Load(Settings.ImagePath, Settings.ImageIndex);
 
             statusItem = NSStatusBar.SystemStatusBar.CreateStatusItem(NSStatusItemLength.Square);
             statusItem.Button.Target = this;
@@ -58,7 +61,10 @@ namespace RicePaper.MacOS
         {
             var menu = new NSMenu();
 
-            menu.AddItem("Next Image", new ObjCRuntime.Selector("MenuNextImage:"), "");
+            imageMenuItem = new NSMenuItem("", new ObjCRuntime.Selector("MenuNextImage:"), "");
+            RefreshImageMenuText();
+
+            menu.AddItem(imageMenuItem);
             menu.AddItem("Next Word", new ObjCRuntime.Selector("MenuNextWord:"), "");
             menu.AddItem(NSMenuItem.SeparatorItem);
             menu.AddItem("Settings", new ObjCRuntime.Selector("MenuSettings:"), "");
@@ -76,6 +82,15 @@ namespace RicePaper.MacOS
                 Scheduler.ForcedUpdate(false, false);
             });
         }
+
+        public void RefreshImageMenuText()
+        {
+            string imageText = (Settings.ImageOption == ImageOptionType.Unchanged)
+                ? "Refresh Image"
+                : "Next Image";
+
+            imageMenuItem.Title = imageText;
+        }
         #endregion
 
         #region NS Lifecycle
@@ -92,7 +107,7 @@ namespace RicePaper.MacOS
         public override void WillTerminate(NSNotification notification)
         {
             AppSettings.Save(Settings);
-            // TODO: Restore original user wallpaper
+            AppSettings.RestoreSavedDesktop(Settings);
         }
         #endregion
 
@@ -112,6 +127,8 @@ namespace RicePaper.MacOS
         [Action("MenuQuit:")]
         public void Quit(NSObject sender)
         {
+            AppSettings.Save(Settings);
+            AppSettings.RestoreSavedDesktop(Settings);
             System.Environment.Exit(0);
         }
 
