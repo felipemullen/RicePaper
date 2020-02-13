@@ -10,16 +10,12 @@ namespace RicePaper.MacOS
 {
     public partial class ScheduleTabController : TabController
     {
-        #region Private Fields
-        private WordSelectionMode _wordSelectionMode;
-        #endregion
-
         #region Initialization
         public ScheduleTabController(IntPtr handle) : base(handle) { }
 
         public override void ViewWillLayout()
         {
-            UpdateEntireUI();
+            UpdateUI();
 
             base.ViewWillLayout();
         }
@@ -31,7 +27,9 @@ namespace RicePaper.MacOS
             var stepper = sender as NSStepper;
 
             FieldRefImageInterval.StringValue = stepper.StringValue;
-            SetDirty();
+            Settings.ImageCycle = GetCycleInfo(DropdownRefImageIntervalUnit, FieldRefImageInterval);
+            UpdateImage();
+            SaveSettings();
         }
 
         partial void ActionStepperWordInterval(NSObject sender)
@@ -39,32 +37,14 @@ namespace RicePaper.MacOS
             var stepper = sender as NSStepper;
 
             FieldRefWordInterval.StringValue = stepper.StringValue;
-            SetDirty();
-        }
-
-        partial void ActionButtonApply(NSObject sender)
-        {
-            bool imageFolderWasChanged = false;
-            bool wordListWasChanged = false;
-
-            Settings.ImageCycle = GetCycleInfo(DropdownRefImageIntervalUnit, FieldRefImageInterval);
             Settings.WordCycle = GetCycleInfo(DropdownRefWordIntervalUnit, FieldRefWordInterval);
-            Settings.WordSelection = _wordSelectionMode;
-
-            SetClean();
-
-            Scheduler.ForcedUpdate(changeImage: imageFolderWasChanged, changeWord: wordListWasChanged);
-
-            try
-            {
-                AppSettings.Save(Settings);
-            }
-            catch (Exception) { }
+            UpdateImage();
+            SaveSettings();
         }
 
-        partial void DropdownImageIntervalUnit(NSObject sender) => SetDirty();
+        partial void DropdownImageIntervalUnit(NSObject sender) => ChangeDropdowns();
 
-        partial void DropdownWordIntervalUnit(NSObject sender) => SetDirty();
+        partial void DropdownWordIntervalUnit(NSObject sender) => ChangeDropdowns();
 
         partial void ActionImageIntervalTextField(NSObject sender)
         {
@@ -74,7 +54,8 @@ namespace RicePaper.MacOS
             if (isInt && numberValue > 0 && numberValue != Settings.ImageCycle.Interval)
             {
                 StepperRefImageInterval.StringValue = field.StringValue;
-                SetDirty();
+                UpdateImage();
+                SaveSettings();
             }
         }
 
@@ -86,27 +67,39 @@ namespace RicePaper.MacOS
             if (isInt && numberValue > 0 && numberValue != Settings.WordCycle.Interval)
             {
                 StepperRefWordInterval.StringValue = field.StringValue;
-                SetDirty();
+                UpdateImage();
+                SaveSettings();
             }
         }
 
         partial void ActionRadioIterateInOrder(NSObject sender)
         {
             ButtonRefRadioRandom.StringValue = "0";
-            _wordSelectionMode = WordSelectionMode.InOrder;
-            SetDirty();
+            Settings.WordSelection = WordSelectionMode.InOrder;
+            UpdateImage();
+            SaveSettings();
         }
 
         partial void ActionRadioIterateRandom(NSObject sender)
         {
             ButtonRefRadioInOrder.StringValue = "0";
-            _wordSelectionMode = WordSelectionMode.Random;
-            SetDirty();
+            Settings.WordSelection = WordSelectionMode.Random;
+            UpdateImage();
+            SaveSettings();
         }
         #endregion
 
         #region Private Helpers
-        private void UpdateEntireUI()
+        private void ChangeDropdowns()
+        {
+            Settings.ImageCycle = GetCycleInfo(DropdownRefImageIntervalUnit, FieldRefImageInterval);
+            Settings.WordCycle = GetCycleInfo(DropdownRefWordIntervalUnit, DropdownRefWordIntervalUnit);
+
+            UpdateImage();
+            SaveSettings();
+        }
+
+        private void UpdateUI()
         {
             ButtonRefRadioInOrder.StringValue = (Settings.WordSelection == WordSelectionMode.InOrder) ? "1" : "0";
             ButtonRefRadioRandom.StringValue = (Settings.WordSelection == WordSelectionMode.Random) ? "1" : "0";
@@ -134,9 +127,6 @@ namespace RicePaper.MacOS
                 Interval = GetUnitValue(textField)
             };
         }
-
-        private void SetDirty() => ButtonRefApply.Enabled = true;
-        private void SetClean() => ButtonRefApply.Enabled = false;
         #endregion
     }
 }

@@ -10,34 +10,14 @@ namespace RicePaper.MacOS
 {
     public partial class ImagesTabController : TabController
     {
-        #region Private Fields
-        private DrawPosition _drawPosition;
-        private ImageOptionType _imageOptionType;
-        private string _imagePath;
-        #endregion
-
         #region Initialization
         public ImagesTabController(IntPtr handle) : base(handle) { }
 
         public override void ViewWillLayout()
         {
-            LoadVolatileValues();
-            UpdateEntireUI();
+            UpdateUI();
 
             base.ViewWillLayout();
-        }
-
-        /// <summary>
-        /// I couldn't think of a more appropriate name for this method after
-        /// a good 10 seconds of pondering. The responsibility of this method
-        /// is to set the values for variables used in this controller that
-        /// come straight from AppSettings but need to be loaded before
-        /// the UI is rendered
-        /// </summary>
-        private void LoadVolatileValues()
-        {
-            _imagePath = Settings.UserImagePath;
-            _imageOptionType = Settings.ImageOption;
         }
         #endregion
 
@@ -46,29 +26,43 @@ namespace RicePaper.MacOS
         {
             var choice = GetPopupButtonValue<ImageOptionType>(sender);
 
-            if (_imageOptionType != choice)
+            if (Settings.ImageOption != choice)
             {
-                _imageOptionType = choice;
+                if (choice == ImageOptionType.Custom)
+                {
+                    // Don't update unless there is already a custom path stored
+                    if (string.IsNullOrWhiteSpace(Settings.UserImagePath) == false)
+                    {
+                        ImageList.Load(Settings.UserImagePath);
+                        UpdateImage();
+                    }
 
-                ButtonRefImagePicker.Enabled = (choice == ImageOptionType.Custom);
+                    ButtonRefImagePicker.Enabled = true;
+                }
+                else
+                {
+                    ButtonRefImagePicker.Enabled = false;
+                    ImageList.Load(choice);
+                    UpdateImage();
+                }
 
+                Settings.ImageOption = choice;
                 UpdateLabels();
-                SetDirty();
             }
         }
 
-        partial void ActionSliderPrimary(NSObject sender) => SetDirty();
-        partial void ActionSliderSecondary(NSObject sender) => SetDirty();
+        partial void ActionSliderPrimary(NSObject sender) => ChangeScale();
+        partial void ActionSliderSecondary(NSObject sender) => ChangeScale();
 
-        partial void ActionPositionCB(NSObject sender) => UpdatePosition(sender, DrawPosition.CenterBottom);
-        partial void ActionPositionCM(NSObject sender) => UpdatePosition(sender, DrawPosition.CenterMid);
-        partial void ActionPositionCT(NSObject sender) => UpdatePosition(sender, DrawPosition.CenterTop);
-        partial void ActionPositionLB(NSObject sender) => UpdatePosition(sender, DrawPosition.LeftBottom);
-        partial void ActionPositionLM(NSObject sender) => UpdatePosition(sender, DrawPosition.LeftMid);
-        partial void ActionPositionLT(NSObject sender) => UpdatePosition(sender, DrawPosition.LeftTop);
-        partial void ActionPositionRB(NSObject sender) => UpdatePosition(sender, DrawPosition.RightBottom);
-        partial void ActionPositionRM(NSObject sender) => UpdatePosition(sender, DrawPosition.RightMid);
-        partial void ActionPositionRT(NSObject sender) => UpdatePosition(sender, DrawPosition.RightTop);
+        partial void ActionPositionCB(NSObject sender) => ChangePosition(sender, DrawPosition.CenterBottom);
+        partial void ActionPositionCM(NSObject sender) => ChangePosition(sender, DrawPosition.CenterMid);
+        partial void ActionPositionCT(NSObject sender) => ChangePosition(sender, DrawPosition.CenterTop);
+        partial void ActionPositionLB(NSObject sender) => ChangePosition(sender, DrawPosition.LeftBottom);
+        partial void ActionPositionLM(NSObject sender) => ChangePosition(sender, DrawPosition.LeftMid);
+        partial void ActionPositionLT(NSObject sender) => ChangePosition(sender, DrawPosition.LeftTop);
+        partial void ActionPositionRB(NSObject sender) => ChangePosition(sender, DrawPosition.RightBottom);
+        partial void ActionPositionRM(NSObject sender) => ChangePosition(sender, DrawPosition.RightMid);
+        partial void ActionPositionRT(NSObject sender) => ChangePosition(sender, DrawPosition.RightTop);
 
         partial void ActionImageDialog(NSButton sender)
         {
@@ -88,79 +82,19 @@ namespace RicePaper.MacOS
 
                     if (result != null)
                     {
-                        _imagePath = result.Path;
+                        Settings.UserImagePath = result.Path;
+                        ImageList.Load(result.Path);
+
                         UpdateLabels();
-                        SetDirty();
+                        UpdateImage();
                     }
                 }
             });
         }
-
-        partial void ActionButtonApply(NSObject sender)
-        {
-            if (!ValidateSettings())
-                return;
-
-            bool imageFolderWasChanged = false;
-            bool wordListWasChanged = false;
-
-            if (Settings.ImageOption != _imageOptionType)
-            {
-                if (_imageOptionType == ImageOptionType.Custom)
-                {
-                    ImageList.Load(_imagePath);
-                    Settings.UserImagePath = _imagePath;
-                }
-                else
-                {
-                    ImageList.Load(_imageOptionType);
-                }
-
-                Settings.ImageOption = GetPopupButtonValue<ImageOptionType>(DropdownRefImageList);
-                imageFolderWasChanged = true;
-            }
-
-            else if (Settings.ImageOption == ImageOptionType.Custom && _imageOptionType == ImageOptionType.Custom && Settings.UserImagePath != _imagePath)
-            {
-                ImageList.Load(_imagePath);
-                Settings.UserImagePath = _imagePath;
-                imageFolderWasChanged = true;
-            }
-
-            Settings.DrawPosition = _drawPosition;
-            Settings.PrimaryTextScale = SliderRefPrimaryText.FloatValue;
-            Settings.SecondaryTextScale = SliderRefSecondaryText.FloatValue;
-
-            SetClean();
-
-            Scheduler.ForcedUpdate(changeImage: imageFolderWasChanged, changeWord: wordListWasChanged);
-
-            try
-            {
-                AppSettings.Save(Settings);
-            }
-            catch (Exception) { }
-        }
         #endregion
 
         #region Private Helpers
-        private bool ValidateSettings()
-        {
-            if (_imageOptionType == ImageOptionType.Custom && string.IsNullOrWhiteSpace(_imagePath))
-            {
-                Util.Alert(
-                    title: "Invalid Settings",
-                    message: "Please specify a folder path for custom images",
-                    window: this.View.Window
-                );
-
-                return false;
-            }
-
-            return true;
-        }
-
-        private void UpdateEntireUI()
+        private void UpdateUI()
         {
             ButtonRefImagePicker.Enabled = (Settings.ImageOption == ImageOptionType.Custom);
 
@@ -198,7 +132,7 @@ namespace RicePaper.MacOS
             UpdateLabels();
         }
 
-        private void UpdatePosition(NSObject sender, DrawPosition newPosition)
+        private void ChangePosition(NSObject sender, DrawPosition newPosition)
         {
             ButtonRefPosLT.AlphaValue = 0.6f;
             ButtonRefPosLM.AlphaValue = 0.6f;
@@ -213,20 +147,26 @@ namespace RicePaper.MacOS
             var button = sender as NSButton;
             button.AlphaValue = 1.0f;
 
-            _drawPosition = newPosition;
-            SetDirty();
+            Settings.DrawPosition = newPosition;
+
+            UpdateImage();
+        }
+
+        private void ChangeScale()
+        {
+            Settings.PrimaryTextScale = SliderRefPrimaryText.FloatValue;
+            Settings.SecondaryTextScale = SliderRefSecondaryText.FloatValue;
+            UpdateImage();
+            SaveSettings();
         }
 
         private void UpdateLabels()
         {
-            if (_imageOptionType == ImageOptionType.Custom && string.IsNullOrWhiteSpace(_imagePath) != true)
-                LabelImagePath.StringValue = _imagePath;
+            if (Settings.ImageOption == ImageOptionType.Custom && string.IsNullOrWhiteSpace(Settings.UserImagePath) != true)
+                LabelImagePath.StringValue = Settings.UserImagePath;
             else
                 LabelImagePath.StringValue = $"Image Set: {DropdownRefImageList.Title}";
         }
-
-        private void SetDirty() => ButtonRefApply.Enabled = true;
-        private void SetClean() => ButtonRefApply.Enabled = false;
         #endregion
     }
 }
