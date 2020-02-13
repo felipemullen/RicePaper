@@ -566,7 +566,7 @@
                                             <rect key="frame" x="108" y="101" width="322" height="22"/>
                                             <subviews>
                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="srN-Ff-E6q">
-                                                    <rect key="frame" x="-2" y="3" width="172" height="16"/>
+                                                    <rect key="frame" x="-2" y="3" width="171" height="16"/>
                                                     <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="every" id="EdQ-pK-m2j">
                                                         <font key="font" usesAppearanceFont="YES"/>
                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -574,13 +574,13 @@
                                                     </textFieldCell>
                                                 </textField>
                                                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jEt-Ql-Cwt">
-                                                    <rect key="frame" x="176" y="1" width="35" height="21"/>
+                                                    <rect key="frame" x="175" y="1" width="35" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="35" id="A6C-dV-K9I"/>
                                                     </constraints>
                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="right" title="1" drawsBackground="YES" id="Mpu-ie-8L6">
                                                         <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" formatWidth="-1" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="Q48-Ia-5hm">
-                                                            <real key="minimum" value="0.0"/>
+                                                            <real key="minimum" value="1"/>
                                                             <real key="maximum" value="100"/>
                                                         </numberFormatter>
                                                         <font key="font" metaFont="system"/>
@@ -593,7 +593,7 @@
                                                 </textField>
                                                 <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Z4d-ik-SoV">
                                                     <rect key="frame" x="208" y="-3" width="19" height="28"/>
-                                                    <stepperCell key="cell" continuous="YES" alignment="left" maxValue="100" id="z92-rW-2nC"/>
+                                                    <stepperCell key="cell" continuous="YES" alignment="left" minValue="1" maxValue="100" doubleValue="1" id="z92-rW-2nC"/>
                                                     <connections>
                                                         <action selector="ActionStepperImageInterval:" target="ST5-bn-REm" id="3R9-oK-5kD"/>
                                                     </connections>
@@ -627,7 +627,7 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="SE2-mK-zsk" secondAttribute="trailing" id="5UN-WE-16y"/>
-                                                <constraint firstItem="Z4d-ik-SoV" firstAttribute="leading" secondItem="jEt-Ql-Cwt" secondAttribute="trailing" id="9vV-HW-5Pu"/>
+                                                <constraint firstItem="Z4d-ik-SoV" firstAttribute="leading" secondItem="jEt-Ql-Cwt" secondAttribute="trailing" constant="1" id="9vV-HW-5Pu"/>
                                                 <constraint firstItem="SE2-mK-zsk" firstAttribute="leading" secondItem="Z4d-ik-SoV" secondAttribute="trailing" constant="8" id="UMP-kE-ZPm"/>
                                                 <constraint firstItem="jEt-Ql-Cwt" firstAttribute="leading" secondItem="srN-Ff-E6q" secondAttribute="trailing" constant="8" id="am7-HJ-oSF"/>
                                             </constraints>
@@ -660,7 +660,7 @@
                                             <rect key="frame" x="108" y="73" width="322" height="22"/>
                                             <subviews>
                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zvr-5j-fYm">
-                                                    <rect key="frame" x="-2" y="3" width="172" height="16"/>
+                                                    <rect key="frame" x="-2" y="3" width="171" height="16"/>
                                                     <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="every" id="ffQ-cA-ZiE">
                                                         <font key="font" usesAppearanceFont="YES"/>
                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -668,13 +668,13 @@
                                                     </textFieldCell>
                                                 </textField>
                                                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nhj-td-oYt">
-                                                    <rect key="frame" x="176" y="1" width="35" height="21"/>
+                                                    <rect key="frame" x="175" y="1" width="35" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="35" id="2LB-Lh-kim"/>
                                                     </constraints>
                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="right" title="1" drawsBackground="YES" id="bV0-f8-SH7">
                                                         <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" formatWidth="-1" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="2hC-YU-w4W">
-                                                            <real key="minimum" value="0.0"/>
+                                                            <real key="minimum" value="1"/>
                                                             <real key="maximum" value="100"/>
                                                         </numberFormatter>
                                                         <font key="font" metaFont="system"/>
@@ -687,7 +687,7 @@
                                                 </textField>
                                                 <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="spS-On-7Sf">
                                                     <rect key="frame" x="208" y="-3" width="19" height="28"/>
-                                                    <stepperCell key="cell" continuous="YES" alignment="left" maxValue="100" id="mye-L3-dxq"/>
+                                                    <stepperCell key="cell" continuous="YES" alignment="left" minValue="1" maxValue="100" doubleValue="1" id="mye-L3-dxq"/>
                                                     <connections>
                                                         <action selector="ActionStepperWordInterval:" target="ST5-bn-REm" id="3A1-Vz-jMZ"/>
                                                     </connections>
@@ -722,7 +722,7 @@
                                             <constraints>
                                                 <constraint firstItem="2Vo-av-ZuX" firstAttribute="leading" secondItem="spS-On-7Sf" secondAttribute="trailing" constant="8" id="EKe-fC-g2X"/>
                                                 <constraint firstItem="nhj-td-oYt" firstAttribute="leading" secondItem="zvr-5j-fYm" secondAttribute="trailing" constant="8" id="FK8-s3-RTz"/>
-                                                <constraint firstItem="spS-On-7Sf" firstAttribute="leading" secondItem="nhj-td-oYt" secondAttribute="trailing" id="wul-8M-HlZ"/>
+                                                <constraint firstItem="spS-On-7Sf" firstAttribute="leading" secondItem="nhj-td-oYt" secondAttribute="trailing" constant="1" id="wul-8M-HlZ"/>
                                                 <constraint firstAttribute="trailing" secondItem="2Vo-av-ZuX" secondAttribute="trailing" id="yZX-aO-fxS"/>
                                             </constraints>
                                             <visibilityPriorities>
