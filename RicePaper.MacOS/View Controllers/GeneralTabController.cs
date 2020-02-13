@@ -114,7 +114,6 @@ namespace RicePaper.MacOS
 
             SetClean();
 
-            // TODO: make this asynchronous on main thread
             Scheduler.ForcedUpdate(changeImage: imageFolderWasChanged, changeWord: wordListWasChanged);
 
             try

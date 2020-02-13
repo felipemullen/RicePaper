@@ -33,6 +33,8 @@ namespace RicePaper.MacOS
         #region Constructor
         public AppDelegate()
         {
+            NSApplication.SharedApplication.ActivateIgnoringOtherApps(true);
+
             Settings = AppSettings.Load();
 
             RiceDict = new RiceDictionary();
@@ -136,9 +138,6 @@ namespace RicePaper.MacOS
 
             controller.Window.Center();
             controller.Window.MakeKeyAndOrderFront(this);
-            controller.Window.BecomeKeyWindow();
-            controller.Window.BecomeMainWindow();
-            controller.Window.BecomeFirstResponder();
         }
         #endregion
     }
