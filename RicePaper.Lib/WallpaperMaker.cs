@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using System.Linq;
 
 #if __MACOS__
 using AppKit;
@@ -53,7 +54,7 @@ namespace RicePaper.Lib
         #endregion
 
         #region Public Methods
-        public void SetWallpaper(string filepath, DrawParameters drawDetails)
+        public void SetWallpaper(string imagePath, DrawParameters drawDetails)
         {
 #if __MACOS__
             try
@@ -62,20 +63,34 @@ namespace RicePaper.Lib
 
                 foreach (var _screen in NSScreen.Screens)
                 {
+                    string filepath = imagePath;
+
                     // Use current wallpapers if option is "unchanged"
                     if (string.IsNullOrWhiteSpace(filepath))
                     {
                         string id = Util.ScreenId(_screen);
-                        var backups = DesktopBackup.Backups;
+                        string screenImage = Util.ScreenImagePath(_screen);
 
-                        if (backups.ContainsKey(id))
+                        // First, check if this image has been backed up
+                        if (DesktopBackup.Backups.ContainsKey(id))
                         {
-                            var backupFile = backups[id];
+                            var backupFile = DesktopBackup.Backups[id];
 
                             if (File.Exists(backupFile.OriginalLocation))
                             {
                                 filepath = backupFile.OriginalLocation;
                             }
+                        }
+                        // In the event of multiple screens being connected, there may not be a backup
+                        // but we don't ever want to set an image that already has text on it
+                        else if (screenImage.Contains(Util.CACHE_DIR) == false)
+                        {
+                            filepath = screenImage;
+                        }
+                        // We can copy the existing backup as a last resort
+                        else if (DesktopBackup.Backups.Count > 0)
+                        {
+                            filepath = DesktopBackup.Backups.First().Value.OriginalLocation;
                         }
                     }
 

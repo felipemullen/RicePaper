@@ -78,6 +78,7 @@ namespace RicePaper.MacOS
         {
             NSNotificationCenter.DefaultCenter.AddObserver(NSApplication.DidChangeScreenParametersNotification, (n) =>
             {
+                DesktopBackup.BackupDesktops();
                 Scheduler.ForcedUpdate(false, false);
             });
 

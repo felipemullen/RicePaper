@@ -34,7 +34,6 @@ namespace RicePaper.Lib.Model
             this.OriginalLocation = original;
             this.CacheLocation = cache;
             this.ScreenId = id;
-            WriteMetadata();
         }
 
         public static DesktopBackupFile FromStringContents(string contents)
@@ -123,6 +122,7 @@ namespace RicePaper.Lib.Model
                     string newPath = Path.Combine(Util.DesktopBackupDirectory, $"{id}{fileInfo.Extension}");
 
                     var backup = new DesktopBackupFile(localPath, "", id);
+                    backup.WriteMetadata();
 
                     backups.Add(id, backup);
                 }

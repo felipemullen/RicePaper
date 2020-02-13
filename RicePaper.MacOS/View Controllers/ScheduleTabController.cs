@@ -28,7 +28,8 @@ namespace RicePaper.MacOS
 
             FieldRefImageInterval.StringValue = stepper.StringValue;
             Settings.ImageCycle = GetCycleInfo(DropdownRefImageIntervalUnit, FieldRefImageInterval);
-            UpdateImage();
+
+            Scheduler.BeginScheduling(startImmediate: false);
             SaveSettings();
         }
 
@@ -38,7 +39,8 @@ namespace RicePaper.MacOS
 
             FieldRefWordInterval.StringValue = stepper.StringValue;
             Settings.WordCycle = GetCycleInfo(DropdownRefWordIntervalUnit, FieldRefWordInterval);
-            UpdateImage();
+
+            Scheduler.BeginScheduling(startImmediate: false);
             SaveSettings();
         }
 
@@ -54,7 +56,7 @@ namespace RicePaper.MacOS
             if (isInt && numberValue > 0 && numberValue != Settings.ImageCycle.Interval)
             {
                 StepperRefImageInterval.StringValue = field.StringValue;
-                UpdateImage();
+                Scheduler.BeginScheduling(startImmediate: false);
                 SaveSettings();
             }
         }
@@ -67,7 +69,7 @@ namespace RicePaper.MacOS
             if (isInt && numberValue > 0 && numberValue != Settings.WordCycle.Interval)
             {
                 StepperRefWordInterval.StringValue = field.StringValue;
-                UpdateImage();
+                Scheduler.BeginScheduling(startImmediate: false);
                 SaveSettings();
             }
         }
@@ -76,7 +78,7 @@ namespace RicePaper.MacOS
         {
             ButtonRefRadioRandom.StringValue = "0";
             Settings.WordSelection = WordSelectionMode.InOrder;
-            UpdateImage();
+            Scheduler.BeginScheduling(startImmediate: false);
             SaveSettings();
         }
 
@@ -84,7 +86,7 @@ namespace RicePaper.MacOS
         {
             ButtonRefRadioInOrder.StringValue = "0";
             Settings.WordSelection = WordSelectionMode.Random;
-            UpdateImage();
+            Scheduler.BeginScheduling(startImmediate: false);
             SaveSettings();
         }
         #endregion
@@ -93,9 +95,9 @@ namespace RicePaper.MacOS
         private void ChangeDropdowns()
         {
             Settings.ImageCycle = GetCycleInfo(DropdownRefImageIntervalUnit, FieldRefImageInterval);
-            Settings.WordCycle = GetCycleInfo(DropdownRefWordIntervalUnit, DropdownRefWordIntervalUnit);
+            Settings.WordCycle = GetCycleInfo(DropdownRefWordIntervalUnit, FieldRefWordInterval);
 
-            UpdateImage();
+            Scheduler.BeginScheduling(startImmediate: false);
             SaveSettings();
         }
 
