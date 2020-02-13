@@ -7,7 +7,7 @@ using RicePaper.Lib.Model;
 
 namespace RicePaper.Lib
 {
-    public class RiceScheduler
+    public class RiceScheduler : NSObject
     {
         #region Private Fields
         private readonly AppSettings settings;
@@ -117,8 +117,11 @@ namespace RicePaper.Lib
         /// </summary>
         public void ForcedUpdate(bool changeImage, bool changeWord)
         {
-            BeginScheduling(startImmediate: false);
-            Update(changeImage, changeWord);
+            this.BeginInvokeOnMainThread(() =>
+            {
+                BeginScheduling(startImmediate: false);
+                Update(changeImage, changeWord);
+            });
         }
         #endregion
 
