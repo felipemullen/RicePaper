@@ -9,11 +9,19 @@ namespace RicePaper.Lib
 {
     public class Util
     {
+        public const string CACHE_DIR = "rp_cache";
+
         private static NSString DISPLAY_ID_KEY = new NSString("NSScreenNumber");
 
         public static string AppContainer => Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
         public static string AppRoot => Directory.GetParent(AppContext.BaseDirectory.TrimEnd('/')).FullName;
+
+        public static string CacheDirectory => Path.Combine(Util.AppContainer, CACHE_DIR);
+
+        public static string DesktopBackupDirectory => Path.Combine(Util.AppContainer, CACHE_DIR, "desktop_backups");
+
+        public static string NotFoundImagePath => Path.Combine(Util.AppRoot, "Resources/Content/images/image_not_found.jpg");
 
         public static void Alert(string title, string message, NSWindow window, NSAlertStyle alertStyle = NSAlertStyle.Critical)
         {
@@ -67,6 +75,14 @@ namespace RicePaper.Lib
         public static string ScreenId(NSScreen screen)
         {
             return screen.DeviceDescription.ValueForKey(DISPLAY_ID_KEY).ToString();
+        }
+
+        public static string ScreenImagePath(NSScreen screen)
+        {
+            var workspace = NSWorkspace.SharedWorkspace;
+            var p = workspace.DesktopImageUrl(screen);
+
+            return p.Path;
         }
     }
 }

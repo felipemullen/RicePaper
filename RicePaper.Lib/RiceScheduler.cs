@@ -22,7 +22,7 @@ namespace RicePaper.Lib
         public RiceScheduler(AppSettings settings, RiceDictionary riceDict, WallpaperList imageList)
         {
             this.settings = settings;
-            wallpaperUtility = new WallpaperMaker(settings);
+            wallpaperUtility = new WallpaperMaker();
             this.riceDict = riceDict;
             this.imageList = imageList;
 

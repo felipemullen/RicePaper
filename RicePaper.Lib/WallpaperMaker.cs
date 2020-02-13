@@ -26,27 +26,16 @@ namespace RicePaper.Lib
         private static CGSize SHADOW_OFFSET = new CGSize(2, -2);
         #endregion
 
-        #region Private Fields
-        private AppSettings settings;
-        #endregion
-
-        #region Properties
-        public string CacheDirectory
-        {
-            get { return Path.Combine(Util.AppContainer, "cache"); }
-        }
-        #endregion
-
         #region Constructor
-        public WallpaperMaker(AppSettings settings)
+        public WallpaperMaker()
         {
-            this.settings = settings;
-
             try
             {
-                var cachePath = new DirectoryInfo(CacheDirectory);
-                if (cachePath.Exists == false)
-                    Directory.CreateDirectory(CacheDirectory);
+                if (Directory.Exists(Util.CacheDirectory) == false)
+                    Directory.CreateDirectory(Util.CacheDirectory);
+
+                if (Directory.Exists(Util.DesktopBackupDirectory) == false)
+                    Directory.CreateDirectory(Util.DesktopBackupDirectory);
             }
             catch (Exception ex)
             {
@@ -69,21 +58,29 @@ namespace RicePaper.Lib
 #if __MACOS__
             try
             {
+                var workspace = NSWorkspace.SharedWorkspace;
+
                 foreach (var _screen in NSScreen.Screens)
                 {
                     // Use current wallpapers if option is "unchanged"
-                    if (settings.ImageOption == ImageOptionType.Unchanged)
+                    if (string.IsNullOrWhiteSpace(filepath))
                     {
                         string id = Util.ScreenId(_screen);
-                        foreach (var item in settings.SavedDesktop)
+                        var backups = DesktopBackup.Backups;
+
+                        if (backups.ContainsKey(id))
                         {
-                            if (item.Key == id)
+                            var backupFile = backups[id];
+
+                            if (File.Exists(backupFile.OriginalLocation))
                             {
-                                var uri = new Uri(item.Value);
-                                filepath = uri.LocalPath;
+                                filepath = backupFile.OriginalLocation;
                             }
                         }
                     }
+
+                    if (string.IsNullOrWhiteSpace(filepath))
+                        filepath = Util.NotFoundImagePath;
 
                     string cachePath = DrawImage(_screen, filepath, drawDetails);
 
@@ -92,7 +89,6 @@ namespace RicePaper.Lib
                         NSUrl url = NSUrl.FromFilename(cachePath);
                         NSError errorContainer = new NSError();
 
-                        var workspace = NSWorkspace.SharedWorkspace;
                         var options = workspace.DesktopImageOptions(_screen);
                         var result = workspace.SetDesktopImageUrl(url, _screen, options, errorContainer);
 
@@ -119,7 +115,7 @@ namespace RicePaper.Lib
         {
             var fiveMinutesAgo = DateTime.Now.AddMinutes(-5);
 
-            var cacheDirectory = new DirectoryInfo(CacheDirectory);
+            var cacheDirectory = new DirectoryInfo(Util.CacheDirectory);
             foreach (var file in cacheDirectory.EnumerateFiles())
             {
                 if (file.CreationTime < fiveMinutesAgo)
@@ -316,7 +312,7 @@ namespace RicePaper.Lib
         private void WriteImageToFile(string filePath, CGImage image)
         {
             var fileURL = NSUrl.FromFilename(filePath);
-            var imageDestination = CGImageDestination.Create(fileURL, UTType.PNG, 1);
+            var imageDestination = CGImageDestination.Create(fileURL, UTType.JPEG, 1);
             imageDestination.AddImage(image);
             imageDestination.Close();
         }
@@ -479,6 +475,7 @@ namespace RicePaper.Lib
             using (var stream = File.OpenRead(filePath))
             {
                 img = NSImage.FromStream(stream);
+                stream.Close();
             }
 
             return img;
@@ -489,7 +486,7 @@ namespace RicePaper.Lib
             Guid guid = Guid.NewGuid();
             string extension = "png";
             string fileName = $"{guid}.{extension}";
-            return Path.Combine(CacheDirectory, fileName);
+            return Path.Combine(Util.CacheDirectory, fileName);
         }
 
         private nfloat GetAspect(CGRect rect)

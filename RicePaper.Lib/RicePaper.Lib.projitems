@@ -30,6 +30,7 @@
         <Compile Include="$(MSBuildThisFileDirectory)Model\TextMeasurements.cs" />
         <Compile Include="$(MSBuildThisFileDirectory)Dictionary\SentenceFinder.cs" />
         <Compile Include="$(MSBuildThisFileDirectory)Model\Tatoeba.cs" />
+        <Compile Include="$(MSBuildThisFileDirectory)Model\DesktopBackup.cs" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="$(MSBuildThisFileDirectory)Model\" />

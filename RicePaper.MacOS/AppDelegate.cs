@@ -35,6 +35,7 @@ namespace RicePaper.MacOS
         public AppDelegate()
         {
             Settings = AppSettings.Load();
+            DesktopBackup.BackupDesktops();
 
             RiceDict = new RiceDictionary();
             ImageList = new WallpaperList();
@@ -79,6 +80,11 @@ namespace RicePaper.MacOS
             {
                 Scheduler.ForcedUpdate(false, false);
             });
+
+            NSWorkspace.SharedWorkspace.NotificationCenter.AddObserver(NSWorkspace.ActiveSpaceDidChangeNotification, (n) =>
+            {
+                Scheduler.ForcedUpdate(false, false);
+            });
         }
 
         public void RefreshImageMenuText()
@@ -105,7 +111,7 @@ namespace RicePaper.MacOS
         public override void WillTerminate(NSNotification notification)
         {
             AppSettings.Save(Settings);
-            AppSettings.RestoreSavedDesktop(Settings);
+            DesktopBackup.RestoreDesktops();
         }
         #endregion
 
@@ -126,7 +132,7 @@ namespace RicePaper.MacOS
         public void Quit(NSObject sender)
         {
             AppSettings.Save(Settings);
-            AppSettings.RestoreSavedDesktop(Settings);
+            DesktopBackup.RestoreDesktops();
             System.Environment.Exit(0);
         }
 
