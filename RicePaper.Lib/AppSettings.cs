@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using AppKit;
 using Foundation;
 using Newtonsoft.Json;
 
@@ -24,6 +23,8 @@ namespace RicePaper.Lib.Model
             {
                 return new AppSettings()
                 {
+                    LastImageChange = DateTime.MinValue,
+                    LastWordChange = DateTime.MinValue,
                     Dictionary = DictionarySelection.JapanDict,
                     DrawPosition = DrawPosition.LeftTop,
                     ImageCycle = CycleInfo.Default,
@@ -35,7 +36,7 @@ namespace RicePaper.Lib.Model
                     WordCycle = CycleInfo.Default,
                     WordList = WordListSelection.MostFrequent1000,
                     UserWordListPath = string.Empty,
-                    WordSelection = WordSelectionMode.InOrder,
+                    WordSelection = SelectionMode.InOrder,
                     PrimaryTextScale = DEFAULT_TEXT_SCALE,
                     SecondaryTextScale = DEFAULT_TEXT_SCALE
                 };
@@ -144,7 +145,7 @@ namespace RicePaper.Lib.Model
 
         public string UserWordListPath { get; set; }
 
-        public WordSelectionMode WordSelection { get; set; }
+        public SelectionMode WordSelection { get; set; }
 
         public DictionarySelection Dictionary { get; set; }
 
@@ -159,6 +160,10 @@ namespace RicePaper.Lib.Model
         public float PrimaryTextScale { get; set; }
 
         public float SecondaryTextScale { get; set; }
+
+        public DateTime LastImageChange { get; set; }
+
+        public DateTime LastWordChange { get; set; }
         #endregion
 
         /// <summary>

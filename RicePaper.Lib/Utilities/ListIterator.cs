@@ -42,9 +42,9 @@ namespace RicePaper.Lib
             Reset(this.currentList.Count, startAt);
         }
 
-        public int Increment(WordSelectionMode mode)
+        public int Increment(SelectionMode mode)
         {
-            if (mode == WordSelectionMode.InOrder)
+            if (mode == SelectionMode.InOrder)
             {
                 index = (index + 1) % max;
             }

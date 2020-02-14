@@ -23,7 +23,6 @@ namespace RicePaper.Lib.Model
             }
         }
 
-
         public static CycleInfo Default
         {
             get

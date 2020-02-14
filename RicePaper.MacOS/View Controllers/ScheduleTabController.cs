@@ -28,8 +28,6 @@ namespace RicePaper.MacOS
 
             FieldRefImageInterval.StringValue = stepper.StringValue;
             Settings.ImageCycle = GetCycleInfo(DropdownRefImageIntervalUnit, FieldRefImageInterval);
-
-            Scheduler.BeginScheduling(startImmediate: false);
             SaveSettings();
         }
 
@@ -39,8 +37,6 @@ namespace RicePaper.MacOS
 
             FieldRefWordInterval.StringValue = stepper.StringValue;
             Settings.WordCycle = GetCycleInfo(DropdownRefWordIntervalUnit, FieldRefWordInterval);
-
-            Scheduler.BeginScheduling(startImmediate: false);
             SaveSettings();
         }
 
@@ -56,7 +52,6 @@ namespace RicePaper.MacOS
             if (isInt && numberValue > 0 && numberValue != Settings.ImageCycle.Interval)
             {
                 StepperRefImageInterval.StringValue = field.StringValue;
-                Scheduler.BeginScheduling(startImmediate: false);
                 SaveSettings();
             }
         }
@@ -69,7 +64,6 @@ namespace RicePaper.MacOS
             if (isInt && numberValue > 0 && numberValue != Settings.WordCycle.Interval)
             {
                 StepperRefWordInterval.StringValue = field.StringValue;
-                Scheduler.BeginScheduling(startImmediate: false);
                 SaveSettings();
             }
         }
@@ -77,16 +71,14 @@ namespace RicePaper.MacOS
         partial void ActionRadioIterateInOrder(NSObject sender)
         {
             ButtonRefRadioRandom.StringValue = "0";
-            Settings.WordSelection = WordSelectionMode.InOrder;
-            Scheduler.BeginScheduling(startImmediate: false);
+            Settings.WordSelection = SelectionMode.InOrder;
             SaveSettings();
         }
 
         partial void ActionRadioIterateRandom(NSObject sender)
         {
             ButtonRefRadioInOrder.StringValue = "0";
-            Settings.WordSelection = WordSelectionMode.Random;
-            Scheduler.BeginScheduling(startImmediate: false);
+            Settings.WordSelection = SelectionMode.Random;
             SaveSettings();
         }
         #endregion
@@ -96,15 +88,13 @@ namespace RicePaper.MacOS
         {
             Settings.ImageCycle = GetCycleInfo(DropdownRefImageIntervalUnit, FieldRefImageInterval);
             Settings.WordCycle = GetCycleInfo(DropdownRefWordIntervalUnit, FieldRefWordInterval);
-
-            Scheduler.BeginScheduling(startImmediate: false);
             SaveSettings();
         }
 
         private void UpdateUI()
         {
-            ButtonRefRadioInOrder.StringValue = (Settings.WordSelection == WordSelectionMode.InOrder) ? "1" : "0";
-            ButtonRefRadioRandom.StringValue = (Settings.WordSelection == WordSelectionMode.Random) ? "1" : "0";
+            ButtonRefRadioInOrder.StringValue = (Settings.WordSelection == SelectionMode.InOrder) ? "1" : "0";
+            ButtonRefRadioRandom.StringValue = (Settings.WordSelection == SelectionMode.Random) ? "1" : "0";
 
             DropdownRefImageIntervalUnit.SelectItem(DropdownRefImageIntervalUnit.Items()
                 .Where(x => x.AccessibilityIdentifier == Settings.ImageCycle.CycleType.ToString()).FirstOrDefault()

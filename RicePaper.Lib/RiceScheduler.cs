@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading;
 using Foundation;
 using RicePaper.Lib.Dictionary;
@@ -9,13 +8,18 @@ namespace RicePaper.Lib
 {
     public class RiceScheduler : NSObject
     {
+        #region Constants
+        private const int CYCLE_INTERVAL_SEC = 60;
+        private const int CYCLE_THRESHOLD_MS = 1500;
+        #endregion
+
         #region Private Fields
         private readonly AppSettings settings;
         private readonly WallpaperMaker wallpaperUtility;
         private readonly RiceDictionary riceDict;
         private readonly WallpaperList imageList;
 
-        private readonly List<Timer> timers;
+        private Timer _cycleTimer;
         #endregion
 
         #region Constructor
@@ -25,75 +29,63 @@ namespace RicePaper.Lib
             wallpaperUtility = new WallpaperMaker();
             this.riceDict = riceDict;
             this.imageList = imageList;
-
-            timers = new List<Timer>();
         }
         #endregion
 
         #region Public Methods
-        public void BeginScheduling(bool startImmediate = true)
+        public void BeginScheduling()
         {
-            CancelAllTimers();
-
-            if (startImmediate == true)
-            {
-                settings.ImageCycle.DueTime = null;
-                settings.WordCycle.DueTime = null;
-            }
-            else
-            {
-                settings.ImageCycle.DueTime = DateTime.Now.Add(settings.ImageCycle.Period) - DateTime.Now;
-                settings.WordCycle.DueTime = DateTime.Now.Add(settings.WordCycle.Period) - DateTime.Now;
-            }
-
-            if (settings.ImageCycle.Period == settings.WordCycle.Period)
-            {
-                ScheduleTask(settings.ImageCycle, () => { Update(true, true); });
-            }
-            else
-            {
-                ScheduleTask(settings.ImageCycle, () => { Update(true, false); });
-                ScheduleTask(settings.WordCycle, () => { Update(false, true); });
-            }
+            var callback = new TimerCallback(TimerTick);
+            _cycleTimer = new Timer(TimerTick, null, TimeSpan.Zero, TimeSpan.FromSeconds(CYCLE_INTERVAL_SEC));
         }
         #endregion
 
         #region Private Helpers
-        private void CancelAllTimers()
+        private bool CyclePeriodHasElapsed(DateTime lastUpdate, TimeSpan period)
         {
-            for (int i = timers.Count - 1; i >= 0; i--)
-            {
-                var timer = timers[i];
-                timer.Change(Timeout.Infinite, Timeout.Infinite);
+            var now = DateTime.Now;
+            var threshold = TimeSpan.FromMilliseconds(CYCLE_THRESHOLD_MS);
 
-                timers.RemoveAt(i);
-            }
+            var timeDelta = (now - lastUpdate);
+            return timeDelta >= period.Subtract(threshold);
         }
 
-        private void ScheduleTask(CycleInfo cycle, Action task)
+        private void TimerTick(Object o)
         {
-            TimeSpan timeLeft = (cycle.DueTime != null)
-                ? (TimeSpan)cycle.DueTime
-                : TimeSpan.Zero;
+            bool shouldUpdateImage = CyclePeriodHasElapsed(settings.LastImageChange, settings.ImageCycle.Period) && settings.ImageOption != ImageOptionType.Unchanged;
+            bool shouldUpdateWord = CyclePeriodHasElapsed(settings.LastWordChange, settings.WordCycle.Period);
 
-            var timer = new Timer(x =>
+            Console.WriteLine("tick");
+
+            using (var pool = new NSAutoreleasePool())
             {
-                using (var pool = new NSAutoreleasePool())
+                pool.InvokeOnMainThread(() =>
                 {
-                    pool.InvokeOnMainThread(task);
-                }
-            }, null, timeLeft, cycle.Period);
-
-            timers.Add(timer);
+                    if (shouldUpdateImage || shouldUpdateWord)
+                    {
+                        Update(shouldUpdateImage, shouldUpdateWord);
+                    }
+                    GC.Collect();
+                });
+            }
         }
 
         private void Update(bool changeImage, bool changeWord)
         {
+            var now = DateTime.Now;
             if (changeImage && settings.ImageOption != ImageOptionType.Unchanged)
-                settings.ImageIndex = imageList.Increment(settings.WordSelection);
+            {
+                settings.ImageIndex = imageList.Increment(SelectionMode.InOrder);
+                settings.LastImageChange = now;
+                Console.WriteLine("updating lastImageChange");
+            }
 
             if (changeWord)
+            {
                 settings.WordIndex = riceDict.Increment(settings.WordSelection);
+                settings.LastWordChange = now;
+                Console.WriteLine("updating lastWordChange");
+            }
 
             TextDetails currentWord = riceDict.CurrentDefinition(settings);
 
@@ -121,7 +113,6 @@ namespace RicePaper.Lib
         {
             this.BeginInvokeOnMainThread(() =>
             {
-                BeginScheduling(startImmediate: false);
                 Update(changeImage, changeWord);
             });
         }

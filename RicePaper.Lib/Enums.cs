@@ -43,7 +43,7 @@
         Fit
     }
 
-    public enum WordSelectionMode
+    public enum SelectionMode
     {
         Random,
         InOrder
