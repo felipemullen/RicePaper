@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
 using Foundation;
 using RicePaper.Lib.Dictionary;
 using RicePaper.Lib.Model;
@@ -111,7 +112,7 @@ namespace RicePaper.Lib
         /// </summary>
         public void ForcedUpdate(bool changeImage, bool changeWord)
         {
-            this.BeginInvokeOnMainThread(() =>
+            Task.Run(() =>
             {
                 Update(changeImage, changeWord);
             });

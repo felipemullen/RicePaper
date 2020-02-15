@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Collections.Generic;
 
 #if __MACOS__
 using AppKit;
@@ -54,22 +55,24 @@ namespace RicePaper.Lib
         #endregion
 
         #region Public Methods
-        public void SetWallpaper(string imagePath, DrawParameters drawDetails)
+        public async void SetWallpaper(string imagePath, DrawParameters drawDetails)
         {
 #if __MACOS__
             try
             {
                 var workspace = NSWorkspace.SharedWorkspace;
 
-                foreach (var _screen in NSScreen.Screens)
+                List<ScreenInfo> screens = await GetScreensAsync(workspace);
+
+                foreach (var screenInfo in screens)
                 {
                     string filepath = imagePath;
 
                     // Use current wallpapers if option is "unchanged"
                     if (string.IsNullOrWhiteSpace(filepath))
                     {
-                        string id = Util.ScreenId(_screen);
-                        string screenImage = Util.ScreenImagePath(_screen);
+                        string id = screenInfo.Id;
+                        string screenImage = screenInfo.Image;
 
                         // First, check if this image has been backed up
                         if (DesktopBackup.Backups.ContainsKey(id))
@@ -97,26 +100,27 @@ namespace RicePaper.Lib
                     if (string.IsNullOrWhiteSpace(filepath))
                         filepath = Util.NotFoundImagePath;
 
-                    string cachePath = DrawImage(_screen, filepath, drawDetails);
+                    string cachePath = DrawImage(screenInfo.Frame, filepath, drawDetails);
 
                     if (cachePath != null)
                     {
-                        NSUrl url = NSUrl.FromFilename(cachePath);
-                        NSError errorContainer = new NSError();
+                        workspace.BeginInvokeOnMainThread(() =>
+                        {
+                            NSUrl url = NSUrl.FromFilename(cachePath);
+                            NSError errorContainer = new NSError();
 
-                        var options = workspace.DesktopImageOptions(_screen);
-                        var result = workspace.SetDesktopImageUrl(url, _screen, options, errorContainer);
+                            NSScreen screen = screenInfo.Screen;
+                            var options = workspace.DesktopImageOptions(screen);
 
-                        if (result)
-                            Console.WriteLine($"successfully set {cachePath}");
-                        else
-                            Console.WriteLine(errorContainer.ToString());
+                            var result = workspace.SetDesktopImageUrl(url, screen, options, errorContainer);
+                            if (result)
+                                Console.WriteLine($"successfully set {cachePath}");
+                            else
+                                Console.WriteLine(errorContainer.ToString());
+                        });
                     }
 
-                    Task.Run(() =>
-                    {
-                        CleanupCache();
-                    });
+                    Task.Run(CleanupCache);
                 }
             }
             catch (Exception ex)
@@ -125,26 +129,13 @@ namespace RicePaper.Lib
             }
 #endif
         }
-
-        private void CleanupCache()
-        {
-            var fiveMinutesAgo = DateTime.Now.AddMinutes(-5);
-
-            var cacheDirectory = new DirectoryInfo(Util.CacheDirectory);
-            foreach (var file in cacheDirectory.EnumerateFiles())
-            {
-                if (file.CreationTime < fiveMinutesAgo)
-                    file.Delete();
-            }
-        }
         #endregion
 
         #region Drawing
-        private string DrawImage(NSScreen screen, string originalImagePath, DrawParameters drawDetails)
+        private string DrawImage(CGRect screenRect, string originalImagePath, DrawParameters drawDetails)
         {
             string outputPath = GetNewImagePath();
 
-            var screenRect = screen.Frame;
             byte[] rawData = new byte[(int)screenRect.Width * (int)screenRect.Height * CHANNELS];
             int BYTES_PER_ROW = CHANNELS * (int)screenRect.Width;
 
@@ -324,6 +315,52 @@ namespace RicePaper.Lib
         #endregion
 
         #region Private Helpers
+        private void CleanupCache()
+        {
+            var fiveMinutesAgo = DateTime.Now.AddMinutes(-5);
+
+            var cacheDirectory = new DirectoryInfo(Util.CacheDirectory);
+            foreach (var file in cacheDirectory.EnumerateFiles())
+            {
+                if (file.CreationTime < fiveMinutesAgo)
+                    file.Delete();
+            }
+        }
+
+        /// <summary>
+        /// NSScreen.Screens can ONLY be read on the UI thread but we don't
+        /// want to wrap the entire parent function because drawImage() is slow
+        /// and needs to remain as an async task
+        /// </summary>
+        private Task<List<ScreenInfo>> GetScreensAsync(NSWorkspace workspace)
+        {
+            var screens = Task.Run(() =>
+            {
+                var taskCompletion = new TaskCompletionSource<List<ScreenInfo>>();
+                var list = new List<ScreenInfo>();
+
+                workspace.BeginInvokeOnMainThread(() =>
+                {
+                    foreach (var screen in NSScreen.Screens)
+                    {
+                        list.Add(new ScreenInfo()
+                        {
+                            Id = Util.ScreenId(screen),
+                            Image = Util.ScreenImagePath(screen),
+                            Frame = screen.Frame,
+                            Screen = screen
+                        });
+                    }
+
+                    taskCompletion.SetResult(list);
+                });
+
+                return taskCompletion.Task;
+            });
+
+            return screens;
+        }
+
         private void WriteImageToFile(string filePath, CGImage image)
         {
             var fileURL = NSUrl.FromFilename(filePath);
@@ -446,12 +483,16 @@ namespace RicePaper.Lib
             var bounds = new CGSize();
             var attr = new NSStringAttributes() { Font = fontParams.Font };
 
-            var frame = fontParams.AsNSString.GetBoundingRect(
-                bounds,
-                NSStringDrawingOptions.UsesLineFragmentOrigin,
-                attr,
-                null);
+            CGRect frame = CGRect.Empty;
+            NSApplication.SharedApplication.InvokeOnMainThread(() =>
+            {
+                frame = fontParams.AsNSString.GetBoundingRect(
+                    bounds,
+                    NSStringDrawingOptions.UsesLineFragmentOrigin,
+                    attr,
+                    null);
 
+            });
             return frame.Size;
         }
 

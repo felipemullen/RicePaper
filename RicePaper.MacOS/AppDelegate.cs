@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using AppKit;
 using CoreGraphics;
 using Foundation;
@@ -106,7 +107,7 @@ namespace RicePaper.MacOS
             aboutWindow = mainStoryboard.InstantiateControllerWithIdentifier("AboutWindow") as NSWindowController;
             settingsWindow = mainStoryboard.InstantiateControllerWithIdentifier("SettingsWindow") as NSWindowController;
 
-            Scheduler.BeginScheduling();
+            Task.Run(Scheduler.BeginScheduling);
         }
 
         public override void WillTerminate(NSNotification notification)
