@@ -30,6 +30,7 @@ namespace RicePaper.MacOS
         private NSWindowController aboutWindow;
         private NSWindowController settingsWindow;
         private NSMenuItem imageMenuItem;
+        private NSMenuItem wordMenuItem;
         #endregion
 
         #region Constructor
@@ -55,6 +56,8 @@ namespace RicePaper.MacOS
             statusItem.Menu = CreateStatusBarMenu();
 
             RegisterAppKitNotifications();
+
+            //NSUserDefaults.StandardUserDefaults.SetValueForKey("NSApplicationCrashOnExceptions", "true");
         }
 
         private NSMenu CreateStatusBarMenu()
@@ -63,9 +66,11 @@ namespace RicePaper.MacOS
 
             imageMenuItem = new NSMenuItem("", new ObjCRuntime.Selector("MenuNextImage:"), "");
             RefreshImageMenuText();
-
             menu.AddItem(imageMenuItem);
-            menu.AddItem("Next Word", new ObjCRuntime.Selector("MenuNextWord:"), "");
+
+            wordMenuItem = new NSMenuItem("Next Word", new ObjCRuntime.Selector("MenuNextWord:"), "");
+            menu.AddItem(wordMenuItem);
+
             menu.AddItem(NSMenuItem.SeparatorItem);
             menu.AddItem("Settings", new ObjCRuntime.Selector("MenuSettings:"), "");
             menu.AddItem(NSMenuItem.SeparatorItem);
@@ -121,13 +126,25 @@ namespace RicePaper.MacOS
         [Action("MenuNextImage:")]
         public void NextImage(NSObject sender)
         {
-            Scheduler.ForcedUpdate(changeImage: true, changeWord: false);
+            string originalText = imageMenuItem.Title;
+            imageMenuItem.Title = string.Concat(originalText, " (...)");
+
+            Scheduler.ForcedUpdate(changeImage: true, changeWord: false).ContinueWith(result =>
+            {
+                imageMenuItem.Title = originalText;
+            });
         }
 
         [Action("MenuNextWord:")]
         public void NextWord(NSObject sender)
         {
-            Scheduler.ForcedUpdate(changeImage: false, changeWord: true);
+            string originalText = wordMenuItem.Title;
+            wordMenuItem.Title = string.Concat(originalText, " (...)");
+
+            Scheduler.ForcedUpdate(changeImage: false, changeWord: true).ContinueWith(result =>
+            {
+                wordMenuItem.Title = originalText;
+            });
         }
 
         [Action("MenuQuit:")]

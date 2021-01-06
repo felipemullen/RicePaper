@@ -120,7 +120,8 @@ namespace RicePaper.Lib
                         });
                     }
 
-                    Task.Run(CleanupCache);
+                    // The use of `_` here is to silence a warning regarding the unawaited task        
+                    _ = Task.Run(CleanupCache);
                 }
             }
             catch (Exception ex)

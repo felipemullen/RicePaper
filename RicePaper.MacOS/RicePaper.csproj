@@ -28,8 +28,8 @@
     <UseSGen>true</UseSGen>
     <UseRefCounting>true</UseRefCounting>
     <HttpClientHandler></HttpClientHandler>
-    <LinkMode></LinkMode>
-    <XamMacArch></XamMacArch>
+    <LinkMode>None</LinkMode>
+    <XamMacArch>x86_64</XamMacArch>
     <PackageSigningKey>3rd Party Mac Developer Installer</PackageSigningKey>
     <AOTMode>None</AOTMode>
     <UseHardenedRuntime>true</UseHardenedRuntime>
@@ -48,7 +48,7 @@
     <UseRefCounting>true</UseRefCounting>
     <LinkMode>Full</LinkMode>
     <HttpClientHandler></HttpClientHandler>
-    <XamMacArch></XamMacArch>
+    <XamMacArch>x86_64</XamMacArch>
     <CodeSigningKey>Developer ID Application: Felipe Mullen (7685J9W3LF)</CodeSigningKey>
     <PackageSigningKey>3rd Party Mac Developer Installer: Felipe Mullen (7685J9W3LF)</PackageSigningKey>
     <AOTMode>None</AOTMode>
@@ -64,7 +64,7 @@
     </Reference>
     <Reference Include="System.Net.Http" />
     <Reference Include="HtmlAgilityPack">
-      <HintPath>..\packages\HtmlAgilityPack.1.11.18\lib\netstandard2.0\HtmlAgilityPack.dll</HintPath>
+      <HintPath>..\packages\HtmlAgilityPack.1.11.29\lib\netstandard2.0\HtmlAgilityPack.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
   </ItemGroup>

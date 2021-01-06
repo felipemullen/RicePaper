@@ -110,9 +110,9 @@ namespace RicePaper.Lib
         /// Similar to Update() except it will reset timers to make sure there
         /// are no double updates taking place
         /// </summary>
-        public void ForcedUpdate(bool changeImage, bool changeWord)
+        public Task ForcedUpdate(bool changeImage, bool changeWord)
         {
-            Task.Run(() =>
+            return Task.Run(() =>
             {
                 Update(changeImage, changeWord);
             });

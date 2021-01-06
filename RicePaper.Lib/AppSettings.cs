@@ -100,9 +100,15 @@ namespace RicePaper.Lib.Model
             switch (type)
             {
                 case ImageOptionType.MacDefault:
-                    return "/Library/Desktop Pictures";
+                    if (Directory.Exists("System/Library/Desktop Pictures"))
+                        return "System/Library/Desktop Pictures";
+                    else if (Directory.Exists("/Library/Desktop Pictures"))
+                        return "/Library/Desktop Pictures";
+                    else
+                        return Path.Combine(Util.AppRoot, "Resources/Content/Images", "macos_notfound");
                 default:
-                    return Path.Combine(Util.AppRoot, "Resources/Content/Images", type.ToString());
+                    return Path.Combine(Util.AppRoot, "Resources/Content/Images");
+                    // return Path.Combine(Util.AppRoot, "Resources/Content/Images", type.ToString());
             }
         }
 
