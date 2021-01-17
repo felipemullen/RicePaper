@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using Accelerate;
 using AppKit;
@@ -23,11 +24,16 @@ namespace RicePaper.Lib
 
         public static string NotFoundImagePath => Path.Combine(Util.AppRoot, "Resources/Content/images/image_not_found.jpg");
 
-        public static void Alert(string title, string message, NSWindow window, NSAlertStyle alertStyle = NSAlertStyle.Critical)
+        public static void Alert(string title, string message, NSWindow window = null, NSAlertStyle alertStyle = NSAlertStyle.Critical)
         {
+            if (window == null)
+            {
+                window = NSApplication.SharedApplication.KeyWindow;
+            }
+
             var alert = new NSAlert()
             {
-                AlertStyle = NSAlertStyle.Critical,
+                AlertStyle = alertStyle,
                 MessageText = title,
                 InformativeText = message
             };
@@ -83,6 +89,25 @@ namespace RicePaper.Lib
             var p = workspace.DesktopImageUrl(screen);
 
             return p.Path;
+        }
+
+        public static void RunOSAScript(string args)
+        {
+            var processInfo = new ProcessStartInfo
+            {
+                FileName = @"/usr/bin/osascript",
+                Arguments = args,
+                CreateNoWindow = false,
+                UseShellExecute = false,
+                ErrorDialog = true,
+                WindowStyle = ProcessWindowStyle.Normal,
+                RedirectStandardError = true,
+                RedirectStandardInput = true,
+                RedirectStandardOutput = true
+            };
+
+            var prc = Process.Start(processInfo);
+            prc.WaitForExit();
         }
     }
 }

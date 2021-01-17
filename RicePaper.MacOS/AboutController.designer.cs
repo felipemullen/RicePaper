@@ -14,6 +14,9 @@ namespace RicePaper.MacOS
 	{
 		[Outlet]
 		AppKit.NSTextField FieldRefVersion { get; set; }
+
+		[Action ("OnActionGithubLink:")]
+		partial void OnActionGithubLink (AppKit.NSButton sender);
 		
 		void ReleaseDesignerOutlets ()
 		{

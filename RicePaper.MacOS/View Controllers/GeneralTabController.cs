@@ -102,12 +102,12 @@ namespace RicePaper.MacOS
                 .Where(x => x.AccessibilityIdentifier == Settings.WordList.ToString()).FirstOrDefault()
             );
 
-            ButtonRefKanji.StringValue = (Settings.TextOptions.Kanji) ? "1" : "0";
-            ButtonRefFurigana.StringValue = (Settings.TextOptions.Furigana) ? "1" : "0";
-            ButtonRefRomaji.StringValue = (Settings.TextOptions.Romaji) ? "1" : "0";
-            ButtonRefDefinition.StringValue = (Settings.TextOptions.Definition) ? "1" : "0";
-            ButtonRefEnglishSentence.StringValue = (Settings.TextOptions.EnglishSentence) ? "1" : "0";
-            ButtonRefJapaneseSentence.StringValue = (Settings.TextOptions.JapaneseSentence) ? "1" : "0";
+            SetCheckboxValue(ButtonRefKanji, Settings.TextOptions.Kanji);
+            SetCheckboxValue(ButtonRefFurigana, Settings.TextOptions.Furigana);
+            SetCheckboxValue(ButtonRefRomaji, Settings.TextOptions.Romaji);
+            SetCheckboxValue(ButtonRefDefinition, Settings.TextOptions.Definition);
+            SetCheckboxValue(ButtonRefEnglishSentence, Settings.TextOptions.EnglishSentence);
+            SetCheckboxValue(ButtonRefJapaneseSentence, Settings.TextOptions.JapaneseSentence);
 
             UpdateLabels();
         }

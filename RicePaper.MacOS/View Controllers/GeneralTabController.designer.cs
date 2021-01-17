@@ -13,9 +13,6 @@ namespace RicePaper.MacOS
 	partial class GeneralTabController
 	{
 		[Outlet]
-		AppKit.NSButton ButtonRefApply { get; set; }
-
-		[Outlet]
 		AppKit.NSButton ButtonRefDefinition { get; set; }
 
 		[Outlet]
@@ -44,9 +41,6 @@ namespace RicePaper.MacOS
 
 		[Outlet]
 		AppKit.NSTextField LabelWordListPath { get; set; }
-
-		[Action ("ActionButtonApply:")]
-		partial void ActionButtonApply (Foundation.NSObject sender);
 
 		[Action ("ActionWordListDialog:")]
 		partial void ActionWordListDialog (Foundation.NSObject sender);
@@ -77,11 +71,6 @@ namespace RicePaper.MacOS
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (ButtonRefApply != null) {
-				ButtonRefApply.Dispose ();
-				ButtonRefApply = null;
-			}
-
 			if (ButtonRefDefinition != null) {
 				ButtonRefDefinition.Dispose ();
 				ButtonRefDefinition = null;

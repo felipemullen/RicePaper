@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
+using System.Threading.Tasks;
+using AppKit;
 using Foundation;
 using Newtonsoft.Json;
 
@@ -33,6 +36,7 @@ namespace RicePaper.Lib.Model
                     ImageIndex = 0,
                     WordIndex = 0,
                     TextOptions = TextOptions.Default,
+                    UserPreferences = UserPreferences.Default,
                     WordCycle = CycleInfo.Default,
                     WordList = WordListSelection.MostFrequent1000,
                     UserWordListPath = string.Empty,
@@ -85,6 +89,9 @@ namespace RicePaper.Lib.Model
 
             if (settings.SecondaryTextScale < MIN_TEXT_SCALE || settings.SecondaryTextScale > MAX_TEXT_SCALE)
                 settings.SecondaryTextScale = DEFAULT_TEXT_SCALE;
+
+            if (settings.UserPreferences == null)
+                settings.UserPreferences = UserPreferences.Default;
         }
 
         public static void Save(AppSettings settings)
@@ -135,6 +142,8 @@ namespace RicePaper.Lib.Model
 
         public TextOptions TextOptions { get; set; }
 
+        public UserPreferences UserPreferences { get; set; }
+
         public DrawPosition DrawPosition { get; set; }
 
         public WordListSelection WordList { get; set; }
@@ -170,6 +179,71 @@ namespace RicePaper.Lib.Model
         public DateTime LastImageChange { get; set; }
 
         public DateTime LastWordChange { get; set; }
+        #endregion
+
+        #region Public Methods
+        /// <summary>
+        /// Uses current value found in `this.UserPreferences.ShowInDock`
+        /// to determine wether or not the application will be shown on
+        /// the dock
+        /// </summary>
+        public void ApplyShowInDockSetting()
+        {
+            if (this.UserPreferences.ShowInDock)
+            {
+                NSApplication.SharedApplication.ActivationPolicy = NSApplicationActivationPolicy.Regular;
+            }
+            else
+            {
+                NSApplication.SharedApplication.ActivationPolicy = NSApplicationActivationPolicy.Accessory;
+            }
+        }
+
+        public void ApplyStartOnBootSetting()
+        {
+            try
+            {
+                if (this.UserPreferences.StartOnBoot)
+                {
+                    RemoveStartupItem().ContinueWith(result =>
+                    {
+                        AddStartupItem();
+                    });
+                }
+                else
+                {
+                    RemoveStartupItem();
+                }
+            }
+            catch
+            {
+                string title = "Cannot add Startup item!";
+                string message = @"""System Events"" permission is required in order to add startup item";
+                Util.Alert(title, message);
+
+                this.UserPreferences.StartOnBoot = false;
+            }
+        }
+        #endregion
+
+        #region Private Helpers
+        public Task AddStartupItem()
+        {
+            return Task.Run(() =>
+            {
+                var args = String.Format(@"-e 'tell application ""System Events"" to make login item at end with properties {{path:""{0}"", hidden:false}}'", @"/Applications/Rice Paper.app");
+                Util.RunOSAScript(args);
+            });
+        }
+
+        public Task RemoveStartupItem()
+        {
+            return Task.Run(() =>
+            {
+                var args = String.Format(@"-e 'tell application ""System Events"" to delete login item ""{0}""'", @"Rice Paper");
+                Util.RunOSAScript(args);
+            });
+        }
         #endregion
 
         /// <summary>

@@ -71,13 +71,6 @@
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />
     <ImageAsset Include="Assets.xcassets\Contents.json" />
-    <ImageAsset Include="Resources\Assets.xcassets\.DS_Store" />
-    <ImageAsset Include="Resources\Assets.xcassets\TrayIcon.imageset\18520.png" />
-    <ImageAsset Include="Resources\Assets.xcassets\TrayIcon.imageset\18520-1.png" />
-    <ImageAsset Include="Resources\Assets.xcassets\TrayIcon.imageset\Contents.json" />
-    <ImageAsset Include="Resources\Assets.xcassets\TrayIcon.imageset\iconfinder_Last.FM_Alt_58841.png" />
-    <ImageAsset Include="Resources\Assets.xcassets\Logo.imageset\external-content.duckduckgo.png" />
-    <ImageAsset Include="Resources\Assets.xcassets\Logo.imageset\Contents.json" />
     <ImageAsset Include="Resources\Assets.xcassets\pos_ctr_bottom.imageset\pos_btn_drk_CB.pdf" />
     <ImageAsset Include="Resources\Assets.xcassets\pos_ctr_bottom.imageset\Contents.json" />
     <ImageAsset Include="Resources\Assets.xcassets\pos_ctr_bottom.imageset\pos_btn_lgt_CB.pdf" />
@@ -105,6 +98,7 @@
     <ImageAsset Include="Resources\Assets.xcassets\pos_left_top.imageset\pos_btn_lgt_LT.pdf" />
     <ImageAsset Include="Resources\Assets.xcassets\pos_left_top.imageset\pos_btn_drk_LT.pdf" />
     <ImageAsset Include="Resources\Assets.xcassets\pos_left_top.imageset\Contents.json" />
+    <ImageAsset Include="Resources\Assets.xcassets\TrayIcon.imageset\Contents.json" />
     <ImageAsset Include="Resources\Assets.xcassets\TrayIcon.imageset\tray_lgt.pdf" />
     <ImageAsset Include="Resources\Assets.xcassets\TrayIcon.imageset\tray_drk.pdf" />
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\RicePaper16x16.png" />
@@ -117,10 +111,22 @@
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\RicePaper256x256%402x.png" />
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\RicePaper512x512.png" />
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\RicePaper512x512%402x.png" />
-    <ImageAsset Include="Resources\Assets.xcassets\Logo.imageset\RicePaper256x256.png" />
-    <ImageAsset Include="Resources\Assets.xcassets\Logo.imageset\RicePaper256x256%402x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\Logo.imageset\Contents.json" />
     <ImageAsset Include="Resources\Assets.xcassets\Logo.imageset\RicePaper512x512%402x.png" />
     <ImageAsset Include="Resources\Assets.xcassets\Logo.imageset\RicePaper512x512.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\icons\Contents.json" />
+    <ImageAsset Include="Resources\Assets.xcassets\icons\clock.imageset\clock-dark.svg" />
+    <ImageAsset Include="Resources\Assets.xcassets\icons\clock.imageset\clock-light.svg" />
+    <ImageAsset Include="Resources\Assets.xcassets\icons\clock.imageset\Contents.json" />
+    <ImageAsset Include="Resources\Assets.xcassets\icons\words.imageset\words-light.svg" />
+    <ImageAsset Include="Resources\Assets.xcassets\icons\words.imageset\Contents.json" />
+    <ImageAsset Include="Resources\Assets.xcassets\icons\words.imageset\words-dark.svg" />
+    <ImageAsset Include="Resources\Assets.xcassets\icons\cogs.imageset\cogs-dark.svg" />
+    <ImageAsset Include="Resources\Assets.xcassets\icons\cogs.imageset\Contents.json" />
+    <ImageAsset Include="Resources\Assets.xcassets\icons\cogs.imageset\cogs-light.svg" />
+    <ImageAsset Include="Resources\Assets.xcassets\icons\images.imageset\images-light.svg" />
+    <ImageAsset Include="Resources\Assets.xcassets\icons\images.imageset\images-dark.svg" />
+    <ImageAsset Include="Resources\Assets.xcassets\icons\images.imageset\Contents.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
@@ -151,6 +157,10 @@
     <Compile Include="AboutController.cs" />
     <Compile Include="AboutController.designer.cs">
       <DependentUpon>AboutController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View Controllers\PreferencesController.cs" />
+    <Compile Include="View Controllers\PreferencesController.designer.cs">
+      <DependentUpon>PreferencesController.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

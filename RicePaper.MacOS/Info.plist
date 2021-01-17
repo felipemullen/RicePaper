@@ -23,13 +23,15 @@
 	<key>LSMinimumSystemVersion</key>
 	<string>10.12</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>Felipe Mullen</string>
+	<string>Copyright 2021 Felipe Mullen. All rights reserved.</string>
 	<key>NSMainStoryboardFile</key>
 	<string>Main</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/AppIcon.appiconset</string>
+	<key>NSAppleEventsUsageDescription</key>
+	<string>System Events permission required to start application on boot</string>
 	<key>LSUIElement</key>
 	<true/>
 </dict>

@@ -112,6 +112,8 @@ namespace RicePaper.MacOS
             aboutWindow = mainStoryboard.InstantiateControllerWithIdentifier("AboutWindow") as NSWindowController;
             settingsWindow = mainStoryboard.InstantiateControllerWithIdentifier("SettingsWindow") as NSWindowController;
 
+            Settings.ApplyShowInDockSetting();
+            Settings.ApplyStartOnBootSetting();
             Task.Run(Scheduler.BeginScheduling);
         }
 

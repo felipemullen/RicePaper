@@ -6,6 +6,10 @@ namespace RicePaper.MacOS
 {
     public partial class AboutController : NSViewController
     {
+        #region Constants
+        private const string _githubUrl = "https://github.com/felipemullen/RicePaper-public";
+        #endregion
+
         #region Initialization
         public AboutController(IntPtr handle) : base(handle) { }
 
@@ -14,6 +18,14 @@ namespace RicePaper.MacOS
             SetVersionString();
 
             base.ViewWillLayout();
+        }
+        #endregion
+
+        #region Actions
+        partial void OnActionGithubLink(NSButton _)
+        {
+            var url = new NSUrl(_githubUrl);
+            NSWorkspace.SharedWorkspace.OpenUrl(url);
         }
         #endregion
 

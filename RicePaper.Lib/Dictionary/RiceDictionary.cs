@@ -36,14 +36,26 @@ namespace RicePaper.Lib.Dictionary
             }
             else
             {
-                var data = jishoApi.Search(currentWord);
-                var textDetails = TextDetails.FromJisho(data);
+                var textDetails = new TextDetails();
+
+                try
+                {
+                    var data = jishoApi.Search(currentWord);
+                    textDetails = TextDetails.FromJisho(data);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Unable to get get Jisho data: {0}", e.Message);
+                }
 
                 try
                 {
                     textDetails.Romaji = RomajiConvert.FromKana(textDetails.Furigana);
                 }
-                catch (Exception) { }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Unable to convert kana to romaji: {0}", e.Message);
+                }
 
                 if (settings.TextOptions.EnglishSentence || settings.TextOptions.JapaneseSentence)
                 {
@@ -56,7 +68,10 @@ namespace RicePaper.Lib.Dictionary
                             textDetails.EnglishSentence = tatoebaSentence.EnglishSentence;
                         }
                     }
-                    catch (Exception) { }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Unable to find sentences: {0}", e.Message);
+                    }
                 }
 
                 return RemoveDisabledOptions(settings, textDetails);

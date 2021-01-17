@@ -65,6 +65,12 @@ namespace RicePaper.MacOS.ViewControllers
             return (checkbox.StringValue == "0") ? false : true;
         }
 
+        protected void SetCheckboxValue(NSObject sender, bool value)
+        {
+            var checkbox = sender as NSButton;
+            checkbox.State = (value) ? NSCellStateValue.On : NSCellStateValue.Off;
+        }
+
         protected void UpdateImage(bool changeImage = false, bool changeWord = false)
         {
             Scheduler.ForcedUpdate(changeImage, changeWord);
