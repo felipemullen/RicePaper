@@ -94,8 +94,8 @@
         <scene sceneID="gcK-zJ-Vtg">
             <objects>
                 <viewController id="fFs-9k-Ctg" customClass="AboutController" sceneMemberID="viewController">
-                    <stackView key="view" distribution="equalCentering" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" misplaced="YES" detachesHiddenViews="YES" id="NMQ-yk-Vha">
-                        <rect key="frame" x="0.0" y="0.0" width="531" height="231"/>
+                    <stackView key="view" distribution="equalCentering" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" id="NMQ-yk-Vha">
+                        <rect key="frame" x="0.0" y="0.0" width="531" height="241"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <stackView distribution="fill" orientation="horizontal" alignment="centerY" spacing="20" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bDv-wV-kft">
