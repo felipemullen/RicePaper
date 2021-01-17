@@ -1,6 +1,7 @@
 using System;
 using AppKit;
 using Foundation;
+using RicePaper.Lib;
 
 namespace RicePaper.MacOS
 {
@@ -8,6 +9,7 @@ namespace RicePaper.MacOS
     {
         #region Constants
         private const string _githubUrl = "https://github.com/felipemullen/RicePaper-public";
+        private const string _donateUrl = "https://www.paypal.com/paypalme/felipemullen";
         #endregion
 
         #region Initialization
@@ -24,8 +26,12 @@ namespace RicePaper.MacOS
         #region Actions
         partial void OnActionGithubLink(NSButton _)
         {
-            var url = new NSUrl(_githubUrl);
-            NSWorkspace.SharedWorkspace.OpenUrl(url);
+            Util.OpenUrl(_githubUrl);
+        }
+
+        partial void OnActionDonateLink(NSButton sender)
+        {
+            Util.OpenUrl(_donateUrl);
         }
         #endregion
 

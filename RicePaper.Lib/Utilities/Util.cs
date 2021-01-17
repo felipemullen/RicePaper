@@ -24,6 +24,12 @@ namespace RicePaper.Lib
 
         public static string NotFoundImagePath => Path.Combine(Util.AppRoot, "Resources/Content/images/image_not_found.jpg");
 
+        public static void OpenUrl(string urlString)
+        {
+            var url = new NSUrl(urlString);
+            NSWorkspace.SharedWorkspace.OpenUrl(url);
+        }
+
         public static void Alert(string title, string message, NSWindow window = null, NSAlertStyle alertStyle = NSAlertStyle.Critical)
         {
             if (window == null)
