@@ -74,6 +74,9 @@ namespace RicePaper.Lib
         private void Update(bool changeImage, bool changeWord)
         {
             var now = DateTime.Now;
+
+            imageList.Reload();
+
             if (changeImage && settings.ImageOption != ImageOptionType.Unchanged)
             {
                 settings.ImageIndex = imageList.Increment(SelectionMode.InOrder);
@@ -100,10 +103,7 @@ namespace RicePaper.Lib
                 Text = currentWord
             };
 
-            string imagePath = (settings.ImageOption == ImageOptionType.Unchanged)
-                ? string.Empty
-                : imageList.CurrentItem;
-            wallpaperUtility.SetWallpaper(imagePath, parameters);
+            wallpaperUtility.SetWallpaper(imageList.CurrentItem, settings.ImageOption, parameters);
         }
 
         /// <summary>

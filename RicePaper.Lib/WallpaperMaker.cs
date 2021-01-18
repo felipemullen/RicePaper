@@ -55,7 +55,7 @@ namespace RicePaper.Lib
         #endregion
 
         #region Public Methods
-        public async void SetWallpaper(string imagePath, DrawParameters drawDetails)
+        public async void SetWallpaper(string imagePath, ImageOptionType imageOption, DrawParameters drawDetails)
         {
 #if __MACOS__
             try
@@ -69,7 +69,7 @@ namespace RicePaper.Lib
                     string filepath = imagePath;
 
                     // Use current wallpapers if option is "unchanged"
-                    if (string.IsNullOrWhiteSpace(filepath))
+                    if (imageOption == ImageOptionType.Unchanged)
                     {
                         string id = screenInfo.Id;
                         string screenImage = screenInfo.Image;
@@ -97,7 +97,7 @@ namespace RicePaper.Lib
                         }
                     }
 
-                    if (string.IsNullOrWhiteSpace(filepath))
+                    if (string.IsNullOrWhiteSpace(filepath) || File.Exists(filepath) == false)
                         filepath = Util.NotFoundImagePath;
 
                     string cachePath = DrawImage(screenInfo.Frame, filepath, drawDetails);
@@ -499,14 +499,14 @@ namespace RicePaper.Lib
 
         private static CGRect FitToBounds(CGRect image, CGRect bounds, AspectMode mode = AspectMode.Fill)
         {
-            double widthScale = bounds.Width / image.Width;
-            double heightScale = bounds.Height / image.Height;
+            nfloat widthScale = bounds.Width / image.Width;
+            nfloat heightScale = bounds.Height / image.Height;
 
-            double scale = 1;
+            nfloat scale = 1;
             switch (mode)
             {
-                case AspectMode.Fit: scale = Math.Min(widthScale, heightScale); break;
-                case AspectMode.Fill: scale = Math.Max(widthScale, heightScale); break;
+                case AspectMode.Fit: scale = widthScale < heightScale ? widthScale : heightScale; break;
+                case AspectMode.Fill: scale = widthScale > heightScale ? widthScale : heightScale; break;
             }
 
             var scaled = new CGRect(0, 0, image.Width * scale, image.Height * scale);
@@ -523,7 +523,7 @@ namespace RicePaper.Lib
                 return;
 
             var expanded = FitToBounds(sourceRect, drawRect);
-            image.DrawInRect(expanded, sourceRect, NSCompositingOperation.SourceOver, 1);
+            image.DrawInRect(expanded, sourceRect, NSCompositingOperation.Copy, 1);
         }
 
         private NSImage OpenAsNSImage(string filePath)
