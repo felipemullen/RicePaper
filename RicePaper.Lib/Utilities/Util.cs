@@ -30,6 +30,11 @@ namespace RicePaper.Lib
             NSWorkspace.SharedWorkspace.OpenUrl(url);
         }
 
+        public static void OpenFileFromPath(string path)
+        {
+            NSWorkspace.SharedWorkspace.OpenFile(path);
+        }
+
         public static void Alert(string title, string message, NSWindow window = null, NSAlertStyle alertStyle = NSAlertStyle.Critical)
         {
             if (window == null)

@@ -12,6 +12,11 @@ namespace RicePaper.Lib.Dictionary
         #region Private Fields
         private readonly JishoApi jishoApi;
         private readonly SentenceFinder sentenceFinder;
+        private HashSet<string> blacklist;
+        #endregion
+
+        #region Properties
+        private string blacklistPath { get { return Path.Combine(Util.AppContainer, "_rp_blacklist.txt"); } }
         #endregion
 
         #region Constructor
@@ -19,6 +24,7 @@ namespace RicePaper.Lib.Dictionary
         {
             this.jishoApi = new JishoApi();
             this.sentenceFinder = new SentenceFinder();
+            LoadBlacklist();
         }
         #endregion
 
@@ -82,6 +88,58 @@ namespace RicePaper.Lib.Dictionary
         {
             var filePath = AppSettings.GetFilePath(option);
             Load(filePath);
+        }
+        #endregion
+
+        #region Blacklist
+        private void LoadBlacklist()
+        {
+            blacklist = new HashSet<string>();
+
+            if (File.Exists(blacklistPath) == false)
+                File.WriteAllText(blacklistPath, string.Empty);
+
+            ReloadBlacklist();
+        }
+
+        public void ReloadBlacklist()
+        {
+            try
+            {
+                blacklist.Clear();
+                var lines = File.ReadAllLines(blacklistPath);
+                foreach (var line in lines)
+                {
+                    blacklist.Add(line);
+                }
+            }
+            catch (Exception)
+            {
+                // In the event something bad happens, rewrite the file
+                File.WriteAllText(blacklistPath, string.Empty);
+            }
+        }
+
+        public void AddToBlacklist(string word)
+        {
+            if (blacklist.Contains(word) == false)
+            {
+                blacklist.Add(word);
+                Task.Run(() =>
+                {
+                    File.AppendAllLines(blacklistPath, new string[] { word });
+                });
+            }
+        }
+
+        public bool BlacklistContains(string word)
+        {
+            return blacklist.Contains(word);
+        }
+
+        public void OpenBlacklistInEditor()
+        {
+            Util.OpenFileFromPath(blacklistPath);
         }
         #endregion
 

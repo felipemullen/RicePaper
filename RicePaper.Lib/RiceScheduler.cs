@@ -76,6 +76,7 @@ namespace RicePaper.Lib
             var now = DateTime.Now;
 
             imageList.Reload();
+            riceDict.ReloadBlacklist();
 
             if (changeImage && settings.ImageOption != ImageOptionType.Unchanged)
             {
@@ -86,7 +87,28 @@ namespace RicePaper.Lib
 
             if (changeWord)
             {
-                settings.WordIndex = riceDict.Increment(settings.WordSelection);
+                bool foundAWord = false;
+                for (int i = 0; i < riceDict.LoadedSize; i++)
+                {
+                    settings.WordIndex = riceDict.Increment(settings.WordSelection);
+                    if (riceDict.BlacklistContains(riceDict.CurrentItem) == false)
+                    {
+                        foundAWord = true;
+                        break;
+                    }
+                }
+
+                if (foundAWord == false)
+                {
+                    using (var pool = new NSAutoreleasePool())
+                    {
+                        pool.InvokeOnMainThread(() =>
+                        {
+                            Util.Alert("No more words!", "Every word in this list in already in your blacklist!", null, AppKit.NSAlertStyle.Informational);
+                        });
+                    }
+                }
+
                 settings.LastWordChange = now;
                 Console.WriteLine("updating lastWordChange");
             }

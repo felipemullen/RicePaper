@@ -14,6 +14,7 @@ namespace RicePaper.MacOS
     {
         #region Static Constants
         private const float ICON_SIZE = 18.0f;
+        private const string HELP_URL = "https://github.com/felipemullen/RicePaper-public/blob/master/help.md";
         #endregion
 
         #region Private Fields
@@ -72,9 +73,14 @@ namespace RicePaper.MacOS
             menu.AddItem(wordMenuItem);
 
             menu.AddItem(NSMenuItem.SeparatorItem);
+            menu.AddItem("Add word to blacklist", new ObjCRuntime.Selector("MenuAddToBlacklist:"), "");
+            menu.AddItem("View blacklist", new ObjCRuntime.Selector("MenuViewBlacklist:"), "");
+
+            menu.AddItem(NSMenuItem.SeparatorItem);
             menu.AddItem("Settings", new ObjCRuntime.Selector("MenuSettings:"), "");
             menu.AddItem(NSMenuItem.SeparatorItem);
             menu.AddItem("About RicePaper", new ObjCRuntime.Selector("MenuAbout:"), "");
+            menu.AddItem("Help", new ObjCRuntime.Selector("MenuHelp:"), "");
             menu.AddItem("Quit", new ObjCRuntime.Selector("MenuQuit:"), "");
 
             return menu;
@@ -147,6 +153,25 @@ namespace RicePaper.MacOS
             {
                 wordMenuItem.Title = originalText;
             });
+        }
+
+        [Action("MenuAddToBlacklist:")]
+        public void AddToBlacklist(NSObject sender)
+        {
+            RiceDict.AddToBlacklist(RiceDict.CurrentItem);
+            Scheduler.ForcedUpdate(false, true);
+        }
+
+        [Action("MenuViewBlacklist:")]
+        public void ViewBlacklist(NSObject sender)
+        {
+            RiceDict.OpenBlacklistInEditor();
+        }
+
+        [Action("MenuHelp:")]
+        public void Help(NSObject sender)
+        {
+            Util.OpenUrl(HELP_URL);
         }
 
         [Action("MenuQuit:")]

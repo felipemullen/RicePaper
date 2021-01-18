@@ -19,6 +19,7 @@ namespace RicePaper.Lib
 
         #region Properties
         public int Index { get { return index; } }
+        public int LoadedSize { get { return max; } }
         #endregion
 
         #region Constructor
