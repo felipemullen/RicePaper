@@ -37,7 +37,7 @@ namespace RicePaper.Lib
         #endregion
 
         #region Public Methods
-        public virtual T CurrentItem => currentList.Count > 0 ? currentList[index] : default;
+        public virtual T CurrentItem => (currentList != null && currentList.Count > 0) ? currentList[index] : default;
 
         public virtual void Load(string path, int startAt = 0)
         {

@@ -42,7 +42,7 @@ namespace RicePaper.MacOS
                     if (string.IsNullOrWhiteSpace(Settings.UserWordListPath) == false)
                     {
                         RiceDictionary.Load(Settings.UserWordListPath);
-                        UpdateImage();
+                        UpdateImage(true);
                     }
 
                     ButtonRefWordListPicker.Enabled = true;
@@ -51,7 +51,7 @@ namespace RicePaper.MacOS
                 {
                     ButtonRefWordListPicker.Enabled = false;
                     RiceDictionary.Load(choice);
-                    UpdateImage();
+                    UpdateImage(true);
                 }
 
                 Settings.WordList = choice;
